@@ -10,7 +10,7 @@ window.closeLoginModal = function () {
   if (modal) modal.classList.add('hidden');
 };
 
-const API_BASE = 'http://localhost:5000/api/v1';
+const API_BASE = '/api/v1';
 window.API_BASE = API_BASE;
 
 // Route Protection
@@ -246,7 +246,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   const feedContainer = document.getElementById('local-pulse-feed');
   if (feedContainer) {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/issues?limit=5&sort=-createdAt');
+      const response = await fetch('/api/v1/issues?limit=5&sort=-createdAt');
       if (response.ok) {
         const data = await response.json();
         allIssues = data.issues || [];

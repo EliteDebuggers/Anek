@@ -3,7 +3,13 @@ import { resolve } from 'path'
 
 export default defineConfig({
   server: {
-    allowedHosts: ['arrive-quench-resend.ngrok-free.dev']
+    allowedHosts: ['arrive-quench-resend.ngrok-free.dev'],
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
   },
   build: {
     rollupOptions: {
