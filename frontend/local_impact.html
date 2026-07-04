@@ -378,17 +378,48 @@
                 return;
             }
 
+            const issueIndex = issues.findIndex(i => i.id === id);
+            let previousVotes = 0;
+            const upvoteBtn = document.querySelector(`#issue-post-${id} button[onclick="upvoteIssue('${id}')"] span:last-child`);
+
+            // Optimistic update
+            if (issueIndex > -1 && upvoteBtn) {
+                previousVotes = issues[issueIndex].votes;
+                issues[issueIndex].votes += 1;
+                upvoteBtn.innerText = issues[issueIndex].votes;
+                upvoteBtn.previousElementSibling.classList.add('text-primary');
+            }
+
             try {
                 const response = await apiFetch(`/issues/${id}/upvote`, {
                     method: 'POST'
                 });
                 if (response && response.ok) {
-                    await fetchIssues();
-                } else if (response) {
                     const data = await response.json();
-                    alert(data.message || 'Error upvoting issue');
+                    if (issueIndex > -1 && upvoteBtn) {
+                        issues[issueIndex].votes = data.votes;
+                        upvoteBtn.innerText = data.votes;
+                        if (data.isVotedByMe) upvoteBtn.previousElementSibling.classList.add('text-primary');
+                        else upvoteBtn.previousElementSibling.classList.remove('text-primary');
+                    }
+                } else {
+                    // Revert
+                    if (issueIndex > -1 && upvoteBtn) {
+                        issues[issueIndex].votes = previousVotes;
+                        upvoteBtn.innerText = previousVotes;
+                        upvoteBtn.previousElementSibling.classList.remove('text-primary');
+                    }
+                    if (response) {
+                        const data = await response.json();
+                        alert(data.message || 'Error upvoting issue');
+                    }
                 }
             } catch (err) {
+                if (issueIndex > -1 && upvoteBtn) {
+                    issues[issueIndex].votes = previousVotes;
+                    upvoteBtn.innerText = previousVotes;
+                    upvoteBtn.previousElementSibling.classList.remove('text-primary');
+                }
                 console.error('Error upvoting:', err);
                 alert('An error occurred while upvoting.');
             }
@@ -396,14 +427,26 @@
 
         window.takeResponsibility = async function (id) {
             if (confirm("You sure you want to handle this? Don't back out later!")) {
+                const btn = document.querySelector(`#issue-post-${id} button[onclick="takeResponsibility('${id}')"]`);
+                const oldHtml = btn ? btn.outerHTML : '';
+                if (btn) {
+                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-blue-100 text-blue-800 opacity-50">CLAIMING...</button>`;
+                }
                 try {
                     const response = await apiFetch(`/issues/${id}/take-responsibility`, {
                         method: 'POST'
                     });
                     if (response && response.ok) {
-                        await fetchIssues();
+                        fetchIssues();
+                    } else if (btn) {
+                        const loadingBtn = document.querySelector(`#issue-post-${id} button[disabled]`);
+                        if (loadingBtn) loadingBtn.outerHTML = oldHtml;
                     }
                 } catch (err) {
+                    if (btn) {
+                        const loadingBtn = document.querySelector(`#issue-post-${id} button[disabled]`);
+                        if (loadingBtn) loadingBtn.outerHTML = oldHtml;
+                    }
                     console.error('Error claiming:', err);
                 }
             }
@@ -412,32 +455,58 @@
         // Drop responsibility of post
         window.dropResponsibility = async function (id) {
             if (confirm("Giving up already? You sure you wanna drop this?")) {
+                const btn = document.querySelector(`#issue-post-${id} button[onclick="dropResponsibility('${id}')"]`);
+                const oldHtml = btn ? btn.outerHTML : '';
+                if (btn) {
+                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-red-100 text-red-800 opacity-50">DROPPING...</button>`;
+                }
                 try {
                     const response = await apiFetch(`/issues/${id}/drop-responsibility`, {
                         method: 'POST'
                     });
                     if (response && response.ok) {
-                        await fetchIssues();
+                        fetchIssues();
+                    } else if (btn) {
+                        const loadingBtn = document.querySelector(`#issue-post-${id} button[disabled]`);
+                        if (loadingBtn) loadingBtn.outerHTML = oldHtml;
                     }
                 } catch (err) {
+                    if (btn) {
+                        const loadingBtn = document.querySelector(`#issue-post-${id} button[disabled]`);
+                        if (loadingBtn) loadingBtn.outerHTML = oldHtml;
+                    }
                     console.error('Error dropping:', err);
                 }
             }
         };
 
-        // Complete the issue and award Good Citizen Points (GCP)
+
         window.completeIssue = async function (id) {
-            try {
-                const response = await apiFetch(`/issues/${id}/resolve`, {
-                    method: 'POST'
-                });
-                if (response && response.ok) {
-                    alert("Boom! Issue fixed. You just bagged +50 GCP. You rock!");
-                    await loadUserProfile();
-                    await fetchIssues();
+            if (confirm("Job done? Mark it complete to earn GCP!")) {
+                const btn = document.querySelector(`#issue-post-${id} button[onclick="completeIssue('${id}')"]`);
+                const oldHtml = btn ? btn.outerHTML : '';
+                if (btn) {
+                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-green-100 text-green-800 opacity-50">COMPLETING...</button>`;
                 }
-            } catch (err) {
-                console.error('Error resolving:', err);
+                try {
+                    const response = await apiFetch(`/issues/${id}/resolve`, {
+                        method: 'POST'
+                    });
+                    if (response && response.ok) {
+                        alert("Boom! Issue fixed. You just bagged +50 GCP. You rock!");
+                        loadUserProfile();
+                        fetchIssues();
+                    } else if (btn) {
+                        const loadingBtn = document.querySelector(`#issue-post-${id} button[disabled]`);
+                        if (loadingBtn) loadingBtn.outerHTML = oldHtml;
+                    }
+                } catch (err) {
+                    if (btn) {
+                        const loadingBtn = document.querySelector(`#issue-post-${id} button[disabled]`);
+                        if (loadingBtn) loadingBtn.outerHTML = oldHtml;
+                    }
+                    console.error('Error resolving:', err);
+                }
             }
         };
 
@@ -520,28 +589,58 @@
             const text = input.value.trim();
             if (!text) return;
 
+            // Optimistic UI for chat
+            const issueIndex = issues.findIndex(i => i.id === id);
+            const currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{}');
+            let tempCommentId = 'temp_' + Date.now();
+            let newComment = { id: tempCommentId, author: currentUser.username || 'citizen', text, createdAt: new Date().toISOString() };
+
+            if (issueIndex > -1) {
+                issues[issueIndex].comments.push(newComment);
+                renderInlineChatMessages(id);
+                // Also bump comment count if possible
+                const countSpan = document.querySelector(`#issue-post-${id} button[onclick="toggleInlineChat('${id}')"] span:last-child`);
+                if (countSpan) countSpan.innerText = issues[issueIndex].comments.length;
+            }
+
+            input.value = '';
+
             try {
                 const response = await apiFetch('/comments', {
                     method: 'POST',
                     body: JSON.stringify({ issueId: id, text })
                 });
                 if (response && response.ok) {
-                    input.value = '';
-                    await fetchIssues();
-
-                    const chatBox = document.getElementById(`chat-inline-${id}`);
-                    if (chatBox) {
-                        chatBox.classList.remove('hidden');
-                        chatBox.classList.add('flex');
-                    }
-                    if (typeof renderInlineChatMessages === 'function') {
-                        renderInlineChatMessages(id);
-                    }
-                } else if (response) {
                     const data = await response.json();
-                    alert(data.message || 'Error posting comment');
+                    if (issueIndex > -1) {
+                        // Swap temp ID with real one
+                        const commentIdx = issues[issueIndex].comments.findIndex(c => c.id === tempCommentId);
+                        if (commentIdx > -1) {
+                            issues[issueIndex].comments[commentIdx] = data.comment;
+                        }
+                    }
+                    fetchIssues(); // Silent refresh syncs state in background
+                } else {
+                    // Revert
+                    if (issueIndex > -1) {
+                        issues[issueIndex].comments = issues[issueIndex].comments.filter(c => c.id !== tempCommentId);
+                        renderInlineChatMessages(id);
+                        const countSpan = document.querySelector(`#issue-post-${id} button[onclick="toggleInlineChat('${id}')"] span:last-child`);
+                        if (countSpan) countSpan.innerText = issues[issueIndex].comments.length;
+                    }
+                    if (response) {
+                        const data = await response.json();
+                        alert(data.message || 'Error posting comment');
+                    }
                 }
             } catch (err) {
+                // Revert
+                if (issueIndex > -1) {
+                    issues[issueIndex].comments = issues[issueIndex].comments.filter(c => c.id !== tempCommentId);
+                    renderInlineChatMessages(id);
+                    const countSpan = document.querySelector(`#issue-post-${id} button[onclick="toggleInlineChat('${id}')"] span:last-child`);
+                    if (countSpan) countSpan.innerText = issues[issueIndex].comments.length;
+                }
                 console.error('Error posting comment:', err);
                 alert('An error occurred while posting comment.');
             }

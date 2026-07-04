@@ -36,6 +36,13 @@ The project is structured as a decoupled Client-Server architecture:
    * Standard user registration starting at `0 GCP`.
    * Real-time ledger records GCP gains/spends (reporting: +10 GCP, claiming/resolving: +50 GCP, redeeming: -GCP).
    * Renders dynamic ranks (Vanguard Rank I/II/Elder) based on points thresholds.
+5. **Reusable Web Components (Micro-Frontend Architecture)**:
+   * Uses Custom HTML Elements (`<anek-header>`, `<anek-footer>`) implemented in vanilla JS to globally manage Layouts, User Sessions, and Navigation across raw HTML files. No heavy JS framework required!
+6. **Optimistic UI Updates**:
+   * Blazing fast user experience. Actions like Upvoting, Commenting, Mission Joining, and Reward Redemptions instantly update the DOM before the server responds. 
+   * Background silent-syncing with automatic rollback ensures data integrity if a network error occurs.
+7. **Persistent Theming & State Hydration**:
+   * Dark mode preferences and user sessions are stored in `localStorage` and hydrated instantly via an IIFE (Immediately Invoked Function Expression) to prevent FOUC (Flash of Unstyled Content) across page navigations.
 
 ---
 

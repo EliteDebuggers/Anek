@@ -262,6 +262,14 @@
                 return;
             }
 
+            // Optimistically deduct GCP
+            const gcpDisplay = document.getElementById('user-gcp');
+            let previousGCP = gcp;
+            if (gcpDisplay) {
+                gcp -= cost;
+                gcpDisplay.innerText = gcp;
+            }
+
             if (btn && window.setButtonLoading) {
                 window.setButtonLoading(btn, true, 'REDEEMING...');
             }
@@ -273,14 +281,23 @@
 
                 if (response && response.ok) {
                     const data = await response.json();
-                    // Assuming UI structure for modal exists or logic was adapted
                     showToast(`Nice! Copped "${name}". Voucher: ${data.rewardRedemption?.code || 'Check history'}`, false);
-                    await loadProfileAndRewards();
+                    loadProfileAndRewards();
                 } else {
+                    // Revert GCP
+                    if (gcpDisplay) {
+                        gcp = previousGCP;
+                        gcpDisplay.innerText = gcp;
+                    }
                     const errorData = await response.json();
                     showToast(errorData.message || "Failed to redeem reward.", true);
                 }
             } catch (err) {
+                // Revert GCP
+                if (gcpDisplay) {
+                    gcp = previousGCP;
+                    gcpDisplay.innerText = gcp;
+                }
                 console.error('Error redeeming reward:', err);
                 showToast("Could not redeem reward due to network error.", true);
             } finally {
