@@ -21,6 +21,8 @@ export default defineConfig({
         contribution_log: resolve(__dirname, 'contribution_log.html'),
         leaderboard: resolve(__dirname, 'leaderboard.html'),
         rewards: resolve(__dirname, 'rewards.html'),
+        privacy_policy: resolve(__dirname, 'privacy_policy.html'),
+        terms: resolve(__dirname, 'terms.html'),
       }
     }
   }
