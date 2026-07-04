@@ -1,6 +1,11 @@
 import './style.css'
 
 window.openLoginModal = function () {
+  const token = localStorage.getItem('anek_access_token');
+  if (token) {
+    window.location.href = '/local_impact.html';
+    return;
+  }
   const modal = document.getElementById('login-modal');
   if (modal) modal.classList.remove('hidden');
 };

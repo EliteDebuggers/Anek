@@ -192,6 +192,8 @@
         }
 
         async function fetchIssues() {
+            const feed = document.getElementById('board-feed');
+            if (feed) feed.innerHTML = '<div class="col-span-full py-12 flex justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>';
             try {
                 const response = await apiFetch('/issues');
                 if (response && response.ok) {

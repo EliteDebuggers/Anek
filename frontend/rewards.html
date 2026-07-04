@@ -167,6 +167,9 @@
                 }
 
                 // 2. Fetch Rewards
+                const container = document.getElementById('rewards-container');
+                if (container) container.innerHTML = '<div class="col-span-full py-12 flex justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>';
+                
                 const rewardsRes = await apiFetch('/rewards');
                 if (rewardsRes && rewardsRes.ok) {
                     const rewardsData = await rewardsRes.json();

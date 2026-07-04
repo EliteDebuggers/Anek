@@ -181,6 +181,8 @@
         }
 
         async function fetchLeaderboard() {
+            const list = document.getElementById('leaderboard-list');
+            if (list) list.innerHTML = '<div class="py-12 flex justify-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>';
             try {
                 const response = await apiFetch(`/users/leaderboard?search=${encodeURIComponent(searchQuery)}`);
                 if (response && response.ok) {
