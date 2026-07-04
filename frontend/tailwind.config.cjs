@@ -22,16 +22,16 @@ module.exports = {
         // Luminous / Brutalist theme mapping
         primary: "#468a5e",
         "on-primary": "#ffffff",
-        "primary-container": "#e2f1ea",
-        "on-primary-container": "#0b1f17",
+        "primary-container": "#FFD166", // Vibrant Yellow/Orange
+        "on-primary-container": "#000000",
         secondary: "#516359",
         "on-secondary": "#ffffff",
-        "secondary-container": "#d4e8dd",
-        "on-secondary-container": "#0e1f18",
+        "secondary-container": "#06D6A0", // Vibrant Teal
+        "on-secondary-container": "#000000",
         tertiary: "#3e6374",
         "on-tertiary": "#ffffff",
-        "tertiary-container": "#c2e8fb",
-        "on-tertiary-container": "#001f2a",
+        "tertiary-container": "#EF476F", // Vibrant Pink
+        "on-tertiary-container": "#ffffff",
         error: "#ba1a1a",
         "on-error": "#ffffff",
         "error-container": "#ffdad6",

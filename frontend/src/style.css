@@ -266,3 +266,11 @@ html.dark #global-bg-image {
 html.dark .border-outline-variant {
   border-color: #516359 !important;
 }
+anek-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+}
+anek-sidebar > aside {
+    flex-grow: 1;
+}

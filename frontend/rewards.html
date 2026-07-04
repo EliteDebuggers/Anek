@@ -16,7 +16,10 @@
 </head>
 
 <body
-    class="overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container pinstripe-texture min-h-screen flex flex-col">
+    class="bg-background text-on-surface selection:bg-primary selection:text-on-primary min-h-screen flex flex-col transition-colors duration-500 relative">
+
+    <img id="global-bg-image" src="/images/tree.png" alt="Anēk Background"
+        class="fixed inset-0 w-full h-full object-cover object-center z-[-1]" />
 
     <anek-header></anek-header>
 
@@ -24,7 +27,7 @@
 
         <anek-sidebar></anek-sidebar>
 
-        <main class="flex-grow px-margin py-lg max-w-[1600px] mx-auto min-h-screen" id="main-content">
+        <main class="flex-grow px-margin py-lg max-w-[1600px] mx-auto min-h-screen glass-card" id="main-content">
 
             <section class="mb-xl">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
@@ -32,16 +35,16 @@
                         <h1 class="font-cabin text-5xl md:text-6xl text-primary leading-none select-none">Good Citizen
                             Rewards</h1>
                         <p
-                            class="font-sans text-sm text-on-surface-variant mt-6 border-l-4 border-primary pl-4 py-1 italic bg-white/50">
+                            class="font-sans text-sm text-on-surface-variant mt-6 border-l-4 border-primary pl-4 py-1 bg-white/90 font-medium">
                             Your commitment to the community fuels local resilience. You did the work, now get the
                             reward!
                         </p>
                     </div>
                     <div
-                        class="brutalist-card brutalist-shadow p-sm bg-primary-container flex flex-col items-center min-w-[160px] border-2 border-primary">
-                        <p class="font-mono text-[9px] uppercase text-primary font-bold tracking-wider">Current Balance
+                        class="brutalist-card brutalist-shadow p-sm bg-yellow-400 text-black flex flex-col items-center min-w-[160px] border-2 border-black">
+                        <p class="font-mono text-[10px] uppercase font-bold tracking-wider">Current Balance
                         </p>
-                        <p class="font-cabin text-3xl text-primary mt-1"><span id="gcp-balance-display">120</span> <span
+                        <p class="font-cabin text-3xl mt-1"><span id="gcp-balance-display">120</span> <span
                                 class="text-xs font-mono font-bold uppercase">GCP</span></p>
                     </div>
                 </div>
@@ -52,38 +55,36 @@
                 <div class="w-full lg:w-[40%] flex flex-col gap-gutter">
 
                     <div
-                        class="luminous-paper p-md paper-cutout relative overflow-hidden select-none border-2 border-primary">
-                        <div class="hatch-bg absolute inset-0 opacity-40 pointer-events-none"></div>
+                        class="luminous-paper bg-white text-black p-md paper-cutout relative overflow-hidden select-none border-2 border-black brutalist-shadow">
+                        <div class="hatch-bg absolute inset-0 opacity-20 pointer-events-none"></div>
                         <div class="relative z-10">
                             <div class="flex items-center gap-xs mb-sm">
                                 <span
-                                    class="bg-primary text-on-primary px-2 py-0.5 font-mono text-[9px] uppercase border-2 border-primary font-bold">Active
+                                    class="bg-primary text-on-primary px-2 py-0.5 font-mono text-[10px] uppercase border-2 border-primary font-bold">Active
                                     Status</span>
                             </div>
-                            <h3 class="font-cabin text-3xl text-primary leading-tight mb-xs" id="user-current-rank">
+                            <h3 class="font-cabin text-3xl leading-tight mb-xs" id="user-current-rank">
                                 Vanguard Rank II</h3>
-                            <p
-                                class="font-sans text-xs text-on-primary-container mt-2 border-l-2 border-primary pl-3 italic">
+                            <p class="font-sans text-xs mt-2 border-l-2 border-black pl-3 italic text-gray-700">
                                 Active citizen, planting seeds of change and resolving local problems.
                             </p>
                         </div>
                         <div class="flex items-center gap-md mt-lg relative z-10">
                             <div class="flex flex-col w-full">
-                                <span class="font-mono text-[9px] uppercase text-primary font-bold">Next Rank
+                                <span class="font-mono text-[10px] uppercase font-bold text-gray-800">Next Rank
                                     Progress</span>
-                                <div class="w-full h-5 bg-white border-2 border-primary mt-1 overflow-hidden">
-                                    <div id="progress-bar-fill" class="h-full bg-primary" style="width: 40%;"></div>
+                                <div class="w-full h-5 bg-white border-2 border-black mt-1 overflow-hidden">
+                                    <div id="progress-bar-fill" class="h-full bg-black" style="width: 40%;"></div>
                                 </div>
                                 <span id="progress-text-display"
-                                    class="font-mono text-[9px] mt-2 text-primary font-bold uppercase italic">120/300
+                                    class="font-mono text-[10px] mt-2 font-bold uppercase italic text-gray-800">120/300
                                     GCP to Vanguard Elder</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="brutalist-card p-md paper-cutout border-2 border-primary brutalist-shadow select-none">
-                        <h3 class="font-cabin text-2xl mb-md border-b-2 border-primary pb-1 text-primary">Achievement
-                            Wall</h3>
+                    <div class="brutalist-card p-md paper-cutout border-2 border-black brutalist-shadow select-none bg-white text-black">
+                        <h3 class="font-cabin text-2xl mb-md border-b-2 border-black pb-1">Achievement Wall</h3>
                         <div class="flex flex-wrap gap-md justify-center py-sm">
                             <div class="flex flex-col items-center group">
                                 <div
@@ -92,7 +93,7 @@
                                         style="font-variation-settings: 'FILL' 1;">eco</span>
                                 </div>
                                 <span
-                                    class="font-mono text-[8px] uppercase font-bold text-center w-16 text-primary">Green
+                                    class="font-mono text-[10px] uppercase font-bold text-center w-16 text-primary">Green
                                     Thumb</span>
                             </div>
                             <div class="flex flex-col items-center group">
@@ -102,7 +103,7 @@
                                         style="font-variation-settings: 'FILL' 1;">handshake</span>
                                 </div>
                                 <span
-                                    class="font-mono text-[8px] uppercase font-bold text-center w-16 text-primary">Partner</span>
+                                    class="font-mono text-[10px] uppercase font-bold text-center w-16 text-primary">Partner</span>
                             </div>
                             <div class="flex flex-col items-center group">
                                 <div
@@ -111,7 +112,7 @@
                                         style="font-variation-settings: 'FILL' 1;">campaign</span>
                                 </div>
                                 <span
-                                    class="font-mono text-[8px] uppercase font-bold text-center w-16 text-primary">Vocal
+                                    class="font-mono text-[10px] uppercase font-bold text-center w-16 text-primary">Vocal
                                     Ally</span>
                             </div>
                         </div>
@@ -214,7 +215,7 @@
                                 </div>
                                 <div class="flex items-center justify-between border-t border-primary border-dashed pt-4 mt-4 select-none">
                                     <span class="font-cabin text-lg text-primary">${reward.cost} GCP</span>
-                                    <span class="font-mono text-[9px] uppercase text-error font-bold tracking-[0.2em]">LOCKED - RANK ELDER</span>
+                                    <span class="font-mono text-[10px] uppercase text-error font-bold tracking-[0.2em]">LOCKED - RANK ELDER</span>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +232,7 @@
 
                     card.innerHTML = `
                         <div class="relative w-full aspect-video border-2 border-primary overflow-hidden mb-sm select-none">
-                            <div class="absolute top-2 left-2 z-10 ${tagBg} px-2 py-0.5 font-mono text-[8px] font-bold border-2 border-primary uppercase">
+                            <div class="absolute top-2 left-2 z-10 ${tagBg} px-2 py-0.5 font-mono text-[10px] font-bold border-2 border-primary uppercase">
                                 ${reward.partnerName}
                             </div>
                             <img alt="${reward.name}"

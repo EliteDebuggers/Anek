@@ -13,11 +13,4 @@ export const validateProfileUpdate = [
   handleValidationErrors,
 ];
 
-export const validateJoinMission = [
-  body('missionId')
-    .trim()
-    .notEmpty()
-    .withMessage('Mission ID is required')
-    .escape(),
-  handleValidationErrors,
-];
+

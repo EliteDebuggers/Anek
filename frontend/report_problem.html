@@ -18,7 +18,10 @@
 </head>
 
 <body
-    class="overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container pinstripe-texture min-h-screen flex flex-col">
+    class="bg-background text-on-surface selection:bg-primary selection:text-on-primary min-h-screen flex flex-col transition-colors duration-500 relative">
+
+    <img id="global-bg-image" src="/images/tree.png" alt="Anēk Background"
+        class="fixed inset-0 w-full h-full object-cover object-center z-[-1]" />
 
     <anek-header></anek-header>
 
@@ -27,7 +30,7 @@
         <anek-sidebar></anek-sidebar>
 
         <main
-            class="flex-grow p-margin md:p-lg space-y-lg bg-background paper-texture transition-all overflow-x-hidden">
+            class="flex-grow p-margin md:p-lg space-y-lg glass-card transition-all overflow-x-hidden">
             
             <section class="mb-lg space-y-xs">
                 <div class="flex items-center gap-xs">
