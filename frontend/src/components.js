@@ -266,6 +266,14 @@ class AnekFooter extends HTMLElement {
                 </svg>
                 Instagram
             </a>
+            <a href="/privacy_policy.html"
+                class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                Privacy Policy
+            </a>
+            <a href="/terms.html"
+                class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                Terms of Service
+            </a>
         </div>
         <p class="font-mono text-[10px] text-on-surface-variant opacity-60">
             © 2026 Anēk • Building the forest, leaf by leaf.
@@ -300,6 +308,14 @@ class AnekLandingFooter extends HTMLElement {
                             clip-rule="evenodd" />
                     </svg>
                     Instagram
+                </a>
+                <a href="/privacy_policy.html"
+                    class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    Privacy Policy
+                </a>
+                <a href="/terms.html"
+                    class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    Terms of Service
                 </a>
             </div>
             <p class="font-mono text-[10px] text-on-surface-variant">© 2026 Anēk • Building the forest, leaf by leaf.</p>
