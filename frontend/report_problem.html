@@ -12,6 +12,8 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="/src/main.js"></script>
 </head>
 
@@ -71,19 +73,10 @@
                                 <span>GPS Active</span>
                             </div>
                         </div>
-                        <div class="w-full h-[320px] border-2 border-primary relative overflow-hidden group">
-                            
-                            <div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDTYhB10T2y4qiBv8OTArjR7O3YtEQ1vrTUy5ddTUgBJ-j8obE23J8s3p1f4OFurvSyR_o7Vz4gqs-ElzcjsXhTxnzsTVBFCEP7ww2icXP_taHwb5yRpzKootM6hkfxyLBguYw9XbVY9NsTsbWODS6Cb7hU-1Vu-BrxqKYxKPqpgIVcUefchGgerHWoH75fu5yvIKI-rqn8PaVakm_j-Qpr2Kr3ORFhX7o3tqx0WYC4ro3fjALxwoSUYABZSzidS4NuR3Tuq8oc8og')">
-                            </div>
-                            
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span class="material-symbols-outlined text-red-600 text-3xl font-bold">add</span>
-                            </div>
-                        </div>
+                        <div id="report-leaflet-map" class="w-full h-[320px] border-2 border-primary z-0"></div>
                         <div
                             class="bg-surface-container-low p-sm border border-dashed border-outline-variant font-mono text-xs">
-                            Current Coordinates: <span class="text-primary font-bold">52.5200° N, 13.4050° E</span>
+                            Current Coordinates: <span id="coordinates-display" class="text-primary font-bold">52.5200° N, 13.4050° E</span>
                         </div>
                     </div>
                 </div>
@@ -208,19 +201,90 @@
         </div>
     </div>
 
-    <script>
-
+    <script type="module">
         // User session checks
         let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
-        if (document.getElementById('header-username')) if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
-        if (document.getElementById('profile-name')) if (document.getElementById('profile-name')) document.getElementById('profile-name').innerText = currentUser.name;
-        if (document.getElementById('profile-username')) if (document.getElementById('profile-username')) document.getElementById('profile-username').innerText = '@' + currentUser.username;
-        if (document.getElementById('profile-avatar')) if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+        
+        let selectedLatitude = '52.5200';
+        let selectedLongitude = '13.4050';
 
-        let users = JSON.parse(localStorage.getItem('anek_users') || '[]');
-        let loggedUser = users.find(u => u.username === currentUser.username);
-        let rank = loggedUser ? loggedUser.rank : "Vanguard Rank II";
-        if (document.getElementById('user-rank-badge')) if (document.getElementById('user-rank-badge')) document.getElementById('user-rank-badge').innerText = rank;
+        let reportMap = null;
+        let pickerMarker = null;
+
+        function updateCoordinates(lat, lng) {
+            selectedLatitude = lat.toFixed(4);
+            selectedLongitude = lng.toFixed(4);
+            if (document.getElementById('coordinates-display')) {
+                document.getElementById('coordinates-display').innerText = `${selectedLatitude}° N, ${selectedLongitude}° E`;
+            }
+        }
+
+        function initReportMap(lat, lng) {
+            reportMap = L.map('report-leaflet-map').setView([lat, lng], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(reportMap);
+
+            // Add draggable picker marker
+            pickerMarker = L.marker([lat, lng], {
+                draggable: true
+            }).addTo(reportMap);
+
+            pickerMarker.on('dragend', function (e) {
+                const position = pickerMarker.getLatLng();
+                updateCoordinates(position.lat, position.lng);
+            });
+
+            reportMap.on('click', function (e) {
+                pickerMarker.setLatLng(e.latlng);
+                updateCoordinates(e.latlng.lat, e.latlng.lng);
+            });
+
+            updateCoordinates(lat, lng);
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        initReportMap(lat, lng);
+                    },
+                    (error) => {
+                        console.warn('Geolocation access denied. Using defaults.');
+                        initReportMap(52.5200, 13.4050); // Berlin default
+                    }
+                );
+            } else {
+                initReportMap(52.5200, 13.4050);
+            }
+        }
+
+        getUserLocation();
+
+        async function loadProfile() {
+            try {
+                const response = await apiFetch('/users/profile');
+                if (response && response.ok) {
+                    const data = await response.json();
+                    currentUser.name = data.user.name;
+                    currentUser.username = data.user.username;
+                    localStorage.setItem('anek_current_user', JSON.stringify(currentUser));
+                    
+                    if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
+                    if (document.getElementById('profile-name')) document.getElementById('profile-name').innerText = currentUser.name;
+                    if (document.getElementById('profile-username')) document.getElementById('profile-username').innerText = '@' + currentUser.username;
+                    if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+                    if (document.getElementById('user-rank-badge')) document.getElementById('user-rank-badge').innerText = data.user.rank;
+                }
+            } catch (err) {
+                console.error('Error loading profile:', err);
+            }
+        }
+        loadProfile();
 
         // Other Checkbox Toggle
         document.getElementById('other-checkbox').addEventListener('change', (e) => {
@@ -235,16 +299,14 @@
         });
 
         // Urgency Button Selector
-                let selectedUrgencyLevel = null;
-        function selectUrgency(level, button) {
+        let selectedUrgencyLevel = null;
+        window.selectUrgency = function (level, button) {
             selectedUrgencyLevel = level;
             
-            // Remove active classes from all buttons
             document.querySelectorAll('.urgency-btn').forEach(btn => {
                 btn.classList.remove('active-priority', 'active-emergency', 'active-standard');
             });
             
-            // Add specific active class to the clicked button
             if (level === 'PRIORITY') button.classList.add('active-priority');
             else if (level === 'EMERGENCY') button.classList.add('active-emergency');
             else button.classList.add('active-standard');
@@ -259,11 +321,13 @@
         const previewImg = document.getElementById('file-preview-img');
         const previewName = document.getElementById('file-preview-name');
 
-        function triggerFileInput() {
+        let selectedFile = null;
+
+        window.triggerFileInput = function () {
             fileInput.click();
         }
 
-        function handleFileSelect(e) {
+        window.handleFileSelect = function (e) {
             const file = e.target.files[0];
             if (file) {
                 showPreview(file);
@@ -271,6 +335,7 @@
         }
 
         function showPreview(file) {
+            selectedFile = file;
             previewName.innerText = file.name;
             previewContainer.classList.remove('hidden');
 
@@ -299,7 +364,7 @@
         });
 
         // Submit Form Handler
-        function handleReportSubmit(e) {
+        window.handleReportSubmit = async function (e) {
             e.preventDefault();
 
             // Checkboxes validation
@@ -316,55 +381,46 @@
             }
 
             const notesText = document.getElementById('notes-textarea').value.trim();
-            let category = checkedBoxes[0].value; // Choose first checked category
+            let category = checkedBoxes[0].value;
             if (category === 'Other') {
                 const otherVal = document.getElementById('other-input').value.trim();
                 if (otherVal) category = otherVal;
             }
 
-            // 1. Create issue object
-            let issues = JSON.parse(localStorage.getItem('anek_issues') || '[]');
-            const newIssue = {
-                id: Date.now(),
-                title: notesText.split('\n')[0].substring(0, 30) || "Civic Issue reported",
-                category: category,
-                author: currentUser.username,
-                time: "Just now",
-                description: notesText,
-                urgency: selectedUrgencyLevel,
-                votes: 1,
-                status: "Reported",
-                comments: [],
-                responsibleUser: null
-            };
-            issues.unshift(newIssue);
-            localStorage.setItem('anek_issues', JSON.stringify(issues));
+            const titleText = notesText.split('\n')[0].substring(0, 30) || "Civic Issue reported";
 
-            // 2. Award Points
-            let usersDb = JSON.parse(localStorage.getItem('anek_users') || '[]');
-            let userObj = usersDb.find(u => u.username === currentUser.username);
-            if (userObj) {
-                userObj.points += 10; // Earn 10 points for reporting!
-                localStorage.setItem('anek_users', JSON.stringify(usersDb));
+            // Build multipart Form Data for upload
+            const formData = new FormData();
+            formData.append('title', titleText);
+            formData.append('category', category);
+            formData.append('description', notesText);
+            formData.append('urgency', selectedUrgencyLevel);
+            formData.append('latitude', selectedLatitude);
+            formData.append('longitude', selectedLongitude);
+            formData.append('locationName', 'Community Hub');
+
+            if (selectedFile) {
+                formData.append('evidence', selectedFile);
             }
 
-            // 3. Add to My Contributions Log
-            let logs = JSON.parse(localStorage.getItem('anek_contributions') || '[]');
-            logs.unshift({
-                id: Date.now(),
-                category: category,
-                activity: `Reported issue: ${newIssue.title}`,
-                timestamp: new Date().toLocaleDateString(),
-                points: "+10 GCP",
-                status: "Reported"
-            });
-            localStorage.setItem('anek_contributions', JSON.stringify(logs));
-
-            // 4. Show success modal
-            document.getElementById('success-modal').classList.remove('hidden');
+            try {
+                const response = await apiFetch('/issues', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (response && response.ok) {
+                    document.getElementById('success-modal').classList.remove('hidden');
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Server error saving report.');
+                }
+            } catch (err) {
+                console.error('Error submitting report:', err);
+                alert('Could not submit report.');
+            }
         }
 
-        function goToMap() {
+        window.goToMap = function () {
             window.location.href = '/local_impact.html';
         }
     </script>

@@ -145,82 +145,68 @@
         </p>
     </footer>
 
-    <script>
-
+    <script type="module">
         // User session checks
         let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
-        if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
-        if (document.getElementById('profile-name')) document.getElementById('profile-name').innerText = currentUser.name;
-        if (document.getElementById('profile-username')) document.getElementById('profile-username').innerText = '@' + currentUser.username;
-        if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
-
-        document.getElementById('header-user-fullname').innerText = currentUser.name;
-        document.getElementById('header-profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
         
-        // Mock Agent ID based on username hash
-        let hash = 0;
-        for (let i = 0; i < currentUser.username.length; i++) {
-            hash = currentUser.username.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        document.getElementById('agent-id').innerText = Math.abs(hash % 10000);
-
-        // Fetch points and configure rank progress
-        let users = JSON.parse(localStorage.getItem('anek_users') || '[]');
-        let loggedUser = users.find(u => u.username === currentUser.username);
-        let gcp = loggedUser ? loggedUser.points : 120;
-
-        document.getElementById('vitals-gcp').innerText = gcp;
-
-        // Calculate progress logic (Elder rank requires 300 GCP)
-        let progressPercent = Math.min(100, Math.floor((gcp / 300) * 100));
-        let pointsToNext = Math.max(0, 300 - gcp);
-        let userRank = gcp > 300 ? "Vanguard Elder" : gcp > 150 ? "Vanguard Rank II" : "Vanguard Rank I";
-
-        if (document.getElementById('user-rank-badge')) document.getElementById('user-rank-badge').innerText = userRank;
-        document.getElementById('header-user-rank').innerText = userRank;
-        document.getElementById('progress-pct').innerText = `${progressPercent}%`;
-        document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
-        document.getElementById('points-to-next').innerText = pointsToNext;
-
-        // Load contribution logs from localStorage
-        let defaultLogs = [
-            {
-                id: 101,
-                category: "Roads",
-                activity: "Repaired Sidewalk Bench",
-                timestamp: "2026-07-02",
-                points: "+45 GCP",
-                status: "Verified"
-            },
-            {
-                id: 102,
-                category: "Other",
-                activity: "Reported wiring on 4th & Main",
-                timestamp: "2026-06-28",
-                points: "+20 GCP",
-                status: "Verified"
-            },
-            {
-                id: 103,
-                category: "Governance",
-                activity: "Participated in Town Hall Review",
-                timestamp: "2026-06-25",
-                points: "+80 GCP",
-                status: "Verified"
-            }
-        ];
-
-        let logs = JSON.parse(localStorage.getItem('anek_contributions'));
-        if (!logs || logs.length === 0) {
-            localStorage.setItem('anek_contributions', JSON.stringify(defaultLogs));
-            logs = defaultLogs;
-        }
-
-        // Count resolved issues in logs (for vital stats)
-        const resolvedCount = logs.filter(l => l.activity.includes('Resolved') || l.activity.includes('Repaired')).length;
-        document.getElementById('vitals-resolved-count').innerText = resolvedCount;
-
+        let logs = [];
         let currentLogFilter = 'all';
+
+        async function loadProfileAndLogs() {
+            try {
+                // 1. Fetch User Profile
+                const profileRes = await apiFetch('/users/profile');
+                if (profileRes && profileRes.ok) {
+                    const profileData = await profileRes.json();
+                    currentUser.name = profileData.user.name;
+                    currentUser.username = profileData.user.username;
+                    localStorage.setItem('anek_current_user', JSON.stringify(currentUser));
+
+                    if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
+                    if (document.getElementById('profile-name')) document.getElementById('profile-name').innerText = currentUser.name;
+                    if (document.getElementById('profile-username')) document.getElementById('profile-username').innerText = '@' + currentUser.username;
+                    if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+                    document.getElementById('header-user-fullname').innerText = currentUser.name;
+                    document.getElementById('header-profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+                    // Mock Agent ID based on username hash
+                    let hash = 0;
+                    for (let i = 0; i < currentUser.username.length; i++) {
+                        hash = currentUser.username.charCodeAt(i) + ((hash << 5) - hash);
+                    }
+                    document.getElementById('agent-id').innerText = Math.abs(hash % 10000);
+
+                    const gcp = profileData.user.points;
+                    const userRank = profileData.user.rank;
+
+                    document.getElementById('vitals-gcp').innerText = gcp;
+                    
+                    let progressPercent = Math.min(100, Math.floor((gcp / 300) * 100));
+                    let pointsToNext = Math.max(0, 300 - gcp);
+
+                    if (document.getElementById('user-rank-badge')) document.getElementById('user-rank-badge').innerText = userRank;
+                    document.getElementById('header-user-rank').innerText = userRank;
+                    document.getElementById('progress-pct').innerText = `${progressPercent}%`;
+                    document.getElementById('progress-bar-fill').style.width = `${progressPercent}%`;
+                    document.getElementById('points-to-next').innerText = pointsToNext;
+                }
+
+                // 2. Fetch Contributions Logs
+                const logsRes = await apiFetch('/contributions');
+                if (logsRes && logsRes.ok) {
+                    const logsData = await logsRes.json();
+                    logs = logsData.contributions;
+                    
+                    const resolvedCount = logs.filter(l => l.activity.includes('Resolved') || l.activity.includes('Repaired') || l.status === 'Verified').length;
+                    document.getElementById('vitals-resolved-count').innerText = resolvedCount;
+
+                    renderLogs();
+                }
+            } catch (err) {
+                console.error('Error loading profile or logs:', err);
+            }
+        }
 
         function renderLogs() {
             const container = document.getElementById('log-list-container');
@@ -302,8 +288,8 @@
             renderLogs();
         };
 
-        // Render initial logs
-        renderLogs();
+        // Load data on start
+        loadProfileAndLogs();
     </script>
 </body>
 </html>
