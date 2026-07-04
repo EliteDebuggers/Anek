@@ -39,7 +39,7 @@
                     </div>
                     <div class="paper-border p-sm bg-primary-container flex flex-col items-center min-w-[140px] paper-cutout shadow-[4px_4px_0px_0px_#1a1c1b]">
                         <span class="font-mono text-[9px] text-primary font-bold uppercase tracking-wider">Your Standings</span>
-                        <span class="font-cabin text-5xl leading-none text-primary mt-1">#4</span>
+                        <span id="my-standings" class="font-cabin text-5xl leading-none text-primary mt-1">#4</span>
                     </div>
                 </div>
             </section>
@@ -176,51 +176,66 @@
         </p>
     </footer>
 
-    <script>
-
+    <script type="module">
         // User session checks
         let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
-        if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
-        if (document.getElementById('profile-name')) document.getElementById('profile-name').innerText = currentUser.name;
-        if (document.getElementById('profile-username')) document.getElementById('profile-username').innerText = '@' + currentUser.username;
-        if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
-
-        // Fetch points and milestone progress
-        let users = JSON.parse(localStorage.getItem('anek_users') || '[]');
-        let loggedUser = users.find(u => u.username === currentUser.username);
-        let gcp = loggedUser ? loggedUser.points : 120;
-        let rank = loggedUser ? loggedUser.rank : "Vanguard Rank II";
-        if (document.getElementById('user-rank-badge')) document.getElementById('user-rank-badge').innerText = rank;
-
-        // Calculate progress to next rank (Vanguard Elder requires 300 GCP)
-        let progressPct = Math.min(100, Math.floor((gcp / 300) * 100));
-        document.getElementById('milestone-progress-bar').style.width = `${progressPct}%`;
-        document.getElementById('milestone-progress-text').innerText = `${progressPct}% complete`;
-
-        // Mock Leaderboard database
-        let defaultLeaders = [
-            { name: "Eara Wildwood", username: "wildwood", rank: 1, title: "Canopy Guardian", points: 2450 },
-            { name: "Julian Mars", username: "julian", rank: 2, title: "Waterway Steward", points: 1890 },
-            { name: "Sana Khatri", username: "sana_k", rank: 3, title: "Urban Harvester", points: 1720 },
-            { name: currentUser.name, username: currentUser.username, rank: 4, title: rank, points: gcp }
-        ];
-
-        // Sort descending
-        defaultLeaders.sort((a,b) => b.points - a.points);
-        defaultLeaders.forEach((l, idx) => l.rank = idx + 1);
-
+        
+        let leaders = [];
         let searchQuery = "";
+
+        async function loadProfileAndLeaderboard() {
+            try {
+                // 1. Fetch profile
+                const profileRes = await apiFetch('/users/profile');
+                if (profileRes && profileRes.ok) {
+                    const profileData = await profileRes.json();
+                    currentUser.name = profileData.user.name;
+                    currentUser.username = profileData.user.username;
+                    localStorage.setItem('anek_current_user', JSON.stringify(currentUser));
+
+                    if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
+                    if (document.getElementById('profile-name')) document.getElementById('profile-name').innerText = currentUser.name;
+                    if (document.getElementById('profile-username')) document.getElementById('profile-username').innerText = '@' + currentUser.username;
+                    if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+                    const gcp = profileData.user.points;
+                    const rank = profileData.user.rank;
+                    if (document.getElementById('user-rank-badge')) document.getElementById('user-rank-badge').innerText = rank;
+
+                    let progressPct = Math.min(100, Math.floor((gcp / 300) * 100));
+                    document.getElementById('milestone-progress-bar').style.width = `${progressPct}%`;
+                    document.getElementById('milestone-progress-text').innerText = `${progressPct}% complete`;
+                    
+                    if (document.getElementById('my-standings')) {
+                        document.getElementById('my-standings').innerText = `#${profileData.user.globalRank}`;
+                    }
+                }
+
+                // 2. Fetch Leaderboard
+                await fetchLeaderboard();
+            } catch (err) {
+                console.error('Error loading profile or leaderboard:', err);
+            }
+        }
+
+        async function fetchLeaderboard() {
+            try {
+                const response = await apiFetch(`/users/leaderboard?search=${encodeURIComponent(searchQuery)}`);
+                if (response && response.ok) {
+                    const data = await response.json();
+                    leaders = data.leaderboard;
+                    renderLeaderboard();
+                }
+            } catch (err) {
+                console.error('Error fetching leaderboard:', err);
+            }
+        }
 
         function renderLeaderboard() {
             const list = document.getElementById('leaderboard-list');
             list.innerHTML = '';
 
-            const filtered = defaultLeaders.filter(l => 
-                l.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                l.username.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-
-            if (filtered.length === 0) {
+            if (leaders.length === 0) {
                 list.innerHTML = `
                     <div class="bg-white border-2 border-primary border-dashed p-md text-center text-on-surface-variant font-sans text-xs select-none">
                         No citizens found.
@@ -228,9 +243,8 @@
                 return;
             }
 
-            filtered.forEach(leader => {
+            leaders.forEach(leader => {
                 const card = document.createElement('div');
-                // Highlight current user
                 const isSelf = leader.username === currentUser.username;
                 const cardBg = isSelf ? 'bg-primary-container/40' : 'bg-white';
                 
@@ -257,51 +271,33 @@
 
         window.searchContributors = function() {
             searchQuery = document.getElementById('user-search-input').value;
-            renderLeaderboard();
+            fetchLeaderboard();
         };
 
-        window.joinMission = function(missionId, button) {
+        window.joinMission = async function(missionId, button) {
             if (button.innerText === "JOINED!") return;
             
-            button.innerText = "JOINED!";
-            button.classList.add('bg-forest-moss', 'text-white');
-            button.classList.remove('bg-white', 'text-primary');
-            
-            // Award points for joining a mission!
-            let usersDb = JSON.parse(localStorage.getItem('anek_users') || '[]');
-            let userObj = usersDb.find(u => u.username === currentUser.username);
-            if (userObj) {
-                userObj.points += 20; // Award 20 points for joining!
-                localStorage.setItem('anek_users', JSON.stringify(usersDb));
-                gcp = userObj.points;
-                
-                // Update standings card
-                let selfObj = defaultLeaders.find(l => l.username === currentUser.username);
-                if (selfObj) selfObj.points = gcp;
-                
-                // Re-sort
-                defaultLeaders.sort((a,b) => b.points - a.points);
-                defaultLeaders.forEach((l, idx) => l.rank = idx + 1);
-
-                // Add to My Contributions Log
-                let logs = JSON.parse(localStorage.getItem('anek_contributions') || '[]');
-                logs.unshift({
-                    id: Date.now(),
-                    category: "Governance",
-                    activity: `Joined Partnership Mission #${missionId}`,
-                    timestamp: new Date().toLocaleDateString(),
-                    points: "+20 GCP",
-                    status: "Active"
+            try {
+                const response = await apiFetch('/users/missions/join', {
+                    method: 'POST',
+                    body: JSON.stringify({ missionId: missionId.toString() })
                 });
-                localStorage.setItem('anek_contributions', JSON.stringify(logs));
 
-                alert("Mission accepted! +20 GCP added to your stash.");
-                renderLeaderboard();
+                if (response && response.ok) {
+                    button.innerText = "JOINED!";
+                    button.classList.add('bg-forest-moss', 'text-white');
+                    button.classList.remove('bg-white', 'text-primary');
+                    
+                    alert("Mission accepted! +20 GCP added to your stash.");
+                    await loadProfileAndLeaderboard();
+                }
+            } catch (err) {
+                console.error('Error joining mission:', err);
             }
         };
 
         // Initial render
-        renderLeaderboard();
+        loadProfileAndLeaderboard();
     </script>
 </body>
 </html>

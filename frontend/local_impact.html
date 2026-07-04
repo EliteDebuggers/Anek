@@ -12,6 +12,8 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="/src/main.js"></script>
 </head>
 
@@ -87,47 +89,7 @@
                         <span
                             class="px-2 py-0.5 border border-primary bg-white text-[9px] font-mono text-primary font-bold">ANEK_MAP_v1.0</span>
                     </div>
-                    <div class="flex-grow relative bg-surface-container-lowest overflow-hidden">
-
-                        <div class="absolute inset-0 w-full h-full opacity-60 grayscale contrast-125 bg-cover bg-center"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBB3zzLLsOksEvuQbWCekiKqDxCEKnN82k9agGHW7tjS7LQyTIxvSAGn8RKdHJKaLqwevnU9CP10_rOqvMF6iCyHL_Bz92uO4Q0LKw1Putx6TJ346LV-96S1FgVoLCN0R5XIynDRWmE3iFc27Z3O35Y586VFRzeFY3MJCGUYwPonMw4YElJgZ4bJjbte9ADhVwdRXo5DNIhXpZ_xzvUSfSkrGBxntSYZkpmp_Y63LhUZ_JT8hdBhoJyRhUHxJPrJhFRVF-jCk1IQAY')">
-                        </div>
-
-                        <div class="absolute top-[28%] left-[33%] cursor-pointer group"
-                            onclick="highlightFeedPost('Sinkhole near 5th Ave')">
-                            <div class="p-2 bg-error border-2 border-primary brutalist-shadow animate-bounce">
-                                <span class="material-symbols-outlined text-white text-sm">warning</span>
-                            </div>
-                            <div
-                                class="absolute top-8 left-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white p-xs border-2 border-primary z-10 w-44 shadow-lg">
-                                <p class="font-mono text-[9px] text-error font-bold">CRITICAL ROAD DAMAGE</p>
-                                <p class="text-xs font-cabin text-on-surface">Sinkhole near 5th Ave</p>
-                            </div>
-                        </div>
-
-                        <div class="absolute top-[55%] left-[62%] cursor-pointer group"
-                            onclick="highlightFeedPost('Excess Plastic Dump')">
-                            <div class="p-2 bg-forest-moss border-2 border-primary brutalist-shadow">
-                                <span class="material-symbols-outlined text-white text-sm">delete_sweep</span>
-                            </div>
-                            <div
-                                class="absolute top-8 left-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white p-xs border-2 border-primary z-10 w-44 shadow-lg">
-                                <p class="font-mono text-[9px] text-forest-moss font-bold">SANITY / GARBAGE</p>
-                                <p class="text-xs font-cabin text-on-surface">Excess Plastic Dump</p>
-                            </div>
-                        </div>
-
-                        <div class="absolute bottom-[30%] left-[20%] cursor-pointer group"
-                            onclick="highlightFeedPost('Stray Dog Rescue')">
-                            <div class="p-2 bg-yellow-500 border-2 border-primary brutalist-shadow">
-                                <span class="material-symbols-outlined text-white text-sm">pets</span>
-                            </div>
-                            <div
-                                class="absolute top-8 left-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white p-xs border-2 border-primary z-10 w-44 shadow-lg">
-                                <p class="font-mono text-[9px] text-yellow-600 font-bold">ANIMAL WELFARE</p>
-                                <p class="text-xs font-cabin text-on-surface">Stray Dog Rescue</p>
-                            </div>
-                        </div>
+                    <div id="leaflet-map" class="w-full h-full z-0 min-h-[500px] flex-grow"></div>
 
                         <div
                             class="absolute bottom-margin right-margin bg-white border-2 border-primary p-sm flex flex-col gap-xs brutalist-shadow z-10 select-none">
@@ -145,7 +107,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <div id="feed-container" class="lg:col-span-12 max-w-5xl mx-auto w-full space-y-md">
 
@@ -214,7 +175,7 @@
         </p>
     </footer>
 
-    <script>
+    <script type="module">
         // Check local current user session
         let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
 
@@ -223,64 +184,83 @@
         if (document.getElementById('profile-username')) document.getElementById('profile-username').innerText = '@' + currentUser.username;
         if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
 
-        // Check user points balance
-        let users = JSON.parse(localStorage.getItem('anek_users') || '[]');
-        let loggedUser = users.find(u => u.username === currentUser.username);
-        let gcp = loggedUser ? loggedUser.points : 120;
-        document.getElementById('gcp-display').innerText = gcp;
+        let issues = [];
+        let leafletMap = null;
+        let markersLayer = null;
 
-        // Load or initialize issues feed database in localStorage
-        let defaultIssues = [
-            {
-                id: 1,
-                title: "Sinkhole near 5th Ave",
-                category: "Roads",
-                author: "GardenWarden",
-                time: "2h ago",
-                description: "A huge, hazardous sinkhole has opened up near the local garden entrance. Blockading traffic and endangering pedestrians. Needs quick patching.",
-                urgency: "EMERGENCY",
-                votes: 42,
-                status: "Reported",
-                comments: [
-                    { author: "civic_fan", text: "This is very dangerous, my car almost hit it!" },
-                    { author: "garden_girl", text: "Will put up some temporary barriers this afternoon." }
-                ],
-                responsibleUser: null
-            },
-            {
-                id: 2,
-                title: "Excess Plastic Dump",
-                category: "Garbage",
-                author: "CleanUpCrew",
-                time: "5h ago",
-                description: "Over 30kg of commercial PET plastic bottles dumped at the Sector 4 forest trailhead. Trash bins are overflowing.",
-                urgency: "HIGH",
-                votes: 18,
-                status: "Reported",
-                comments: [],
-                responsibleUser: null
-            },
-            {
-                id: 3,
-                title: "Stray Dog Rescue",
-                category: "Animals",
-                author: "ParkPatrol",
-                time: "1d ago",
-                description: "Injured stray dog spotted near the park playground. Needs medical transport and a local foster home.",
-                urgency: "PRIORITY",
-                votes: 31,
-                status: "In Progress",
-                comments: [
-                    { author: "dog_lover", text: "I've contacted the local vet, they are on their way." }
-                ],
-                responsibleUser: "pedalpower"
+        function initMap(lat, lng) {
+            if (leafletMap) return;
+
+            leafletMap = L.map('leaflet-map', {
+                scrollWheelZoom: false
+            }).setView([lat, lng], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(leafletMap);
+
+            markersLayer = L.layerGroup().addTo(leafletMap);
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        initMap(lat, lng);
+                        fetchIssues();
+                    },
+                    (error) => {
+                        console.warn('Geolocation access denied. Using defaults.');
+                        initMap(52.5200, 13.4050); // Berlin fallback
+                        fetchIssues();
+                    }
+                );
+            } else {
+                initMap(52.5200, 13.4050);
+                fetchIssues();
             }
-        ];
+        }
 
-        let issues = JSON.parse(localStorage.getItem('anek_issues'));
-        if (!issues || issues.length === 0) {
-            localStorage.setItem('anek_issues', JSON.stringify(defaultIssues));
-            issues = defaultIssues;
+        async function loadUserProfile() {
+            try {
+                const response = await apiFetch('/users/profile');
+                if (response && response.ok) {
+                    const data = await response.json();
+                    currentUser.name = data.user.name;
+                    currentUser.username = data.user.username;
+                    localStorage.setItem('anek_current_user', JSON.stringify(currentUser));
+                    
+                    if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
+                    if (document.getElementById('gcp-display')) document.getElementById('gcp-display').innerText = data.user.points;
+                }
+            } catch (err) {
+                console.error('Error loading profile:', err);
+            }
+        }
+
+        async function fetchIssues() {
+            try {
+                const response = await apiFetch('/issues');
+                if (response && response.ok) {
+                    const data = await response.json();
+                    issues = data.issues;
+                    renderFeed();
+
+                    // Retrieve highlight query parameter
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const highlight = urlParams.get('highlight');
+                    if (highlight) {
+                        setTimeout(() => {
+                            highlightFeedPost(highlight);
+                        }, 500);
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching issues:', err);
+            }
         }
 
         let currentFilter = 'all';
@@ -317,13 +297,13 @@
 
                 let takeActionBtn = '';
                 if (issue.status === 'Reported') {
-                    takeActionBtn = `<button onclick="takeResponsibility(${issue.id})" class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold brutalist-button-hover bg-primary text-on-primary">TAKE RESPONSIBILITY</button>`;
+                    takeActionBtn = `<button onclick="takeResponsibility('${issue.id}')" class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold brutalist-button-hover bg-primary text-on-primary">TAKE RESPONSIBILITY</button>`;
                 } else if (issue.status === 'In Progress') {
                     if (issue.responsibleUser === currentUser.username) {
                         takeActionBtn = `
                             <div class="flex gap-2">
-                                <button onclick="dropResponsibility(${issue.id})" class="px-sm py-1 border-2 border-error text-[10px] font-mono font-bold brutalist-button-hover bg-white text-error hover:bg-error hover:text-white transition-all">DROP RESPONSIBILITY</button>
-                                <button onclick="completeIssue(${issue.id})" class="px-sm py-1 border-2 border-forest-moss text-[10px] font-mono font-bold brutalist-button-hover bg-forest-moss text-white">MARK AS RESOLVED</button>
+                                <button onclick="dropResponsibility('${issue.id}')" class="px-sm py-1 border-2 border-error text-[10px] font-mono font-bold brutalist-button-hover bg-white text-error hover:bg-error hover:text-white transition-all">DROP RESPONSIBILITY</button>
+                                <button onclick="completeIssue('${issue.id}')" class="px-sm py-1 border-2 border-forest-moss text-[10px] font-mono font-bold brutalist-button-hover bg-forest-moss text-white">MARK AS RESOLVED</button>
                             </div>
                         `;
                     } else {
@@ -350,18 +330,18 @@
                         ${issue.description}
                     </div>
                     
-                    ${issue.status === 'Completed' ? `
+                    ${(issue.status === 'Completed' || issue.mediaUrl) ? `
                     <div class="w-full h-24 overflow-hidden border border-primary mb-md select-none">
-                        <img class="w-full h-full object-cover grayscale opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnijSZyaVNoqF7q4VH4pmtKa2eCsEHhdzISrzDNRK-nssrVCnG5QyiB5WRdmNq-Eb-fDN-4Hu1Fi-_lbmtHCTMuyugnUttkbScra7JOipo_9SZYaKtTi6C6yBfMgy2gCvgfxaYcLq-PatgYup8_l12NX6vvKRGeprEZaEvEpCJeLBomU3O5OM8nlL-2c0DtzsK3CjB4IXKzWvYh-LXFGTNqJGaSEJO5AbyRL3CtlmMVN6LtjDFSTk52WpEhjuxq5Gll6aWeHzAJdo"/>
+                        <img class="w-full h-full object-cover grayscale opacity-70" src="${issue.mediaUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAnijSZyaVNoqF7q4VH4pmtKa2eCsEHhdzISrzDNRK-nssrVCnG5QyiB5WRdmNq-Eb-fDN-4Hu1Fi-_lbmtHCTMuyugnUttkbScra7JOipo_9SZYaKtTi6C6yBfMgy2gCvgfxaYcLq-PatgYup8_l12NX6vvKRGeprEZaEvEpCJeLBomU3O5OM8nlL-2c0DtzsK3CjB4IXKzWvYh-LXFGTNqJGaSEJO5AbyRL3CtlmMVN6LtjDFSTk52WpEhjuxq5Gll6aWeHzAJdo'}"/>
                     </div>` : ''}
 
                     <div class="border-t border-dashed border-outline-variant pt-sm flex justify-between items-center select-none">
                         <div class="flex gap-md">
-                            <button onclick="upvoteIssue(${issue.id})" class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors">
+                            <button onclick="upvoteIssue('${issue.id}')" class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors">
                                 <span class="material-symbols-outlined text-sm">thumb_up</span>
                                 <span class="font-mono text-xs font-bold">${issue.votes}</span>
                             </button>
-                            <button onclick="toggleInlineChat(${issue.id})" class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors">
+                            <button onclick="toggleInlineChat('${issue.id}')" class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors">
                                 <span class="material-symbols-outlined text-sm">chat_bubble</span>
                                 <span class="font-mono text-xs font-bold">${issue.comments.length}</span>
                             </button>
@@ -374,88 +354,137 @@
                             <!-- Messages -->
                         </div>
                         <div class="p-sm border-t border-primary flex gap-2">
-                            <input type="text" id="chat-input-${issue.id}" class="flex-grow border border-primary px-sm py-1 font-sans text-xs focus:outline-none focus:border-primary" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat(${issue.id})">
-                            <button onclick="sendInlineChat(${issue.id})" class="px-sm py-1 bg-primary text-white font-mono text-[10px] font-bold border-2 border-primary hover:bg-forest-moss transition-colors">REPLY</button>
+                            <input type="text" id="chat-input-${issue.id}" class="flex-grow border border-primary px-sm py-1 font-sans text-xs focus:outline-none focus:border-primary" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat('${issue.id}')">
+                            <button onclick="sendInlineChat('${issue.id}')" class="px-sm py-1 bg-primary text-white font-mono text-[10px] font-bold border-2 border-primary hover:bg-forest-moss transition-colors">REPLY</button>
                         </div>
                     </div>
                 `;
                 feed.appendChild(article);
             });
+
+            // Plot markers dynamically on the Leaflet map
+            if (markersLayer) {
+                markersLayer.clearLayers();
+
+                filteredReports.forEach(issue => {
+                    const coords = issue.location && issue.location.coordinates 
+                        ? issue.location.coordinates 
+                        : [13.4050, 52.5200];
+                    const lng = coords[0];
+                    const lat = coords[1];
+
+                    let iconName = 'construction';
+                    let iconColor = 'text-primary';
+                    let iconBg = 'bg-primary';
+
+                    if (issue.category === 'Roads') {
+                        iconName = 'warning';
+                        iconColor = 'text-red-800';
+                        iconBg = 'bg-red-100';
+                    } else if (issue.category === 'Garbage') {
+                        iconName = 'delete_sweep';
+                        iconColor = 'text-forest-moss';
+                        iconBg = 'bg-forest-moss/20';
+                    } else if (issue.category === 'Animals') {
+                        iconName = 'pets';
+                        iconColor = 'text-yellow-600';
+                        iconBg = 'bg-yellow-100';
+                    } else if (issue.category === 'Water') {
+                        iconName = 'water_drop';
+                        iconColor = 'text-blue-800';
+                        iconBg = 'bg-blue-100';
+                    }
+
+                    const customIcon = L.divIcon({
+                        className: 'custom-leaflet-marker',
+                        html: `
+                            <div class="p-2 ${iconBg} border-2 border-primary brutalist-shadow rounded-sm flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform duration-300 hover:scale-110 shadow-md bg-white">
+                                <span class="material-symbols-outlined ${iconColor} text-sm font-bold">${iconName}</span>
+                            </div>
+                        `,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+
+                    L.marker([lat, lng], { icon: customIcon })
+                        .bindPopup(`
+                            <div class="font-sans p-1 min-w-[150px]">
+                                <h5 class="font-cabin text-sm font-bold text-primary mb-0.5">${issue.title}</h5>
+                                <p class="font-mono text-[8px] text-on-surface-variant mb-1 uppercase tracking-wider">${issue.category} · ${issue.status}</p>
+                                <p class="text-[10px] text-on-surface mb-2">${issue.description.substring(0, 50)}...</p>
+                                <button onclick="highlightFeedPost('${issue.title}')" class="w-full px-sm py-1 border-2 border-primary bg-primary text-white font-mono text-[9px] font-bold hover:bg-forest-moss transition-colors">VIEW ON BOARD</button>
+                            </div>
+                        `)
+                        .addTo(markersLayer);
+                });
+            }
         }
 
         // Upvote post function
-        window.upvoteIssue = function (id) {
-            let issue = issues.find(i => i.id === id);
-            if (issue) {
-                issue.votes += 1;
-                localStorage.setItem('anek_issues', JSON.stringify(issues));
-                renderFeed();
+        window.upvoteIssue = async function (id) {
+            try {
+                const response = await apiFetch(`/issues/${id}/upvote`, {
+                    method: 'POST'
+                });
+                if (response && response.ok) {
+                    await fetchIssues();
+                }
+            } catch (err) {
+                console.error('Error upvoting:', err);
             }
         };
 
         // Take responsibility of post
-        window.takeResponsibility = function (id) {
+        window.takeResponsibility = async function (id) {
             if (confirm("You sure you want to handle this? Don't back out later!")) {
-                let issue = issues.find(i => i.id === id);
-                if (issue) {
-                    issue.status = 'In Progress';
-                    issue.responsibleUser = currentUser.username;
-                    localStorage.setItem('anek_issues', JSON.stringify(issues));
-                    renderFeed();
+                try {
+                    const response = await apiFetch(`/issues/${id}/take-responsibility`, {
+                        method: 'POST'
+                    });
+                    if (response && response.ok) {
+                        await fetchIssues();
+                    }
+                } catch (err) {
+                    console.error('Error claiming:', err);
                 }
             }
         };
 
         // Drop responsibility of post
-        window.dropResponsibility = function (id) {
+        window.dropResponsibility = async function (id) {
             if (confirm("Giving up already? You sure you wanna drop this?")) {
-                let issue = issues.find(i => i.id === id);
-                if (issue) {
-                    issue.status = 'Reported';
-                    issue.responsibleUser = null;
-                    localStorage.setItem('anek_issues', JSON.stringify(issues));
-                    renderFeed();
+                try {
+                    const response = await apiFetch(`/issues/${id}/drop-responsibility`, {
+                        method: 'POST'
+                    });
+                    if (response && response.ok) {
+                        await fetchIssues();
+                    }
+                } catch (err) {
+                    console.error('Error dropping:', err);
                 }
             }
         };
 
         // Complete the issue and award Good Citizen Points (GCP)
-        window.completeIssue = function (id) {
-            let issue = issues.find(i => i.id === id);
-            if (issue) {
-                issue.status = 'Completed';
-                localStorage.setItem('anek_issues', JSON.stringify(issues));
-
-                // Award points
-                let usersDb = JSON.parse(localStorage.getItem('anek_users') || '[]');
-                let userObj = usersDb.find(u => u.username === currentUser.username);
-                if (userObj) {
-                    userObj.points += 50; // Award 50 points for fixing!
-                    localStorage.setItem('anek_users', JSON.stringify(usersDb));
-                    document.getElementById('gcp-display').innerText = userObj.points;
-                }
-
-                // Add to My Contributions Log
-                let logs = JSON.parse(localStorage.getItem('anek_contributions') || '[]');
-                logs.unshift({
-                    id: Date.now(),
-                    category: issue.category,
-                    activity: `Resolved issue: ${issue.title}`,
-                    timestamp: new Date().toLocaleDateString(),
-                    points: "+50 GCP",
-                    status: "Verified"
+        window.completeIssue = async function (id) {
+            try {
+                const response = await apiFetch(`/issues/${id}/resolve`, {
+                    method: 'POST'
                 });
-                localStorage.setItem('anek_contributions', JSON.stringify(logs));
-
-                alert("Boom! Issue fixed. You just bagged +50 GCP. You rock!");
-                renderFeed();
+                if (response && response.ok) {
+                    alert("Boom! Issue fixed. You just bagged +50 GCP. You rock!");
+                    await loadUserProfile();
+                    await fetchIssues();
+                }
+            } catch (err) {
+                console.error('Error resolving:', err);
             }
         };
 
         // Filter the board
         window.filterBoard = function (category) {
             currentFilter = category;
-            // Update button styles
             document.querySelectorAll('[id^="filter-btn-"]').forEach(btn => {
                 btn.classList.remove('bg-primary-container', 'text-primary');
                 btn.classList.add('bg-white');
@@ -468,14 +497,13 @@
         window.highlightFeedPost = function (title) {
             const found = issues.find(i => i.title.includes(title));
             if (found) {
-                // Filter first if necessary
                 if (currentFilter !== 'all' && currentFilter !== found.category) {
                     filterBoard('all');
                 }
                 const post = document.getElementById(`issue-post-${found.id}`);
                 if (post) {
                     post.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    post.style.borderColor = '#c5a059'; // Gold glow highlight
+                    post.style.borderColor = '#c5a059';
                     post.style.boxShadow = '8px 8px 0px 0px #c5a059';
                     setTimeout(() => {
                         post.style.borderColor = '#2d4d3c';
@@ -484,8 +512,6 @@
                 }
             }
         };
-
-
 
         let mapVisible = false;
         window.toggleMap = function () {
@@ -500,6 +526,9 @@
                 feedContainer.className = 'lg:col-span-5 space-y-md w-full';
                 document.getElementById('board-feed').className = 'space-y-sm';
                 toggleBtn.innerHTML = '<span class="material-symbols-outlined text-sm">visibility_off</span> Hide Geographical Map';
+                setTimeout(() => {
+                    if (leafletMap) leafletMap.invalidateSize();
+                }, 100);
             } else {
                 mapContainer.classList.add('hidden');
                 mapContainer.classList.remove('flex');
@@ -521,25 +550,26 @@
             }
         };
 
-        window.sendInlineChat = function (id) {
+        window.sendInlineChat = async function (id) {
             const input = document.getElementById(`chat-input-${id}`);
             const text = input.value.trim();
             if (!text) return;
 
-            const issue = issues.find(i => i.id === id);
-            if (issue) {
-                issue.comments.push({
-                    author: currentUser.username,
-                    text: text
+            try {
+                const response = await apiFetch('/comments', {
+                    method: 'POST',
+                    body: JSON.stringify({ issueId: id, text })
                 });
-                localStorage.setItem('anek_issues', JSON.stringify(issues));
-                input.value = '';
-                renderInlineChatMessages(id);
-                // Also update the comment count text in the button
-                renderFeed();
-                // re-open the chat since renderFeed closes it
-                document.getElementById(`chat-inline-${id}`).classList.remove('hidden');
-                document.getElementById(`chat-inline-${id}`).classList.add('flex');
+                if (response && response.ok) {
+                    input.value = '';
+                    await fetchIssues();
+                    
+                    document.getElementById(`chat-inline-${id}`).classList.remove('hidden');
+                    document.getElementById(`chat-inline-${id}`).classList.add('flex');
+                    renderInlineChatMessages(id);
+                }
+            } catch (err) {
+                console.error('Error posting comment:', err);
             }
         };
 
@@ -548,7 +578,7 @@
             const container = document.getElementById(`chat-messages-${id}`);
             container.innerHTML = '';
 
-            if (!issue || issue.comments.length === 0) {
+            if (!issue || !issue.comments || issue.comments.length === 0) {
                 container.innerHTML = '<p class="text-center font-mono text-xs text-on-surface-variant italic py-2">No comments yet. Be the first to reply!</p>';
                 return;
             }
@@ -569,8 +599,9 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // Initial render
-        renderFeed();
+        // Start initialization
+        loadUserProfile();
+        getUserLocation();
     </script>
 
 
