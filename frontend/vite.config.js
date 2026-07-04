@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
+  clearScreen: false,
   server: {
     allowedHosts: ['arrive-quench-resend.ngrok-free.dev'],
     proxy: {
