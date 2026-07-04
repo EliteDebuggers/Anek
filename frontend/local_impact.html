@@ -287,7 +287,7 @@
 
                     <div class="border-t border-dashed border-outline-variant pt-sm flex justify-between items-center select-none">
                         <div class="flex gap-md">
-                            <button onclick="upvoteIssue('${issue.id}')" class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors">
+                            <button onclick="upvoteIssue('${issue.id}')" class="flex items-center gap-xs ${issue.isVotedByMe ? 'text-primary' : 'text-on-surface-variant'} hover:text-primary transition-colors">
                                 <span class="material-symbols-outlined text-sm">thumb_up</span>
                                 <span class="font-mono text-xs font-bold">${issue.votes}</span>
                             </button>
@@ -380,14 +380,26 @@
 
             const issueIndex = issues.findIndex(i => i.id === id);
             let previousVotes = 0;
+            let previousIsVotedByMe = false;
             const upvoteBtn = document.querySelector(`#issue-post-${id} button[onclick="upvoteIssue('${id}')"] span:last-child`);
-
+            
             // Optimistic update
             if (issueIndex > -1 && upvoteBtn) {
                 previousVotes = issues[issueIndex].votes;
-                issues[issueIndex].votes += 1;
+                previousIsVotedByMe = issues[issueIndex].isVotedByMe;
+                
+                if (previousIsVotedByMe) {
+                    issues[issueIndex].votes = Math.max(0, issues[issueIndex].votes - 1);
+                    issues[issueIndex].isVotedByMe = false;
+                    upvoteBtn.parentElement.classList.remove('text-primary');
+                    upvoteBtn.parentElement.classList.add('text-on-surface-variant');
+                } else {
+                    issues[issueIndex].votes += 1;
+                    issues[issueIndex].isVotedByMe = true;
+                    upvoteBtn.parentElement.classList.add('text-primary');
+                    upvoteBtn.parentElement.classList.remove('text-on-surface-variant');
+                }
                 upvoteBtn.innerText = issues[issueIndex].votes;
-                upvoteBtn.previousElementSibling.classList.add('text-primary');
             }
 
             try {
@@ -398,16 +410,29 @@
                     const data = await response.json();
                     if (issueIndex > -1 && upvoteBtn) {
                         issues[issueIndex].votes = data.votes;
+                        issues[issueIndex].isVotedByMe = data.isVotedByMe;
                         upvoteBtn.innerText = data.votes;
-                        if (data.isVotedByMe) upvoteBtn.previousElementSibling.classList.add('text-primary');
-                        else upvoteBtn.previousElementSibling.classList.remove('text-primary');
+                        if (data.isVotedByMe) {
+                            upvoteBtn.parentElement.classList.add('text-primary');
+                            upvoteBtn.parentElement.classList.remove('text-on-surface-variant');
+                        } else {
+                            upvoteBtn.parentElement.classList.remove('text-primary');
+                            upvoteBtn.parentElement.classList.add('text-on-surface-variant');
+                        }
                     }
                 } else {
                     // Revert
-                    if (issueIndex > -1 && upvoteBtn) {
-                        issues[issueIndex].votes = previousVotes;
+                    if (issueIndex > -1 && upvoteBtn) { 
+                        issues[issueIndex].votes = previousVotes; 
+                        issues[issueIndex].isVotedByMe = previousIsVotedByMe;
                         upvoteBtn.innerText = previousVotes;
-                        upvoteBtn.previousElementSibling.classList.remove('text-primary');
+                        if (previousIsVotedByMe) {
+                            upvoteBtn.parentElement.classList.add('text-primary');
+                            upvoteBtn.parentElement.classList.remove('text-on-surface-variant');
+                        } else {
+                            upvoteBtn.parentElement.classList.remove('text-primary');
+                            upvoteBtn.parentElement.classList.add('text-on-surface-variant');
+                        }
                     }
                     if (response) {
                         const data = await response.json();
@@ -415,10 +440,17 @@
                     }
                 }
             } catch (err) {
-                if (issueIndex > -1 && upvoteBtn) {
-                    issues[issueIndex].votes = previousVotes;
+                if (issueIndex > -1 && upvoteBtn) { 
+                    issues[issueIndex].votes = previousVotes; 
+                    issues[issueIndex].isVotedByMe = previousIsVotedByMe;
                     upvoteBtn.innerText = previousVotes;
-                    upvoteBtn.previousElementSibling.classList.remove('text-primary');
+                    if (previousIsVotedByMe) {
+                        upvoteBtn.parentElement.classList.add('text-primary');
+                        upvoteBtn.parentElement.classList.remove('text-on-surface-variant');
+                    } else {
+                        upvoteBtn.parentElement.classList.remove('text-primary');
+                        upvoteBtn.parentElement.classList.add('text-on-surface-variant');
+                    }
                 }
                 console.error('Error upvoting:', err);
                 alert('An error occurred while upvoting.');
