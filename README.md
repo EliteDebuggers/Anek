@@ -86,6 +86,22 @@ The project is structured as a decoupled Client-Server architecture:
 
 ---
 
+## 🌐 To Host This Yourself? (Deployment)
+
+Vercel is by far the easiest way since we've already set up the config for it.
+
+### 1. Local Development
+Just follow the setup steps above! Make sure your `.env` files are pointing to local MongoDB and everything will run smoothly on `localhost:5000` (backend) and `localhost:5173` (frontend).
+
+### 2. Deploying to Vercel
+1. Fork this repo first.
+2. Go to your [Vercel dashboard](https://vercel.com/) and click **Add New Project**.
+3. Import your forked `Anek` repo.
+4. **Important:** Before clicking the deploy button, copy everything from your `backend/.env.example` into Vercel's Environment Variables settings (put in your real MongoDB and Cloudinary keys!).
+5. Click the **Deploy** button. Vercel will auto-detect our `vercel.json` and deploy both the Vite frontend and the Node.js backend together effortlessly.
+
+---
+
 ## 🔒 Security & Data Sanitization
 
 * **XSS Protection**: Secure HTML escaping on validation middleware schemas (`express-validator`).
