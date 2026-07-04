@@ -20,7 +20,7 @@ module.exports = {
           slate: "#1a1c1a",
         },
         // Luminous / Brutalist theme mapping
-        primary: "#2d4a3e",
+        primary: "#468a5e",
         "on-primary": "#ffffff",
         "primary-container": "#e2f1ea",
         "on-primary-container": "#0b1f17",
