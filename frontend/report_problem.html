@@ -20,25 +20,7 @@
 <body
     class="overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container pinstripe-texture min-h-screen flex flex-col">
 
-    <header
-        class="bg-white h-16 sticky top-0 z-40 border-b-2 border-outline-variant flex justify-between items-center px-margin w-full max-w-full">
-        <div class="flex items-center gap-sm">
-            <button
-                class="material-symbols-outlined text-primary hover:bg-primary-container p-1 border-2 border-transparent hover:border-primary transition-all"
-                id="sidebar-toggle">menu</button>
-            <a href="/" class="font-cabin text-3xl font-bold text-primary tracking-tighter uppercase ml-2 hover:opacity-80 transition-opacity">Anek</a>
-        </div>
-        <div class="flex items-center gap-sm">
-            <div
-                class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1 border-2 border-primary text-xs font-mono">
-                <span class="w-2.5 h-2.5 rounded-full bg-forest-moss"></span>
-                <span>Active Session: <strong id="header-username">Warden.77</strong></span>
-            </div>
-            <a href="#" onclick="if(confirm('Whoa there, going somewhere? Sure you wanna log out?')) window.location.href='/index.html'; return false;"
-                class="material-symbols-outlined text-on-surface-variant hover:text-red-600 transition-all"
-                title="Logout">logout</a>
-        </div>
-    </header>
+    <anek-header></anek-header>
 
     <div class="flex flex-1">
         

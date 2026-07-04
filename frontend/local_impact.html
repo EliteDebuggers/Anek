@@ -12,34 +12,17 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="/src/main.js"></script>
 </head>
 
 <body
     class="overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container pinstripe-texture min-h-screen flex flex-col">
 
-    <header
-        class="bg-white h-16 sticky top-0 z-40 border-b-2 border-outline-variant flex justify-between items-center px-margin w-full max-w-full">
-        <div class="flex items-center gap-sm">
-            <button
-                class="material-symbols-outlined text-primary hover:bg-primary-container p-1 border-2 border-transparent hover:border-primary transition-all"
-                id="sidebar-toggle">menu</button>
-            <a href="/"
-                class="font-cabin text-3xl font-bold text-primary tracking-tighter uppercase ml-2 hover:opacity-80 transition-opacity">Anek</a>
-        </div>
-        <div class="flex items-center gap-sm">
-            <div
-                class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1 border-2 border-primary text-xs font-mono">
-                <span class="w-2.5 h-2.5 rounded-full bg-forest-moss"></span>
-                <span>Active Session: <strong id="header-username">Warden.77</strong></span>
-            </div>
-            <a href="#" onclick="if(confirm('Whoa there, going somewhere? Sure you wanna log out?')) window.location.href='/index.html'; return false;"
-                class="material-symbols-outlined text-on-surface-variant hover:text-red-600 transition-all"
-                title="Logout">logout</a>
-        </div>
-    </header>
+    <anek-header></anek-header>
 
     <div class="flex flex-1">
 
@@ -91,22 +74,22 @@
                     </div>
                     <div id="leaflet-map" class="w-full h-full z-0 min-h-[500px] flex-grow"></div>
 
-                        <div
-                            class="absolute bottom-margin right-margin bg-white border-2 border-primary p-sm flex flex-col gap-xs brutalist-shadow z-10 select-none">
-                            <div class="flex items-center gap-xs">
-                                <div class="w-3 h-3 bg-error border border-primary"></div>
-                                <span class="text-[9px] font-mono text-on-surface font-bold">Roads/Infra</span>
-                            </div>
-                            <div class="flex items-center gap-xs">
-                                <div class="w-3 h-3 bg-yellow-500 border border-primary"></div>
-                                <span class="text-[9px] font-mono text-on-surface font-bold">Animals/Nature</span>
-                            </div>
-                            <div class="flex items-center gap-xs">
-                                <div class="w-3 h-3 bg-forest-moss border border-primary"></div>
-                                <span class="text-[9px] font-mono text-on-surface font-bold">Sanitation/Plastic</span>
-                            </div>
+                    <div
+                        class="absolute bottom-margin right-margin bg-white border-2 border-primary p-sm flex flex-col gap-xs brutalist-shadow z-10 select-none">
+                        <div class="flex items-center gap-xs">
+                            <div class="w-3 h-3 bg-error border border-primary"></div>
+                            <span class="text-[9px] font-mono text-on-surface font-bold">Roads/Infra</span>
+                        </div>
+                        <div class="flex items-center gap-xs">
+                            <div class="w-3 h-3 bg-yellow-500 border border-primary"></div>
+                            <span class="text-[9px] font-mono text-on-surface font-bold">Animals/Nature</span>
+                        </div>
+                        <div class="flex items-center gap-xs">
+                            <div class="w-3 h-3 bg-forest-moss border border-primary"></div>
+                            <span class="text-[9px] font-mono text-on-surface font-bold">Sanitation/Plastic</span>
                         </div>
                     </div>
+                </div>
 
                 <div id="feed-container" class="lg:col-span-12 max-w-5xl mx-auto w-full space-y-md">
 
@@ -138,41 +121,8 @@
         </main>
     </div>
 
-    <nav
-        class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center bg-white px-xs py-2 border-t-2 border-primary z-50">
-        <a href="/local_impact.html"
-            class="flex flex-col items-center justify-center text-primary active:scale-95 transition-transform">
-            <span class="material-symbols-outlined">map</span>
-            <span class="font-mono text-[9px]">Map</span>
-        </a>
-        <a href="/report_problem.html"
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform">
-            <span class="material-symbols-outlined">edit_note</span>
-            <span class="font-mono text-[9px]">Report</span>
-        </a>
-        <a href="/contribution_log.html"
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform">
-            <span class="material-symbols-outlined">auto_graph</span>
-            <span class="font-mono text-[9px]">Log</span>
-        </a>
-        <a href="/leaderboard.html"
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform">
-            <span class="material-symbols-outlined">military_tech</span>
-            <span class="font-mono text-[9px]">Leader</span>
-        </a>
-        <a href="/rewards.html"
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 transition-transform">
-            <span class="material-symbols-outlined">gavel</span>
-            <span class="font-mono text-[9px]">Rewards</span>
-        </a>
-    </nav>
-
-    <footer
-        class="w-full py-md border-t-2 border-dashed border-outline-variant bg-white flex flex-col items-center gap-xs px-margin text-center mb-16 md:mb-0">
-        <div class="font-mono text-xs font-bold text-primary uppercase">ANEK CIVIC NETWORK</div>
-        <p class="font-mono text-[9px] text-on-surface-variant opacity-60">
-            © 2026 Anek Civic Action Network · Hand-crafted for local resilience.
-        </p>
+    © 2026 Anek Civic Action Network · Hand-crafted for local resilience.
+    </p>
     </footer>
 
     <script type="module">
@@ -232,7 +182,7 @@
                     currentUser.name = data.user.name;
                     currentUser.username = data.user.username;
                     localStorage.setItem('anek_current_user', JSON.stringify(currentUser));
-                    
+
                     if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
                     if (document.getElementById('gcp-display')) document.getElementById('gcp-display').innerText = data.user.points;
                 }
@@ -367,8 +317,8 @@
                 markersLayer.clearLayers();
 
                 filteredReports.forEach(issue => {
-                    const coords = issue.location && issue.location.coordinates 
-                        ? issue.location.coordinates 
+                    const coords = issue.location && issue.location.coordinates
+                        ? issue.location.coordinates
                         : [13.4050, 52.5200];
                     const lng = coords[0];
                     const lat = coords[1];
@@ -422,19 +372,28 @@
 
         // Upvote post function
         window.upvoteIssue = async function (id) {
+            const token = localStorage.getItem('anek_access_token');
+            if (!token) {
+                alert('You must be logged in to upvote issues.');
+                return;
+            }
+
             try {
                 const response = await apiFetch(`/issues/${id}/upvote`, {
                     method: 'POST'
                 });
                 if (response && response.ok) {
                     await fetchIssues();
+                } else if (response) {
+                    const data = await response.json();
+                    alert(data.message || 'Error upvoting issue');
                 }
             } catch (err) {
                 console.error('Error upvoting:', err);
+                alert('An error occurred while upvoting.');
             }
         };
 
-        // Take responsibility of post
         window.takeResponsibility = async function (id) {
             if (confirm("You sure you want to handle this? Don't back out later!")) {
                 try {
@@ -551,6 +510,12 @@
         };
 
         window.sendInlineChat = async function (id) {
+            const token = localStorage.getItem('anek_access_token');
+            if (!token) {
+                alert('You must be logged in to post a reply.');
+                return;
+            }
+
             const input = document.getElementById(`chat-input-${id}`);
             const text = input.value.trim();
             if (!text) return;
@@ -563,13 +528,22 @@
                 if (response && response.ok) {
                     input.value = '';
                     await fetchIssues();
-                    
-                    document.getElementById(`chat-inline-${id}`).classList.remove('hidden');
-                    document.getElementById(`chat-inline-${id}`).classList.add('flex');
-                    renderInlineChatMessages(id);
+
+                    const chatBox = document.getElementById(`chat-inline-${id}`);
+                    if (chatBox) {
+                        chatBox.classList.remove('hidden');
+                        chatBox.classList.add('flex');
+                    }
+                    if (typeof renderInlineChatMessages === 'function') {
+                        renderInlineChatMessages(id);
+                    }
+                } else if (response) {
+                    const data = await response.json();
+                    alert(data.message || 'Error posting comment');
                 }
             } catch (err) {
                 console.error('Error posting comment:', err);
+                alert('An error occurred while posting comment.');
             }
         };
 

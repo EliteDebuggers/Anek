@@ -4,7 +4,7 @@ class AnekSidebar extends HTMLElement {
         const isActive = (href) => path.includes(href) ? 'nav-item-active' : 'border-transparent hover:border-gray-900 hover:bg-white/40';
         const isTextActive = (href) => path.includes(href) ? 'text-primary' : 'text-gray-900';
         const isIconActive = (href) => path.includes(href) ? 'nav-icon-active' : 'bg-white/40 border-gray-900 text-gray-900 group-hover:bg-white';
-        
+
         this.innerHTML = `
             <!-- Mobile Sidebar Overlay -->
             <div id="sidebar-overlay"
@@ -176,3 +176,110 @@ class AnekSidebar extends HTMLElement {
 }
 
 customElements.define('anek-sidebar', AnekSidebar);
+
+class AnekHeader extends HTMLElement {
+    connectedCallback() {
+        this.innerHTML = `
+    <header class="bg-white h-16 sticky top-0 z-40 border-b-2 border-outline-variant flex justify-between items-center px-margin w-full max-w-full">
+        <div class="flex items-center gap-sm">
+            <button class="material-symbols-outlined text-primary hover:bg-primary-container p-1 border-2 border-transparent hover:border-primary transition-all" id="sidebar-toggle">menu</button>
+            <a href="/" class="font-cabin text-3xl font-bold text-primary tracking-tighter uppercase ml-2 hover:opacity-80 transition-opacity">Anek</a>
+        </div>
+        <div class="flex items-center gap-sm">
+            <button id="global-dark-mode-toggle" class="material-symbols-outlined text-on-surface hover:text-primary transition-colors">dark_mode</button>
+            <div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1 border-2 border-primary text-xs font-mono">
+                <span class="w-2.5 h-2.5 rounded-full bg-forest-moss"></span>
+                <span>Active Session: <strong id="header-username">Citizen</strong></span>
+            </div>
+            <a href="#" id="global-logout-btn" class="material-symbols-outlined text-on-surface-variant hover:text-red-600 transition-all" title="Logout">logout</a>
+        </div>
+    </header>
+        `;
+
+        const userJson = localStorage.getItem('anek_current_user');
+        if (userJson) {
+            try {
+                const user = JSON.parse(userJson);
+                const el = this.querySelector('#header-username');
+                if (el) el.innerText = user.username;
+            } catch (e) { }
+        }
+
+        this.querySelector('#global-logout-btn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Whoa there, going somewhere? Sure you wanna log out?')) {
+                localStorage.removeItem('anek_access_token');
+                localStorage.removeItem('anek_current_user');
+                window.location.href = '/index.html';
+            }
+        });
+
+        const darkModeBtn = this.querySelector('#global-dark-mode-toggle');
+        const updateIcon = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (darkModeBtn) darkModeBtn.innerText = isDark ? 'light_mode' : 'dark_mode';
+        };
+
+        if (darkModeBtn) {
+            darkModeBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                document.documentElement.classList.toggle('light');
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('anek_theme', isDark ? 'dark' : 'light');
+                updateIcon();
+            });
+        }
+        updateIcon();
+    }
+}
+customElements.define('anek-header', AnekHeader);
+
+class AnekFooter extends HTMLElement {
+    connectedCallback() {
+        const path = window.location.pathname;
+        const isActive = (href) => path.includes(href) ? 'text-primary scale-110' : 'text-on-surface-variant';
+
+        this.innerHTML = `
+    <nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center bg-white px-xs py-2 border-t-2 border-primary z-50">
+        <a href="/local_impact.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('local_impact.html')}">
+            <span class="material-symbols-outlined">map</span>
+            <span class="font-mono text-[9px]">Map</span>
+        </a>
+        <a href="/report_problem.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('report_problem.html')}">
+            <span class="material-symbols-outlined">edit_note</span>
+            <span class="font-mono text-[9px]">Report</span>
+        </a>
+        <a href="/contribution_log.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('contribution_log.html')}">
+            <span class="material-symbols-outlined">auto_graph</span>
+            <span class="font-mono text-[9px]">Log</span>
+        </a>
+        <a href="/leaderboard.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('leaderboard.html')}">
+            <span class="material-symbols-outlined">military_tech</span>
+            <span class="font-mono text-[9px]">Rank</span>
+        </a>
+        <a href="/rewards.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('rewards.html')}">
+            <span class="material-symbols-outlined">workspace_premium</span>
+            <span class="font-mono text-[9px]">Reward</span>
+        </a>
+    </nav>
+    <footer class="w-full py-md border-t-2 border-dashed border-outline-variant bg-white flex flex-col items-center gap-xs px-margin text-center mb-16 md:mb-0 mt-8">
+        <div class="font-mono text-xs font-bold text-primary uppercase">ANEK CIVIC NETWORK</div>
+        <p class="font-mono text-[9px] text-on-surface-variant opacity-60">
+            © 2026 Anek Civic Action Network · Hand-crafted for local resilience.
+        </p>
+    </footer>
+        `;
+    }
+}
+customElements.define('anek-footer', AnekFooter);
+
+(function initTheme() {
+    const savedTheme = localStorage.getItem('anek_theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+    } else if (savedTheme === 'light') {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+    }
+})();
