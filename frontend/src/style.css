@@ -83,78 +83,186 @@
 }
 
 .sidebar-minimized {
-    width: 80px !important;
+  width: 80px !important;
 }
 
 .sidebar-minimized .hide-on-minimize {
-    display: none !important;
+  display: none !important;
 }
 
 .sidebar-minimized #vine-container {
-    padding-left: 0 !important;
-    align-items: center;
+  padding-left: 0 !important;
+  align-items: center;
 }
 
 .sidebar-minimized #vine-svg {
-    display: none !important;
+  display: none !important;
 }
 
 .sidebar-minimized .nav-btn {
-    justify-content: center;
-    padding-left: 0;
-    padding-right: 0;
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .sidebar-minimized .nav-btn>div:last-child {
-    display: none !important;
+  display: none !important;
 }
 
 .sidebar-minimized #sidebar-toggle-btn {
-    right: 50% !important;
-    transform: translateX(50%);
+  right: 50% !important;
+  transform: translateX(50%);
 }
 
 .sidebar-minimized .nav-btn:hover {
-    background-color: transparent !important;
-    border-color: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
 }
 
 .nav-item-active {
-    background-color: rgba(45, 74, 62, 0.1);
-    border-color: #2d4a3e;
-    box-shadow: 4px 4px 0px 0px #2d4a3e;
+  background-color: rgba(45, 74, 62, 0.1);
+  border-color: #2d4a3e;
+  box-shadow: 4px 4px 0px 0px #2d4a3e;
 }
 
 .nav-icon-active {
-    background-color: #ffffff;
-    border-color: #2d4a3e;
-    color: #2d4a3e;
+  background-color: #ffffff;
+  border-color: #2d4a3e;
+  color: #2d4a3e;
 }
 
 .sidebar-minimized .nav-item-active {
-    background-color: transparent !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 .sidebar-minimized .nav-icon-active {
-    background-color: #e2f1ea !important;
-    border-color: #2d4a3e !important;
-    color: #2d4a3e !important;
+  background-color: #e2f1ea !important;
+  border-color: #2d4a3e !important;
+  color: #2d4a3e !important;
 }
 
 /* Urgency Button Active States */
 .active-priority {
-    background-color: #facc15 !important; /* bg-yellow-400 */
-    color: #000000 !important;
+  background-color: #facc15 !important;
+  /* bg-yellow-400 */
+  color: #000000 !important;
 }
 
 .active-emergency {
-    background-color: #ba1a1a !important; /* bg-error */
-    color: #ffffff !important;
+  background-color: #ba1a1a !important;
+  /* bg-error */
+  color: #ffffff !important;
 }
 
 .active-standard {
-    background-color: #4f772d !important; /* bg-forest-moss */
+  background-color: #4f772d !important;
+  /* bg-forest-moss */
+  color: #ffffff !important;
+}
+
+/* Falling Leaves Animation maybe it looks good ?*/
+.leaf {
+  position: fixed;
+  top: -50px;
+  z-index: 50;
+  pointer-events: none;
+  animation: fall linear infinite;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes fall {
+  0% {
+    transform: translate3d(0, -50px, 0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.8;
+  }
+
+  90% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate3d(var(--tx), 100vh, 0) rotate(var(--r));
+    opacity: 0;
+  }
+}
+
+/* Dark Mode Overrides */
+html.dark body {
+  background-color: rgba(45, 74, 62, 0.4) !important;
+  color: #ffffff !important;
+}
+
+html.dark .glass-card,
+html.dark .bg-white\/95,
+html.dark .bg-surface-container-lowest,
+html.dark .bg-white,
+html.dark .bg-surface,
+html.dark .bg-surface-container-low,
+html.dark aside.bg-surface,
+html.dark .bg-white\/60,
+html.dark .bg-white\/80,
+html.dark .bg-white\/90,
+html.dark .bg-surface-container,
+html.dark .bg-surface-container-low\/80 {
+  background-color: rgba(58, 92, 77, 0.5) !important;
+  color: #ffffff !important;
+  border-color: #6fa356 !important;
+}
+
+html.dark aside#left-sidebar {
+  border-right: none !important;
+}
+
+html.dark .text-gray-900,
+html.dark .text-gray-800,
+html.dark .text-gray-700,
+html.dark .text-gray-600,
+html.dark .text-on-surface-variant,
+html.dark .text-on-surface,
+html.dark .text-primary,
+html.dark .text-secondary,
+html.dark .text-tertiary {
+  color: #ffffff !important;
+}
+
+html.dark .text-primary\/40 {
+  color: rgba(240, 240, 240, 0.829) !important;
+}
+
+html.dark input::placeholder, 
+html.dark textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+html.dark .hover\:bg-white\/40:hover,
+html.dark .group:hover .group-hover\:bg-white,
+html.dark .group:hover .group-hover\:bg-white\/40 {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html.dark .hover\:border-gray-900:hover,
+html.dark .group:hover .group-hover\:border-gray-900,
+html.dark .hover\:border-primary:hover {
+    border-color: #6fa356 !important;
+}
+
+html.dark .hover\:text-gray-900:hover,
+html.dark .group:hover .group-hover\:text-primary,
+html.dark .group:hover .group-hover\:text-gray-900,
+html.dark .hover\:text-primary:hover {
     color: #ffffff !important;
+}
+
+html.dark #global-bg-image {
+  filter: brightness(0.55) !important;
+}
+
+html.dark .border-outline-variant {
+  border-color: #516359 !important;
 }

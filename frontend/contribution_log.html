@@ -19,7 +19,7 @@
         <div class="flex items-center gap-sm">
             <div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1 border-2 border-primary text-xs font-mono">
                 <span class="w-2.5 h-2.5 rounded-full bg-forest-moss"></span>
-                <span>Active Session: <strong id="header-username">Warden.77</strong></span>
+                <span>Active Session: <strong id="header-username">Guest</strong></span>
             </div>
             <a href="#" onclick="if(confirm('Whoa there, going somewhere? Sure you wanna log out?')) window.location.href='/index.html'; return false;" class="material-symbols-outlined text-on-surface-variant hover:text-red-600 transition-all" title="Logout">logout</a>
         </div>
@@ -36,15 +36,15 @@
                     <div class="md:col-span-8">
                         <h2 class="font-cabin text-5xl md:text-6xl text-primary mb-xs">My Quests / Activity</h2>
                         <p class="font-sans text-sm text-on-surface-variant max-w-xl">
-                            Agent ID: #<span id="agent-id">7742</span>-VANGUARD. Everything you've done so far. We keep track of your good deeds.
+                            Agent ID: #<span id="agent-id">0000</span>-VANGUARD. Everything you've done so far. We keep track of your good deeds.
                         </p>
                     </div>
                     <div class="md:col-span-4 flex justify-start md:justify-end">
                         <div class="brutalist-card p-sm flex items-center gap-sm bg-primary-container border-2 border-primary">
-                            <div class="w-12 h-12 rounded-full bg-forest-moss border border-primary flex items-center justify-center text-white font-cabin text-lg" id="header-profile-avatar">W</div>
+                            <div class="w-12 h-12 rounded-full bg-forest-moss border border-primary flex items-center justify-center text-white font-cabin text-lg" id="header-profile-avatar">?</div>
                             <div>
-                                <p class="font-mono text-[9px] text-on-primary-container/70" id="header-user-rank">Vanguard Rank II</p>
-                                <p class="font-cabin text-xl text-on-primary-container" id="header-user-fullname">Cassian Moss</p>
+                                <p class="font-mono text-[9px] text-on-primary-container/70" id="header-user-rank">Unranked</p>
+                                <p class="font-cabin text-xl text-on-primary-container" id="header-user-fullname">Unknown Citizen</p>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         
                         <div class="brutalist-card p-md bg-white border-2 border-primary brutalist-shadow">
                             <p class="font-mono text-[9px] text-on-surface-variant uppercase tracking-wider mb-xs">Issues Fixed</p>
-                            <p class="font-cabin text-5xl text-primary" id="vitals-resolved-count">24</p>
+                            <p class="font-cabin text-5xl text-primary" id="vitals-resolved-count">0</p>
                             <div class="mt-sm flex gap-1 opacity-70">
                                 <span class="material-symbols-outlined text-sm">brush</span>
                                 <span class="material-symbols-outlined text-sm">build</span>
@@ -80,7 +80,7 @@
 
                         <div class="brutalist-card p-md bg-tertiary-container border-2 border-primary brutalist-shadow">
                             <p class="font-mono text-[9px] text-on-tertiary-container uppercase mb-xs opacity-75">Good Citizen Points (GCP)</p>
-                            <p class="font-cabin text-5xl text-on-tertiary-container" id="vitals-gcp">120</p>
+                            <p class="font-cabin text-5xl text-on-tertiary-container" id="vitals-gcp">0</p>
                             <a href="/rewards.html" class="mt-sm block w-full py-1 text-center border-2 border-primary bg-white text-on-surface font-mono text-xs hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform active:translate-y-0 shadow-[2px_2px_0px_0px_#2d4a3e] font-bold">
                                 Redeem Points
                             </a>

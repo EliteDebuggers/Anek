@@ -13,6 +13,25 @@ window.closeLoginModal = function () {
 const API_BASE = 'http://localhost:5000/api/v1';
 window.API_BASE = API_BASE;
 
+// Route Protection
+const PROTECTED_PAGES = ['/local_impact.html', '/contribution_log.html', '/leaderboard.html', '/rewards.html'];
+const currentPath = window.location.pathname;
+const hasToken = localStorage.getItem('anek_access_token');
+
+if (PROTECTED_PAGES.some(page => currentPath.endsWith(page)) && !hasToken) {
+  sessionStorage.setItem('anek_login_redirect', currentPath);
+  window.location.href = '/index.html?login=true';
+}
+
+// Auto-open login modal if redirected
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.pathname.endsWith('/index.html') || window.location.pathname === '/') {
+    if (window.location.search.includes('login=true')) {
+      window.openLoginModal();
+    }
+  }
+});
+
 window.apiFetch = async function (endpoint, options = {}) {
   const token = localStorage.getItem('anek_access_token');
   
@@ -240,14 +259,62 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 import './components.js';
 
+window.toggleDarkMode = function() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('anek_dark_mode', isDark);
+    const icon = document.getElementById('dark-mode-icon');
+    if (icon) {
+        icon.innerText = isDark ? 'light_mode' : 'dark_mode';
+    }
+};
+
 window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('anek_dark_mode') === 'true') {
+        document.documentElement.classList.add('dark');
+    }
+
     const header = document.querySelector('header');
     if (header) {
+        let headerActionsContainer = header.querySelector('nav');
+        if (!headerActionsContainer) {
+             const rightSide = header.children[header.children.length - 1];
+             if (rightSide && rightSide.classList.contains('flex')) {
+                 headerActionsContainer = rightSide;
+             } else {
+                 headerActionsContainer = header;
+             }
+        }
+        
+        if (headerActionsContainer) {
+            const darkModeBtn = document.createElement('button');
+            darkModeBtn.className = "ml-4 p-2 flex items-center justify-center group";
+            darkModeBtn.onclick = window.toggleDarkMode;
+            const isDark = document.documentElement.classList.contains('dark');
+            darkModeBtn.innerHTML = `<span class="material-symbols-outlined text-gray-900 dark:text-white group-hover:text-primary transition-colors" id="dark-mode-icon">${isDark ? 'light_mode' : 'dark_mode'}</span>`;
+            headerActionsContainer.appendChild(darkModeBtn);
+        }
+
         header.classList.add('transition-transform', 'duration-300');
+        
+        if (window.scrollY === 0) {
+            header.classList.add('bg-transparent', 'border-transparent');
+            header.classList.remove('bg-white/10', 'backdrop-blur-sm', 'border-white/20');
+        }
+
         let lastScrollY = window.scrollY;
         
         window.addEventListener('scroll', () => {
             const sidebar = document.querySelector('aside#sidebar');
+            
+            // Handle transparent header at top
+            if (window.scrollY === 0) {
+                header.classList.add('bg-transparent', 'border-transparent');
+                header.classList.remove('bg-white/10', 'backdrop-blur-sm', 'border-white/20');
+            } else {
+                header.classList.remove('bg-transparent', 'border-transparent');
+                header.classList.add('bg-white/10', 'backdrop-blur-sm', 'border-white/20');
+            }
+
             if (window.scrollY > lastScrollY && window.scrollY > 64) {
                 // Scrolling down, hide header
                 header.classList.add('-translate-y-full');
