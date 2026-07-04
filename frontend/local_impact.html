@@ -300,6 +300,10 @@
                     </div>
                     
                     <div id="chat-inline-${issue.id}" class="hidden flex-col border-t-2 border-primary bg-surface-container-lowest">
+                        <div class="flex justify-between items-center p-2 border-b border-primary border-dashed bg-primary-container/20">
+                            <span class="font-mono text-[10px] font-bold text-primary uppercase tracking-wider">Replies</span>
+                            <button onclick="toggleInlineChat('${issue.id}')" class="text-on-surface-variant hover:text-red-600 transition-colors material-symbols-outlined text-sm">close</button>
+                        </div>
                         <div id="chat-messages-${issue.id}" class="p-sm max-h-60 overflow-y-auto space-y-sm">
                             <!-- Messages -->
                         </div>
