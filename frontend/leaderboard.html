@@ -277,22 +277,34 @@
         window.joinMission = async function(missionId, button) {
             if (button.innerText === "JOINED!") return;
             
+            if (window.setButtonLoading) {
+                window.setButtonLoading(button, true, 'JOINING...');
+            }
+
             try {
                 const response = await apiFetch('/users/missions/join', {
                     method: 'POST',
                     body: JSON.stringify({ missionId: missionId.toString() })
                 });
 
-                if (response && response.ok) {
+                if (response.ok) {
                     button.innerText = "JOINED!";
-                    button.classList.add('bg-forest-moss', 'text-white');
                     button.classList.remove('bg-white', 'text-primary');
-                    
+                    button.classList.add('bg-primary', 'text-white', 'opacity-50', 'cursor-not-allowed');
+                    showToast("Mission joined! Good luck.");
                     alert("Mission accepted! +20 GCP added to your stash.");
                     await loadProfileAndLeaderboard();
+                } else {
+                    const data = await response.json();
+                    showToast(data.message || "Failed to join mission.", true);
                 }
             } catch (err) {
-                console.error('Error joining mission:', err);
+                console.error("Error joining mission:", err);
+                showToast("Network error joining mission.", true);
+            } finally {
+                if (button.innerText !== "JOINED!" && window.setButtonLoading) {
+                    window.setButtonLoading(button, false);
+                }
             }
         };
 

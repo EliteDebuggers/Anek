@@ -380,6 +380,11 @@
                 return;
             }
 
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (submitBtn && window.setButtonLoading) {
+                window.setButtonLoading(submitBtn, true, 'UPLOADING...');
+            }
+
             const notesText = document.getElementById('notes-textarea').value.trim();
             let category = checkedBoxes[0].value;
             if (category === 'Other') {
@@ -417,6 +422,10 @@
             } catch (err) {
                 console.error('Error submitting report:', err);
                 alert('Could not submit report.');
+            } finally {
+                if (submitBtn && window.setButtonLoading) {
+                    window.setButtonLoading(submitBtn, false);
+                }
             }
         }
 

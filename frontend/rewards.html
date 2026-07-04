@@ -299,7 +299,7 @@
                         <div class="mt-auto px-1 pb-2">
                             <div class="flex items-center justify-between pt-sm border-t border-primary border-dashed">
                                 <span class="font-cabin text-lg text-primary">${reward.cost} GCP</span>
-                                <button onclick="redeemReward('${reward._id}', '${reward.name}', ${reward.cost})"
+                                <button onclick="redeemReward('${reward._id}', '${reward.name}', ${reward.cost}, this)"
                                     class="btn-brutalist bg-white text-primary font-mono text-xs font-bold px-4 py-2 uppercase tracking-wider hover:bg-primary hover:text-on-primary transition-all">Redeem</button>
                             </div>
                         </div>
@@ -309,21 +309,25 @@
             });
         }
 
-        window.redeemReward = async function (id, name, cost) {
+        window.redeemReward = async function (id, name, cost, btn) {
             if (gcp < cost) {
                 showToast("Broke alert! You don't have enough GCP. Go do some quests!", true);
                 return;
             }
 
+            if (btn && window.setButtonLoading) {
+                window.setButtonLoading(btn, true, 'REDEEMING...');
+            }
+
             try {
-                const response = await apiFetch('/rewards/redeem', {
-                    method: 'POST',
-                    body: JSON.stringify({ rewardId: id })
+                const response = await apiFetch(`/rewards/${id}/redeem`, {
+                    method: 'POST'
                 });
 
                 if (response && response.ok) {
                     const data = await response.json();
-                    showToast(`Nice! Copped "${name}". Voucher: ${data.voucherCode}`, false);
+                    // Assuming UI structure for modal exists or logic was adapted
+                    showToast(`Nice! Copped "${name}". Voucher: ${data.rewardRedemption?.code || 'Check history'}`, false);
                     await loadProfileAndRewards();
                 } else {
                     const errorData = await response.json();
@@ -332,6 +336,10 @@
             } catch (err) {
                 console.error('Error redeeming reward:', err);
                 showToast("Could not redeem reward due to network error.", true);
+            } finally {
+                if (btn && window.setButtonLoading) {
+                    window.setButtonLoading(btn, false);
+                }
             }
         };
 

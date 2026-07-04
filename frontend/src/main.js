@@ -13,6 +13,23 @@ window.closeLoginModal = function () {
 const API_BASE = '/api/v1';
 window.API_BASE = API_BASE;
 
+window.setButtonLoading = function(button, isLoading, originalText = '') {
+  if (!button) return;
+  if (isLoading) {
+    button.disabled = true;
+    button.dataset.originalText = button.innerHTML;
+    button.innerHTML = `<span class="material-symbols-outlined animate-spin align-middle mr-2 text-sm" style="animation: spin 1s linear infinite;">autorenew</span><span class="align-middle">${originalText || 'Processing...'}</span>`;
+    button.classList.add('opacity-80', 'cursor-not-allowed');
+  } else {
+    button.disabled = false;
+    if (button.dataset.originalText) {
+      button.innerHTML = button.dataset.originalText;
+    }
+    button.classList.remove('opacity-80', 'cursor-not-allowed');
+  }
+};
+
+
 // Route Protection
 const PROTECTED_PAGES = ['/local_impact.html', '/contribution_log.html', '/leaderboard.html', '/rewards.html'];
 const currentPath = window.location.pathname;
@@ -88,11 +105,14 @@ window.handleLoginSubmit = async function (event) {
   const nameInput = document.getElementById('input-name');
   const usernameInput = document.getElementById('input-username');
   const errorMsg = document.getElementById('login-error-msg');
+  const submitBtn = event.target.querySelector('button[type="submit"]');
 
   const name = nameInput.value.trim();
   const username = usernameInput.value.trim().toLowerCase();
 
   if (!name || !username) return;
+  
+  if (submitBtn) window.setButtonLoading(submitBtn, true, 'LOGGING IN...');
 
   try {
     const response = await fetch(`${API_BASE}/auth/login`, {
@@ -108,6 +128,7 @@ window.handleLoginSubmit = async function (event) {
         errorMsg.innerText = data.message || 'Username already taken or invalid.';
         errorMsg.classList.remove('hidden');
       }
+      if (submitBtn) window.setButtonLoading(submitBtn, false);
       return;
     }
 
@@ -125,6 +146,7 @@ window.handleLoginSubmit = async function (event) {
       errorMsg.innerText = 'Unable to connect to the server.';
       errorMsg.classList.remove('hidden');
     }
+    if (submitBtn) window.setButtonLoading(submitBtn, false);
   }
 };
 
