@@ -18,13 +18,6 @@
     </div>
     <div id="anek-site-blur" aria-hidden="true"></div>`;
 
-    if (!document.querySelector('link[href*="intro.css"]')) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = '/src/intro.css';
-        document.head.appendChild(link);
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         document.body.insertAdjacentHTML('afterbegin', introHTML);
 
