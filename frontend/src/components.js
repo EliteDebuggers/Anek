@@ -136,8 +136,15 @@ class AnekSidebar extends HTMLElement {
                 <!-- Sidebar branding footer -->
                 <div id="sidebar-footer"
                     class="hide-on-minimize border-t border-gray-900/20 pt-sm transition-opacity duration-300 w-full">
-                    <p class="font-mono text-[10px] text-gray-800 font-bold">Built with love by Elite Debuggers</p>
-                </div>
+                    <a href="/privacy_policy.html"
+                    class="items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    Privacy Policy
+                    </a>
+                    <a href="/terms.html"
+                    class="items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    Terms of Service
+                    </a>
+               </div>
             </aside>
         `;
 
@@ -182,7 +189,9 @@ class AnekHeader extends HTMLElement {
         this.innerHTML = `
     <header class="bg-white h-16 sticky top-0 z-40 border-b-2 border-outline-variant flex justify-between items-center px-margin w-full max-w-full">
         <div class="flex items-center gap-sm">
-            <a href="/" class="font-cabin text-3xl font-bold text-primary tracking-tighter uppercase ml-2 hover:opacity-80 transition-opacity">Anek</a>
+            <a href="/" class="font-cabin text-3xl font-bold text-primary tracking-tighter ml-2 hover:opacity-80 transition-opacity flex items-start">
+                Anē<span class="relative inline-block">k<img src="/images/leaf.svg" class="absolute top-[-8px] right-[-7px] w-[15px] h-[15px] rotate-[15deg] origin-bottom-left" alt="leaf" /></span>
+            </a>
         </div>
         <div class="flex items-center gap-sm">
             <div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1 border-2 border-primary text-xs font-mono">
@@ -215,33 +224,38 @@ class AnekHeader extends HTMLElement {
     }
 }
 customElements.define('anek-header', AnekHeader);
-
 class AnekFooter extends HTMLElement {
     connectedCallback() {
         const path = window.location.pathname;
-        const isActive = (href) => path.includes(href) ? 'text-primary scale-110' : 'text-on-surface-variant';
+        const getNavClass = (matchStr) => {
+            if (path.includes(matchStr)) {
+                return "flex flex-col items-center p-1 px-4 text-[#4f772d] dark:text-[#6fa356] font-bold scale-110 transition-transform";
+            }
+            return "flex flex-col items-center p-1 px-4 text-gray-400 dark:text-gray-400 hover:text-[#4f772d] dark:hover:text-[#6fa356] transition-colors";
+        };
+        const getIconFill = (matchStr) => path.includes(matchStr) ? "1" : "0";
 
         this.innerHTML = `
-    <nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center bg-white px-xs py-2 border-t-2 border-primary z-50">
-        <a href="/local_impact.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('local_impact.html')}">
-            <span class="material-symbols-outlined">map</span>
-            <span class="font-mono text-[10px]">Map</span>
+    <nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center bg-[#ffffff] dark:bg-[#0b1f17] px-xs py-1.5 border-t-2 border-[#4f772d] dark:border-[#6fa356] z-50">
+        <a href="/local_impact.html" class="${getNavClass('local_impact')}">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('local_impact')};">map</span>
+            <span class="font-mono text-[9px] font-bold mt-0.5">Map</span>
         </a>
-        <a href="/report_problem.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('report_problem.html')}">
-            <span class="material-symbols-outlined">edit_note</span>
-            <span class="font-mono text-[10px]">Report</span>
+        <a href="/report_problem.html" class="${getNavClass('report_problem')}">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('report_problem')};">add_a_photo</span>
+            <span class="font-mono text-[9px] font-bold mt-0.5">Report</span>
         </a>
-        <a href="/contribution_log.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('contribution_log.html')}">
-            <span class="material-symbols-outlined">auto_graph</span>
-            <span class="font-mono text-[10px]">Log</span>
+        <a href="/contribution_log.html" class="${getNavClass('contribution_log')}">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('contribution_log')};">history</span>
+            <span class="font-mono text-[9px] font-bold mt-0.5">Log</span>
         </a>
-        <a href="/leaderboard.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('leaderboard.html')}">
-            <span class="material-symbols-outlined">military_tech</span>
-            <span class="font-mono text-[10px]">Rank</span>
+        <a href="/leaderboard.html" class="${getNavClass('leaderboard')}">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('leaderboard')};">emoji_events</span>
+            <span class="font-mono text-[9px] font-bold mt-0.5">Top</span>
         </a>
-        <a href="/rewards.html" class="flex flex-col items-center justify-center transition-transform active:scale-95 ${isActive('rewards.html')}">
-            <span class="material-symbols-outlined">workspace_premium</span>
-            <span class="font-mono text-[10px]">Reward</span>
+        <a href="/rewards.html" class="${getNavClass('rewards')}">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('rewards')};">storefront</span>
+            <span class="font-mono text-[9px] font-bold mt-0.5">Rewards</span>
         </a>
     </nav>
     <footer class="w-full py-md border-t-2 border-dashed border-primary/20 bg-white flex flex-col items-center gap-xs px-margin text-center mb-16 md:mb-0">

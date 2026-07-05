@@ -302,14 +302,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const header = document.querySelector('header');
     if (header) {
-        let headerActionsContainer = header.querySelector('nav');
-        if (!headerActionsContainer) {
-             const rightSide = header.children[header.children.length - 1];
-             if (rightSide && rightSide.classList.contains('flex')) {
-                 headerActionsContainer = rightSide;
-             } else {
-                 headerActionsContainer = header;
-             }
+        let headerActionsContainer = header.children[header.children.length - 1];
+        if (!headerActionsContainer || !headerActionsContainer.classList.contains('flex')) {
+             headerActionsContainer = header;
         }
         
         if (headerActionsContainer) {
@@ -317,7 +312,7 @@ window.addEventListener('DOMContentLoaded', () => {
             darkModeBtn.className = "ml-4 p-2 flex items-center justify-center group";
             darkModeBtn.onclick = window.toggleDarkMode;
             const isDark = document.documentElement.classList.contains('dark');
-            darkModeBtn.innerHTML = `<span class="material-symbols-outlined text-gray-900 dark:text-white group-hover:text-primary transition-colors" id="dark-mode-icon">${isDark ? 'light_mode' : 'dark_mode'}</span>`;
+            darkModeBtn.innerHTML = `<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" id="dark-mode-icon">${isDark ? 'light_mode' : 'dark_mode'}</span>`;
             headerActionsContainer.appendChild(darkModeBtn);
         }
 
