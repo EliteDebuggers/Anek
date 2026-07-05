@@ -143,6 +143,33 @@
   color: #2d4a3e !important;
 }
 
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+.paper-border {
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: currentColor;
+  transform-origin: bottom left;
+  transition: transform 0.25s ease-out;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
 /* Urgency Button Active States */
 .active-priority {
   background-color: #facc15 !important;
@@ -267,9 +294,14 @@ html.dark .border-outline-variant {
   border-color: #516359 !important;
 }
 anek-sidebar {
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
+    display: none;
+}
+@media (min-width: 768px) {
+    anek-sidebar {
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+    }
 }
 anek-sidebar > aside {
     flex-grow: 1;

@@ -198,38 +198,7 @@
             fetchLeaderboard();
         };
 
-        window.joinMission = async function(missionId, button) {
-            if (button.innerText === "JOINED!") return;
-            
-            // Optimistic update
-            const oldHtml = button.outerHTML;
-            button.outerHTML = `<button id="mission-btn-${missionId}" disabled class="btn-brutalist bg-forest-moss text-white font-mono text-[10px] font-bold px-3 py-1.5 uppercase transition-all shadow-[2px_2px_0px_0px_#1a1c1b]">JOINED!</button>`;
 
-            try {
-                const response = await apiFetch('/users/missions/join', {
-                    method: 'POST',
-                    body: JSON.stringify({ missionId: missionId.toString() })
-                });
-
-                if (response && response.ok) {
-                    showToast("Mission joined! Good luck.");
-                    alert("Mission accepted! +20 GCP added to your stash.");
-                    loadProfileAndLeaderboard();
-                } else if (response) {
-                    // Revert
-                    const newBtn = document.getElementById(`mission-btn-${missionId}`);
-                    if (newBtn) newBtn.outerHTML = oldHtml;
-                    const data = await response.json();
-                    showToast(data.message || 'Error joining mission', true);
-                }
-            } catch (err) {
-                // Revert
-                const newBtn = document.getElementById(`mission-btn-${missionId}`);
-                if (newBtn) newBtn.outerHTML = oldHtml;
-                console.error('Error joining mission:', err);
-                showToast('An error occurred while joining mission.', true);
-            }
-        };
 
         // Initial render
         loadProfileAndLeaderboard();
