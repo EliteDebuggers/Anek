@@ -337,11 +337,11 @@
                             <h4 class="font-mono text-xs font-bold text-primary truncate mr-2">${log.activity}</h4>
                             <span class="text-[10px] font-mono text-on-surface-variant whitespace-nowrap">${log.timestamp}</span>
                         </div>
-                        <div class="mt-2 flex gap-sm items-center select-none">
-                            <span class="px-2 py-0.5 border border-outline-variant bg-surface-container text-[10px] font-mono uppercase">${log.category}</span>
-                            <span class="px-2 py-0.5 border border-primary bg-primary-container text-[10px] font-mono uppercase font-bold text-on-primary-container">${log.points}</span>
-                            <span class="text-[10px] font-mono text-forest-moss flex items-center"><span class="material-symbols-outlined text-[10px] font-bold">check</span> ${log.status}</span>
-                            ${log.issueId && log.activity.includes('Reported') ? `<button onclick="openEditModal('${log.issueId}')" class="ml-auto text-primary hover:text-forest-moss transition-colors" title="Edit Post"><span class="material-symbols-outlined text-xl">edit</span></button>` : ''}
+                        <div class="mt-2 flex gap-sm items-center select-none flex-wrap">
+                            <span class="px-2 py-0.5 border border-outline-variant bg-surface-container text-[10px] font-mono uppercase shrink-0">${log.category}</span>
+                            <span class="px-2 py-0.5 border border-primary bg-primary-container text-[10px] font-mono uppercase font-bold text-on-primary-container shrink-0">${log.points}</span>
+                            <span class="text-[10px] font-mono text-forest-moss flex items-center shrink-0"><span class="material-symbols-outlined text-[10px] font-bold">check</span> ${log.status}</span>
+                            ${log.issueId && log.activity.includes('Reported') ? `<button onclick="openEditModal('${log.issueId}')" class="ml-auto text-primary dark:text-white hover:text-gray-500 transition-colors shrink-0 p-1" title="Edit Post"><span class="material-symbols-outlined text-xl">edit</span></button>` : ''}
                         </div>
                     </div>
                 `;

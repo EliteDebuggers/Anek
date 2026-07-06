@@ -23,6 +23,8 @@ export default defineConfig({
         rewards: resolve(__dirname, 'rewards.html'),
         privacy_policy: resolve(__dirname, 'privacy_policy.html'),
         terms: resolve(__dirname, 'terms.html'),
+        community: resolve(__dirname, 'community.html'),
+        issue_detail: resolve(__dirname, 'issue_detail.html'),
       }
     }
   }
