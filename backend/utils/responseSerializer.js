@@ -48,6 +48,7 @@ export const serializeIssue = (issue, votesCount, commentsList = [], mediaList =
   // Extract media properties
   const mediaUrl = mediaList.length > 0 ? mediaList[0].url : '';
   const mediaType = mediaList.length > 0 ? mediaList[0].type : '';
+  const mediaUrls = mediaList.map(m => m.url);
 
   return {
     id: issue._id,
@@ -64,6 +65,7 @@ export const serializeIssue = (issue, votesCount, commentsList = [], mediaList =
       ? issue.responsibleUser.username 
       : null,
     mediaUrl,
+    mediaUrls,
     mediaType,
     location: issue.location,
     locationName: issue.locationName || '',
@@ -87,6 +89,7 @@ export const serializeContribution = (transaction) => {
   
   return {
     id: transaction._id,
+    issueId: transaction.referenceModel === 'Issue' && transaction.referenceId ? transaction.referenceId._id : null,
     category: transaction.referenceModel === 'Issue' && transaction.referenceId && transaction.referenceId.category
       ? transaction.referenceId.category 
       : 'Governance',

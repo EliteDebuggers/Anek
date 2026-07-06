@@ -60,16 +60,19 @@ export const createIssue = async (req, res, next) => {
 
     await issue.populate('author', 'username');
 
-    let media = null;
-    if (req.file) {
-      const result = await uploadToCloudinary(req.file.buffer, 'anek_issues');
-      media = await Media.create({
-        issue: issue._id,
-        url: result.secure_url,
-        publicId: result.public_id,
-        type: req.file.mimetype.startsWith('video/') ? 'video' : 'image',
-        sizeBytes: req.file.size,
-      });
+    let media = [];
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer, 'anek_issues');
+        const mediaDoc = await Media.create({
+          issue: issue._id,
+          url: result.secure_url,
+          publicId: result.public_id,
+          type: file.mimetype.startsWith('video/') ? 'video' : 'image',
+          sizeBytes: file.size,
+        });
+        media.push(mediaDoc);
+      }
     }
 
     const user = await User.findById(req.user._id);
@@ -92,7 +95,7 @@ export const createIssue = async (req, res, next) => {
       message: `Your report "${issue.title}" has been submitted successfully. +10 GCP awarded!`,
     });
 
-    const serialized = serializeIssue(issue, 0, [], media ? [media] : []);
+    const serialized = serializeIssue(issue, 0, [], media);
 
     if (req.io) {
       req.io.emit('issueCreated', serialized);
@@ -293,6 +296,23 @@ export const updateIssue = async (req, res, next) => {
     if (category) issue.category = category.trim();
     if (description) issue.description = description.trim();
     if (urgency) issue.urgency = urgency;
+
+    if (req.body.removeMedia === 'true' || (req.files && req.files.length > 0)) {
+      await Media.deleteMany({ issue: issue._id });
+    }
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer, 'anek_issues');
+        await Media.create({
+          issue: issue._id,
+          url: result.secure_url,
+          publicId: result.public_id,
+          type: file.mimetype.startsWith('video/') ? 'video' : 'image',
+          sizeBytes: file.size,
+        });
+      }
+    }
 
     await issue.save();
     await issue.populate('author', 'username');
@@ -572,6 +592,34 @@ export const resolveIssue = async (req, res, next) => {
       issue: detailed,
     });
   } catch (error) {
+    next(error);
+  }
+};
+/**
+ * @desc    Get a single issue by ID
+ * @route   GET /api/v1/issues/:id
+ */
+export const getIssueById = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const issue = await Issue.findOne({ _id: id, isDeleted: false })
+      .populate('author', 'username')
+      .populate('responsibleUser', 'username');
+
+    if (!issue) {
+      res.status(404);
+      return next(new Error('Issue not found'));
+    }
+
+    const detailed = await getIssueDetails([issue], req.user ? req.user._id : null);
+    
+    res.status(200).json({
+      success: true,
+      issue: detailed[0]
+    });
+  } catch (error) {
+    res.status(500);
     next(error);
   }
 };

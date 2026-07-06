@@ -1,9 +1,9 @@
 class AnekSidebar extends HTMLElement {
     connectedCallback() {
         const path = window.location.pathname;
-        const isActive = (href) => path.includes(href) ? 'nav-item-active' : 'border-transparent hover:border-gray-900 hover:bg-white/40';
-        const isTextActive = (href) => path.includes(href) ? 'text-primary' : 'text-gray-900';
-        const isIconActive = (href) => path.includes(href) ? 'nav-icon-active' : 'bg-white/40 border-gray-900 text-gray-900 group-hover:bg-white';
+        const isActive = (href) => path.includes(href) ? 'nav-item-active shadow-[inset_4px_0_0_0_#4f772d] bg-primary/20' : 'border-transparent hover:border-primary/50 hover:bg-white/20 transition-all duration-300 hover-glow';
+        const isTextActive = (href) => path.includes(href) ? 'text-primary' : 'text-gray-900 group-hover:text-primary transition-colors';
+        const isIconActive = (href) => path.includes(href) ? 'nav-icon-active shadow-[0_0_20px_rgba(70,138,94,0.8)]' : 'bg-white/40 border-gray-900 text-gray-900 group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-sm group-hover:shadow-[0_0_15px_rgba(70,138,94,0.5)] transition-all duration-300';
 
         this.innerHTML = `
             <!-- Mobile Sidebar Overlay -->
@@ -12,7 +12,7 @@ class AnekSidebar extends HTMLElement {
             </div>
 
             <aside id="sidebar"
-                class="-translate-x-full md:translate-x-0 fixed md:relative left-0 w-[75vw] md:w-[320px] top-0 h-full min-h-screen md:min-h-full px-4 pb-4 pt-2 flex flex-col justify-between z-[60] transition-all duration-300 overflow-x-hidden glass-card border-r-2 border-gray-900/20 shrink-0">
+                class="-translate-x-full md:translate-x-0 fixed md:relative left-0 w-[75vw] md:w-[320px] top-0 h-full min-h-screen md:min-h-full px-4 pb-4 pt-2 flex flex-col justify-between z-[60] transition-all duration-300 overflow-x-hidden glass-card border-none shrink-0">
                 <div id="sidebar-content" class="space-y-sm transition-opacity duration-300 w-full pt-4">
 
                     <!-- Toggle Button inside sidebar -->
@@ -83,6 +83,18 @@ class AnekSidebar extends HTMLElement {
                             </div>
                         </a>
 
+                        <a href="/community.html"
+                            class="nav-btn flex items-center gap-sm py-1 px-2 w-full group text-left rounded-none border transition-all shrink-0 relative z-10 ${isActive('community.html')}">
+                            <div
+                                class="w-12 h-12 rounded-full border-2 backdrop-blur-md flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(17,24,39,0.8)] transition-all shrink-0 ${isIconActive('community.html')}">
+                                <span class="material-symbols-outlined">forum</span>
+                            </div>
+                            <div class="ml-2">
+                                <p class="font-mono text-xs font-bold group-hover:underline ${isTextActive('community.html')}">Community</p>
+                                <p class="font-sans text-[10px] text-gray-800 font-bold">Recent reports & feeds</p>
+                            </div>
+                        </a>
+
                         <a href="/report_problem.html"
                             class="nav-btn flex items-center gap-sm py-1 px-2 w-full group text-left rounded-none border transition-all shrink-0 relative z-10 ${isActive('report_problem.html')}">
                             <div
@@ -135,13 +147,13 @@ class AnekSidebar extends HTMLElement {
 
                 <!-- Sidebar branding footer -->
                 <div id="sidebar-footer"
-                    class="hide-on-minimize border-t border-gray-900/20 pt-sm transition-opacity duration-300 w-full">
+                    class="hide-on-minimize border-t-2 border-primary/30 pt-4 mt-2 transition-opacity duration-300 w-full flex flex-col gap-3">
                     <a href="/privacy_policy.html"
-                    class="items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    class="items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors inline-block w-fit">
                     Privacy Policy
                     </a>
                     <a href="/terms.html"
-                    class="items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    class="items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors inline-block w-fit">
                     Terms of Service
                     </a>
                </div>
@@ -195,10 +207,10 @@ class AnekHeader extends HTMLElement {
         </div>
         <div class="flex items-center gap-sm">
             <div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1 border-2 border-primary text-xs font-mono">
-                <span class="w-2.5 h-2.5 rounded-full bg-forest-moss"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-forest-moss animate-pulse"></span>
                 <span>Active Session: <strong id="header-username">Citizen</strong></span>
             </div>
-            <a href="#" id="global-logout-btn" class="material-symbols-outlined text-on-surface-variant hover:text-red-600 transition-all" title="Logout">logout</a>
+            <a href="#" id="global-logout-btn" class="material-symbols-outlined text-on-surface-variant hover:text-red-600 transition-all hover:-translate-y-0.5" title="Logout">logout</a>
         </div>
     </header>
         `;
@@ -258,12 +270,12 @@ class AnekFooter extends HTMLElement {
             <span class="font-mono text-[9px] font-bold mt-0.5">Rewards</span>
         </a>
     </nav>
-    <footer class="w-full py-md border-t-2 border-dashed border-primary/20 bg-white flex flex-col items-center gap-xs px-margin text-center mb-16 md:mb-0">
-        <p class="font-mono text-xs text-primary font-bold uppercase">Anēk • by Elite Debuggers</p>
-        <div class="flex gap-4 my-2">
+    <footer class="w-full py-8 border-t-2 border-dashed border-primary/30 bg-white flex flex-col items-center gap-6 px-margin text-center mb-16 md:mb-0">
+        <p class="font-mono text-sm text-primary font-bold uppercase tracking-wider">Anēk • by Elite Debuggers</p>
+        <div class="flex flex-wrap justify-center gap-6 my-2">
             <a href="https://github.com/EliteDebuggers" target="_blank"
-                class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                     <path fill-rule="evenodd"
                         d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
                         clip-rule="evenodd" />
@@ -271,25 +283,32 @@ class AnekFooter extends HTMLElement {
                 GitHub
             </a>
             <a href="https://www.instagram.com/elite.debuggers/" target="_blank"
-                class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors"
+                class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors"
                 title="I will add it later">
-                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                     <path fill-rule="evenodd"
                         d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
                         clip-rule="evenodd" />
                 </svg>
                 Instagram
             </a>
+            <a href="mailto:contact@anek.eco"
+                class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                Contact
+            </a>
             <a href="/privacy_policy.html"
-                class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                Privacy Policy
+                class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                Privacy
             </a>
             <a href="/terms.html"
-                class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                Terms of Service
+                class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                Terms
             </a>
+            <span class="flex items-center font-mono text-xs uppercase text-gray-400">
+                v1.0.0
+            </span>
         </div>
-        <p class="font-mono text-[10px] text-on-surface-variant opacity-60">
+        <p class="font-mono text-xs text-on-surface-variant opacity-60">
             © 2026 Anēk • Building the forest, leaf by leaf.
         </p>
     </footer>
@@ -301,12 +320,12 @@ customElements.define('anek-footer', AnekFooter);
 class AnekLandingFooter extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
-        <footer class="w-full py-lg glass-card border-t-2 border-dashed border-primary/20 flex flex-col items-center gap-xs px-margin text-center mt-auto">
-            <p class="font-mono text-xs text-primary font-bold uppercase">Anēk • by Elite Debuggers</p>
-            <div class="flex gap-4 my-2">
+        <footer class="w-full py-8 glass-card border-t-2 border-dashed border-primary/30 flex flex-col items-center gap-6 px-margin text-center mt-auto">
+            <p class="font-mono text-sm text-primary font-bold uppercase tracking-wider">Anēk • by Elite Debuggers</p>
+            <div class="flex flex-wrap justify-center gap-6 my-2">
                 <a href="https://github.com/EliteDebuggers" target="_blank"
-                    class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                    class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                         <path fill-rule="evenodd"
                             d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
                             clip-rule="evenodd" />
@@ -314,38 +333,35 @@ class AnekLandingFooter extends HTMLElement {
                     GitHub
                 </a>
                 <a href="https://www.instagram.com/elite.debuggers/" target="_blank"
-                    class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors"
+                    class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors"
                     title="I will add it later">
-                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                         <path fill-rule="evenodd"
                             d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
                             clip-rule="evenodd" />
                     </svg>
                     Instagram
                 </a>
+                <a href="mailto:contact@anek.eco"
+                    class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    Contact
+                </a>
                 <a href="/privacy_policy.html"
-                    class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                    Privacy Policy
+                    class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    Privacy
                 </a>
                 <a href="/terms.html"
-                    class="flex items-center font-mono text-[10px] uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                    Terms of Service
+                    class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
+                    Terms
                 </a>
+                <span class="flex items-center font-mono text-xs uppercase text-gray-400">
+                    v1.0.0
+                </span>
             </div>
-            <p class="font-mono text-[10px] text-on-surface-variant">© 2026 Anēk • Building the forest, leaf by leaf.</p>
+            <p class="font-mono text-xs text-on-surface-variant opacity-60">© 2026 Anēk • Building the forest, leaf by leaf.</p>
         </footer>
         `;
     }
 }
 customElements.define('anek-landing-footer', AnekLandingFooter);
 
-(function initTheme() {
-    const savedTheme = localStorage.getItem('anek_theme');
-    if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.remove('light');
-    } else if (savedTheme === 'light') {
-        document.documentElement.classList.add('light');
-        document.documentElement.classList.remove('dark');
-    }
-})();

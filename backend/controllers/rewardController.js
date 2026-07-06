@@ -11,7 +11,7 @@ const defaultRewards = [
     cost: 80,
     category: 'Local Labs',
     imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDHwiHFmkh1R_y8Wjmd_HzLMtT7pPk3juuVRFrJ6HLieOQD4cVKJZ-94QYmbQkrqeRifhL9mhTqWtdBzyAf6XtbDQ4jCjDrEfYHQ3SwKc_tRAhE7UrTY_l4a_uoHrNHv1nDXMA9tkP3EXLxAvCIKDTI1hMbcjhTk9mg4pEIyH63h4ZQyI8wfuZi51vOY_b0j0Jm9TEKmvD_jv9nPToe6UdOPcbiD1ompDAnlgTIpfogZYZzjjE2lICyfNyD0Nr11r5whf8raLlMm5g',
-    minRank: 'Vanguard Rank I',
+    minRank: 'NPC',
   },
   {
     name: '$25 Coffee Credit',
@@ -19,15 +19,15 @@ const defaultRewards = [
     cost: 50,
     category: 'Cafes',
     imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCsGqvabIPK1Yud-Mn_m7oj0_44KqFI9a8VW4LvBdCmO0RFN3EHlkhkYGGba7zSrAPXVlk-cOJDFo02TTzMBGpX1uMqL9u3d7pAbjyI9hsBD-rov7pWQ52VjBi7NDbSzxr6HJ9E_A_A6Yy2SXc-F50Ckz5-QbCqrfaYE_0xEiU2Zyu3kx48jw8OsYtoExILUiRIv17cZ7F4pYf_E4tu55kVVMOxBua1vJbDEiRiNegh-45YvODJb210N6qLPPwIXGklu4BuWs6gbsw',
-    minRank: 'Vanguard Rank I',
+    minRank: 'NPC',
   },
   {
     name: 'Wilderness Retreat Voucher',
-    description: 'Exclusive 3-night stay at the Citizen Sanctuary. Requires Rank: Elder. Experience the deep quiet of the forest in a carbon-neutral sanctuary.',
+    description: 'Exclusive 3-night stay at the Citizen Sanctuary. Requires Rank: GOAT. Experience the deep quiet of the forest in a carbon-neutral sanctuary.',
     cost: 300,
     category: 'Outdoors',
     imageUrl: '',
-    minRank: 'Vanguard Elder',
+    minRank: 'GOAT',
   }
 ];
 
@@ -84,12 +84,12 @@ export const redeemReward = async (req, res, next) => {
       return next(new Error(`Insufficient points balance. You need ${reward.cost} GCP, but currently have ${user.points} GCP`));
     }
 
-    if (reward.minRank === 'Vanguard Elder' && user.rank !== 'Vanguard Elder') {
+    if (reward.minRank === 'GOAT' && user.rank !== 'GOAT') {
       res.status(403);
-      return next(new Error('Forbidden: This reward requires the Vanguard Elder rank to unlock'));
-    } else if (reward.minRank === 'Vanguard Rank II' && user.rank === 'Vanguard Rank I') {
+      return next(new Error('Forbidden: This reward requires the GOAT rank to unlock'));
+    } else if (reward.minRank === 'Main Character' && user.rank === 'NPC') {
       res.status(403);
-      return next(new Error('Forbidden: This reward requires the Vanguard Rank II rank to unlock'));
+      return next(new Error('Forbidden: This reward requires the Main Character rank to unlock'));
     }
 
     user.points -= reward.cost;

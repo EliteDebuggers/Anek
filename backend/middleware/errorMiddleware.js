@@ -5,7 +5,6 @@ export const notFound = (req, res, next) => {
 };
 
 export const errorHandler = (err, req, res, next) => {
-  // If headers already sent, delegate to default Express error handler
   if (res.headersSent) {
     return next(err);
   }
@@ -13,10 +12,12 @@ export const errorHandler = (err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
 
-  console.error(`[Error] ${req.method} ${req.path} - ${err.message}`);
-  if (process.env.NODE_ENV !== 'production' && err.stack) {
-    console.error(err.stack);
-  }
+  const logMsg = `[Error] ${req.method} ${req.path} - ${err.message}\n${err.stack}\n\n`;
+  console.error(logMsg);
+  
+  try {
+    import('fs').then(fs => fs.appendFileSync('error.log', logMsg));
+  } catch(e) {}
 
   res.json({
     success: false,

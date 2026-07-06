@@ -1,245 +1,322 @@
-/* ===== Cinematic Intro ===== */
+/* Skip intro when already seen */
+.anek-skip-intro #anek-intro,
+.anek-skip-intro #anek-site-blur {
+    display: none !important;
+}
 
-        /* Skip intro when already seen */
-        .anek-skip-intro #anek-intro,
-        .anek-skip-intro #anek-site-blur {
-            display: none !important;
-        }
+/* Intro overlay */
+#anek-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: #08130F;
+    background-image:
+        radial-gradient(ellipse at 30% 20%, rgba(30, 60, 40, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(20, 50, 35, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(25, 55, 38, 0.08) 0%, transparent 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
 
-        /* Intro overlay */
-        #anek-intro {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background-color: #08130F;
-            background-image:
-                radial-gradient(ellipse at 30% 20%, rgba(30, 60, 40, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(20, 50, 35, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(25, 55, 38, 0.08) 0%, transparent 70%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+/* Subtle noise texture */
+#anek-intro::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    pointer-events: none;
+}
 
-        /* Subtle noise texture */
-        #anek-intro::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-            opacity: 0.35;
-            pointer-events: none;
-        }
+/* Particle canvas */
+#anek-intro-particles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
 
-        /* Particle canvas */
-        #anek-intro-particles {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+/* Text elements */
+.anek-intro-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    white-space: nowrap;
+    opacity: 0;
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 2;
+}
 
-        /* Text elements */
-        .anek-intro-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            text-align: center;
-            white-space: nowrap;
-            opacity: 0;
-            filter: blur(10px);
-            pointer-events: none;
-            z-index: 2;
-        }
-        .anek-intro-scene1 {
-            font-size: clamp(14px, 2vw, 18px);
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            color: rgba(255, 255, 255, 0.85);
-        }
-        .anek-intro-scene2 {
-            font-size: clamp(18px, 2.5vw, 26px);
-            font-weight: 800;
-            letter-spacing: 0.1em;
-        }
+.anek-intro-scene1 {
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.85);
+}
 
-        /* Central light glow */
-        .anek-intro-light {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: radial-gradient(circle at center,
-                rgba(255, 255, 255, 0.9) 0%,
-                rgba(255, 255, 255, 0.35) 6%,
-                rgba(255, 255, 255, 0.08) 25%,
-                transparent 55%
-            );
-            opacity: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
+.anek-intro-scene2 {
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
 
-        /* Horizontal lens flare */
-        .anek-intro-flare {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            height: 2px;
-            width: 0;
-            opacity: 0;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(255,255,255,0.05) 10%,
-                rgba(255,255,255,0.2) 30%,
-                rgba(255,255,255,0.6) 45%,
-                rgba(255,255,255,0.8) 50%,
-                rgba(255,255,255,0.6) 55%,
-                rgba(255,255,255,0.2) 70%,
-                rgba(255,255,255,0.05) 90%,
-                transparent 100%
-            );
-            pointer-events: none;
-            z-index: 1;
-        }
+/* Central light glow */
+.anek-intro-light {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(255, 255, 255, 0.35) 6%,
+            rgba(255, 255, 255, 0.08) 25%,
+            transparent 55%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
 
-        /* Thin light rays */
-        .anek-intro-ray {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            height: 1px;
-            width: 0;
-            opacity: 0;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(255,255,255,0.12) 25%,
-                rgba(255,255,255,0.2) 50%,
-                rgba(255,255,255,0.12) 75%,
-                transparent 100%
-            );
-            pointer-events: none;
-            z-index: 1;
-        }
-        .anek-intro-ray-1 { transform: translate(-50%, -50%) rotate(2.5deg); }
-        .anek-intro-ray-2 { transform: translate(-50%, -50%) rotate(-2.5deg); }
+/* Horizontal lens flare */
+.anek-intro-flare {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 2px;
+    width: 0;
+    opacity: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0.2) 30%,
+            rgba(255, 255, 255, 0.6) 45%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(255, 255, 255, 0.6) 55%,
+            rgba(255, 255, 255, 0.2) 70%,
+            rgba(255, 255, 255, 0.05) 90%,
+            transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
 
-        /* Brand container */
-        .anek-intro-brand {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            pointer-events: none;
-            z-index: 3;
-        }
-        .anek-intro-logo {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .anek-intro-logo-icon,
-        .anek-intro-logo-text {
-            opacity: 0;
-            filter: blur(8px);
-        }
-        .anek-intro-logo-text {
-            font-family: 'Cabin Sketch', cursive;
-            font-size: clamp(32px, 5vw, 44px);
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: -0.03em;
-            line-height: 1;
-        }
-        .anek-intro-subtitle {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(11px, 1.5vw, 15px);
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 0.08em;
-            opacity: 0;
-            text-align: center;
-        }
+/* Thin light rays */
+.anek-intro-ray {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 1px;
+    width: 0;
+    opacity: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.12) 25%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.12) 75%,
+            transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
 
-        /* ---- Keyframes ---- */
-        @keyframes anekBlurIn {
-            from { opacity: 0; filter: blur(10px); }
-            to { opacity: 1; filter: blur(0px); }
-        }
-        @keyframes anekBlurOut {
-            from { opacity: 1; filter: blur(0px); }
-            to { opacity: 0; filter: blur(10px); }
-        }
-        @keyframes anekLightGrow {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes anekFlareExpand {
-            from { width: 0; opacity: 0; }
-            to { width: min(80vw, 600px); opacity: 0.6; }
-        }
-        @keyframes anekRayExpand {
-            from { width: 0; opacity: 0; }
-            to { width: min(90vw, 700px); opacity: 0.15; }
-        }
-        @keyframes anekFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes anekIntroExit {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
+.anek-intro-ray-1 {
+    transform: translate(-50%, -50%) rotate(2.5deg);
+}
 
-        /* ---- Animation classes ---- */
-        .anek-blur-in { animation: anekBlurIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .anek-blur-out { animation: anekBlurOut 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .anek-light-grow { animation: anekLightGrow 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .anek-flare-expand { animation: anekFlareExpand 1s cubic-bezier(0.25, 0, 0.3, 1) forwards; }
-        .anek-ray-expand { animation: anekRayExpand 1.2s cubic-bezier(0.25, 0, 0.3, 1) forwards; }
-        .anek-fade-in { animation: anekFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .anek-intro-exit { animation: anekIntroExit 1s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.anek-intro-ray-2 {
+    transform: translate(-50%, -50%) rotate(-2.5deg);
+}
 
-        /* ---- Site blur overlay (backdrop-filter avoids fixed-position issues) ---- */
-        #anek-site-blur {
-            position: fixed;
-            inset: 0;
-            z-index: 9998;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            opacity: 1;
-            pointer-events: none;
-            transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        backdrop-filter 1.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        -webkit-backdrop-filter 1.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+/* Brand container */
+.anek-intro-brand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    pointer-events: none;
+    z-index: 3;
+}
 
-        /* ---- Site wrapper (mirrors body flex layout) ---- */
-        #anek-site-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            flex-grow: 1;
-            position: relative;
-        }
+.anek-intro-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
 
-        /* ---- Reduced motion ---- */
-        @media (prefers-reduced-motion: reduce) {
-            #anek-intro,
-            #anek-site-blur {
-                display: none !important;
-            }
-        }
+.anek-intro-logo-icon,
+.anek-intro-logo-text {
+    opacity: 0;
+    filter: blur(8px);
+}
+
+.anek-intro-logo-text {
+    font-family: 'Cabin Sketch', cursive;
+    font-size: clamp(32px, 5vw, 44px);
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.anek-intro-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(11px, 1.5vw, 15px);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.08em;
+    opacity: 0;
+    text-align: center;
+}
+
+/* Keyframes */
+@keyframes anekBlurIn {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+@keyframes anekBlurOut {
+    from {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    to {
+        opacity: 0;
+        filter: blur(10px);
+    }
+}
+
+@keyframes anekLightGrow {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes anekFlareExpand {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+
+    to {
+        width: min(80vw, 600px);
+        opacity: 0.6;
+    }
+}
+
+@keyframes anekRayExpand {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+
+    to {
+        width: min(90vw, 700px);
+        opacity: 0.15;
+    }
+}
+
+@keyframes anekFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes anekIntroExit {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Animation classes */
+.anek-blur-in {
+    animation: anekBlurIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.anek-blur-out {
+    animation: anekBlurOut 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.anek-light-grow {
+    animation: anekLightGrow 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.anek-flare-expand {
+    animation: anekFlareExpand 1s cubic-bezier(0.25, 0, 0.3, 1) forwards;
+}
+
+.anek-ray-expand {
+    animation: anekRayExpand 1.2s cubic-bezier(0.25, 0, 0.3, 1) forwards;
+}
+
+.anek-fade-in {
+    animation: anekFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.anek-intro-exit {
+    animation: anekIntroExit 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Site blur overlay (backdrop-filter avoids fixed-position issues */
+#anek-site-blur {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1),
+        backdrop-filter 1.3s cubic-bezier(0.4, 0, 0.2, 1),
+        -webkit-backdrop-filter 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Site wrapper (mirrors body flex layout) */
+#anek-site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    flex-grow: 1;
+    position: relative;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    #anek-intro,
+    #anek-site-blur {
+        display: none !important;
+    }
+}

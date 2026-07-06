@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Anek | Impact Log - My Contributions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Manrope:wght@200..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Manrope:wght@200..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
     <script type="module" src="/src/main.js"></script>
 </head>
+
 <body
     class="bg-background text-on-surface selection:bg-primary selection:text-on-primary min-h-screen flex flex-col transition-colors duration-500 relative">
 
@@ -18,25 +24,30 @@
     <anek-header></anek-header>
 
     <div class="flex flex-1">
-        
+
         <anek-sidebar></anek-sidebar>
 
-        <main class="flex-grow overflow-y-auto glass-card px-margin py-lg pb-xl md:pb-lg">
+        <main class="flex-grow overflow-y-auto px-margin py-lg pb-xl md:pb-lg">
             <div class="max-w-6xl mx-auto space-y-lg">
 
                 <section class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
                     <div class="md:col-span-8">
                         <h2 class="font-cabin text-5xl md:text-6xl text-primary mb-xs">My Quests / Activity</h2>
                         <p class="font-sans text-sm text-on-surface-variant max-w-xl">
-                            Agent ID: #<span id="agent-id">0000</span>-VANGUARD. Everything you've done so far. We keep track of your good deeds.
+                            Agent ID: #<span id="agent-id">0000</span>-NPC. Everything you've done so far. We keep
+                            track of your good deeds.
                         </p>
                     </div>
                     <div class="md:col-span-4 flex justify-start md:justify-end">
-                        <div class="brutalist-card p-sm flex items-center gap-sm bg-primary-container border-2 border-primary">
-                            <div class="w-12 h-12 rounded-full bg-forest-moss border border-primary flex items-center justify-center text-white font-cabin text-lg" id="header-profile-avatar">?</div>
+                        <div
+                            class="brutalist-card p-sm flex items-center gap-sm bg-primary-container border-2 border-primary">
+                            <div class="w-12 h-12 rounded-full bg-forest-moss border border-primary flex items-center justify-center text-white font-cabin text-lg"
+                                id="header-profile-avatar">?</div>
                             <div>
-                                <p class="font-mono text-[10px] text-on-primary-container/70" id="header-user-rank">Unranked</p>
-                                <p class="font-cabin text-xl text-on-primary-container" id="header-user-fullname">Unknown Citizen</p>
+                                <p class="font-mono text-[10px] text-on-primary-container/70" id="header-user-rank">
+                                    Unranked</p>
+                                <p class="font-cabin text-xl text-on-primary-container" id="header-user-fullname">
+                                    Unknown Citizen</p>
                             </div>
                         </div>
                     </div>
@@ -44,61 +55,88 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
 
-                    <div class="lg:col-span-4 space-y-gutter">
-                        <h3 class="font-cabin text-2xl text-primary border-b-2 border-dashed border-outline-variant pb-xs">Vitals</h3>
-                        
-                        <div class="brutalist-card p-md bg-white border-2 border-primary brutalist-shadow">
-                            <p class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider mb-xs">Issues Fixed</p>
-                            <p class="font-cabin text-5xl text-primary" id="vitals-resolved-count">0</p>
-                            <div class="mt-sm flex gap-1 opacity-70">
-                                <span class="material-symbols-outlined text-sm">brush</span>
-                                <span class="material-symbols-outlined text-sm">build</span>
-                                <span class="material-symbols-outlined text-sm">cleaning_services</span>
-                            </div>
+                    <div class="lg:col-span-4 space-y-6">
+                        <h3
+                            class="font-cabin text-3xl text-primary border-b-2 border-dashed border-outline-variant pb-2">
+                            Vitals</h3>
+
+                        <div
+                            class="glass-card p-6 border-2 border-primary brutalist-shadow hover-glow relative overflow-hidden">
+                            <p
+                                class="font-mono text-xs text-on-surface-variant uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <span class="text-xl">👷</span> Issues Fixed
+                            </p>
+                            <p class="font-cabin text-6xl text-primary" id="vitals-resolved-count">12</p>
+                            <p
+                                class="font-mono text-xs text-forest-moss font-bold mt-2 bg-green-50 w-fit px-2 py-1 rounded-full border border-forest-moss/20">
+                                +3 today</p>
                         </div>
 
-                        <div class="brutalist-card p-md bg-white border-2 border-primary brutalist-shadow">
-                            <div class="flex justify-between items-center mb-md">
-                                <p class="font-mono text-[10px] text-on-surface-variant uppercase">Progress to Elder</p>
+                        <div class="glass-card p-6 border-2 border-primary brutalist-shadow hover-glow">
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="font-mono text-[10px] text-on-surface-variant uppercase">Progress to GOAT</p>
                                 <p class="font-mono text-xs text-primary font-bold" id="progress-pct">82%</p>
                             </div>
-                            <div class="w-full h-6 border-2 border-primary bg-white relative overflow-hidden">
-                                <div id="progress-bar-fill" class="h-full bg-primary-container w-[82%] border-r-2 border-primary hatch-pattern"></div>
+                            <div
+                                class="w-full h-4 rounded-full border-2 border-primary bg-white relative overflow-hidden">
+                                <div id="progress-bar-fill"
+                                    class="h-full bg-gradient-to-r from-primary to-forest-moss w-[82%] transition-all duration-1000">
+                                </div>
                             </div>
-                            <p class="font-sans text-xs text-on-surface-variant mt-sm italic">
-                                "<span id="points-to-next">150</span> more impact points to unlock the Elder's Rank."
+                            <p class="font-sans text-xs text-on-surface-variant mt-4 italic">
+                                "<span id="points-to-next">150</span> more impact points to unlock the GOAT Rank."
                             </p>
                         </div>
 
-                        <div class="brutalist-card p-md bg-tertiary-container border-2 border-primary brutalist-shadow">
-                            <p class="font-mono text-[10px] text-on-tertiary-container uppercase mb-xs opacity-75">Good Citizen Points (GCP)</p>
-                            <p class="font-cabin text-5xl text-on-tertiary-container" id="vitals-gcp">0</p>
-                            <a href="/rewards.html" class="mt-sm block w-full py-1 text-center border-2 border-primary bg-white text-on-surface font-mono text-xs hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform active:translate-y-0 shadow-[2px_2px_0px_0px_#2d4a3e] font-bold">
-                                Redeem Points
+                        <div
+                            class="glass-card p-6 bg-gradient-to-br from-green-50 to-green-100 border-2 border-primary brutalist-shadow hover-glow text-center">
+                            <p class="font-mono text-xs text-primary uppercase mb-2 opacity-75 font-bold">Good Citizen Points (GCP)</p>
+                            <p class="font-cabin text-6xl text-forest-moss" id="vitals-gcp">0</p>
+                            <style>
+                                #redeem-btn:hover {
+                                    background-color: var(--color-primary, #468a5e) !important;
+                                    color: white !important;
+                                }
+                            </style>
+                            <a href="/rewards.html" id="redeem-btn"
+                                class="mt-4 block w-full py-2 rounded-xl text-center border-2 border-primary bg-white text-primary font-mono text-xs transition-all duration-300 font-bold">
+                                <span class="material-symbols-outlined text-sm align-middle">redeem</span> Redeem Points
                             </a>
                         </div>
                     </div>
 
                     <div class="lg:col-span-8 space-y-sm">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-dashed border-outline-variant pb-xs select-none">
-                            <h3 class="font-cabin text-2xl text-primary flex items-center gap-xs">
+                        <div class="flex flex-col border-b-2 border-dashed border-outline-variant pb-4 select-none">
+                            <h3 class="font-cabin text-2xl text-primary flex items-center gap-xs mb-4">
                                 <span class="material-symbols-outlined">auto_graph</span> Personal Impact Log
                             </h3>
-                            <div class="flex gap-2 mt-2 sm:mt-0">
-                                <button onclick="filterLogs('all')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-primary-container text-primary" id="log-filter-all">All</button>
-                                <button onclick="filterLogs('Water')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-white text-primary" id="log-filter-Water">Water</button>
-                                <button onclick="filterLogs('Garbage')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-white text-primary" id="log-filter-Garbage">Garbage</button>
-                                <button onclick="filterLogs('Roads')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-white text-primary" id="log-filter-Roads">Roads</button>
+                            <div class="flex gap-2 flex-wrap">
+                                <button onclick="filterLogs('all')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-primary text-white transition-colors hover:bg-forest-moss cursor-pointer"
+                                    id="log-filter-all">All</button>
+                                <button onclick="filterLogs('Water')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Water">Water</button>
+                                <button onclick="filterLogs('Garbage')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Garbage">Garbage</button>
+                                <button onclick="filterLogs('Roads')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Roads">Roads</button>
+                                <button onclick="filterLogs('Other')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Other">Other</button>
                             </div>
                         </div>
 
-                        <div id="log-list-container" class="space-y-sm">
-                            
+                        <div id="log-list-container" class="space-y-4">
+
                         </div>
 
-                        <a href="/report_problem.html" class="w-full flex items-center justify-center gap-sm brutalist-card p-md bg-primary text-on-primary font-bold shadow-[6px_6px_0px_0px_#2d4a3e] border-2 border-primary">
-                            <span class="material-symbols-outlined">add_circle</span>
-                            <span class="font-cabin text-2xl">LOG NEW ACTION</span>
+                        <a href="/report_problem.html"
+                            class="w-full mt-6 flex items-center justify-center gap-4 rounded-xl p-6 bg-gradient-to-r from-primary to-forest-moss text-white font-bold shadow-[0_15px_30px_rgba(70,138,94,0.4)] border-2 border-primary transition-all btn-ripple">
+                            <span class="material-symbols-outlined text-3xl">add</span>
+                            <span class="font-cabin text-4xl">LOG NEW ACTION</span>
                         </a>
                     </div>
 
@@ -109,12 +147,84 @@
 
     <anek-footer></anek-footer>
 
-    
+    <!-- Edit Modal -->
+    <div id="edit-modal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 hidden"
+        onclick="closeEditModal()">
+        <div class="bg-surface border-2 border-primary brutalist-shadow p-6 rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+            onclick="event.stopPropagation()">
+            <h3
+                class="font-cabin text-3xl text-primary mb-4 border-b-2 border-primary pb-2 flex justify-between items-center">
+                Edit Report
+                <button onclick="closeEditModal()"
+                    class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">close</button>
+            </h3>
+            <div id="edit-loading" class="hidden text-center py-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+            </div>
+            <form id="edit-issue-form" class="space-y-4 hidden" onsubmit="submitEdit(event)">
+                <input type="hidden" id="edit-issue-id">
+
+                <div class="space-y-1">
+                    <label class="font-mono text-xs text-primary font-bold uppercase">Title</label>
+                    <input type="text" id="edit-issue-title" required
+                        class="w-full bg-white border-2 border-primary p-2 font-sans text-sm focus:outline-none focus:border-forest-moss transition-colors">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-mono text-xs text-primary font-bold uppercase">Description</label>
+                    <textarea id="edit-issue-desc" required
+                        class="w-full bg-white border-2 border-primary p-2 font-sans text-sm min-h-[100px] resize-y focus:outline-none focus:border-forest-moss transition-colors"></textarea>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-mono text-xs text-primary font-bold uppercase">Category</label>
+                    <select id="edit-issue-category"
+                        class="w-full bg-white border-2 border-primary p-2 font-sans text-sm focus:outline-none focus:border-forest-moss transition-colors">
+                        <option value="Garbage">Garbage</option>
+                        <option value="Water">Water logging</option>
+                        <option value="Roads">Potholes / Bad Roads</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-mono text-xs text-primary font-bold uppercase">Media (Optional)</label>
+
+                    <div id="edit-issue-media-preview-container"
+                        class="hidden relative rounded overflow-hidden border-2 border-primary mb-2 bg-black/10">
+                        <img id="edit-issue-media-img" src="" alt="Issue Media" class="w-full h-40 object-cover hidden">
+                        <video id="edit-issue-media-vid" src="" controls
+                            class="w-full h-40 object-cover hidden"></video>
+                        <button type="button" onclick="removeEditMedia()"
+                            class="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full hover:bg-red-600 transition-colors shadow-md">
+                            <span class="material-symbols-outlined text-sm block">delete</span>
+                        </button>
+                    </div>
+
+                    <input type="file" id="edit-issue-media" accept="image/*,video/*" multiple
+                        class="w-full bg-white border-2 border-primary p-2 font-sans text-sm focus:outline-none focus:border-forest-moss transition-colors">
+                    <input type="hidden" id="edit-issue-remove-media" value="false">
+                </div>
+
+                <div class="flex gap-4 pt-4 mt-2">
+                    <button type="button" onclick="closeEditModal()"
+                        class="flex-1 px-4 py-3 bg-white border-2 border-primary text-primary font-bold font-mono text-xs transition-colors hover:bg-primary-container">CANCEL</button>
+                    <button type="submit" id="edit-submit-btn"
+                        class="flex-1 px-4 py-3 bg-primary border-2 border-primary text-white font-bold font-mono text-xs transition-colors hover:bg-forest-moss flex items-center justify-center gap-2">
+                        SAVE
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 
     <script type="module">
         // User session checks
         let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
-        
+
         let logs = [];
         let currentLogFilter = 'all';
 
@@ -147,7 +257,7 @@
                     const userRank = profileData.user.rank;
 
                     document.getElementById('vitals-gcp').innerText = gcp;
-                    
+
                     let progressPercent = Math.min(100, Math.floor((gcp / 300) * 100));
                     let pointsToNext = Math.max(0, 300 - gcp);
 
@@ -163,7 +273,7 @@
                 if (logsRes && logsRes.ok) {
                     const logsData = await logsRes.json();
                     logs = logsData.contributions;
-                    
+
                     const resolvedCount = logs.filter(l => l.activity.includes('Resolved') || l.activity.includes('Repaired') || l.status === 'Verified').length;
                     document.getElementById('vitals-resolved-count').innerText = resolvedCount;
 
@@ -184,8 +294,11 @@
 
             if (filteredLogs.length === 0) {
                 container.innerHTML = `
-                    <div class="bg-white border-2 border-primary border-dashed p-md text-center text-on-surface-variant font-sans text-xs select-none">
-                        Wow, such empty. Go do something!
+                    <div class="bg-white border-2 border-primary border-dashed p-8 rounded-xl text-center text-on-surface-variant font-sans flex flex-col items-center justify-center select-none min-h-[200px]">
+                        <span class="material-symbols-outlined text-4xl mb-4 text-green-500">eco</span>
+                        <p class="font-bold text-lg text-primary mb-2">No activities yet.</p>
+                        <p class="text-sm mb-6">Report your first issue to start earning points.</p>
+                        <a href="/report_problem.html" class="px-6 py-2 bg-primary text-white font-mono text-xs font-bold rounded-full transition-all">Report Issue</a>
                     </div>`;
                 return;
             }
@@ -214,7 +327,7 @@
                 }
 
                 const item = document.createElement('div');
-                item.className = 'brutalist-card p-sm bg-white border-2 border-primary flex gap-md items-start brutalist-shadow transition-all duration-300';
+                item.className = 'glass-card rounded-xl p-4 border-2 border-primary flex gap-4 items-start brutalist-shadow transition-all duration-300 hover-glow';
                 item.innerHTML = `
                     <div class="shrink-0 w-10 h-10 border border-primary flex items-center justify-center ${iconBg}">
                         <span class="material-symbols-outlined ${iconColor}">${icon}</span>
@@ -228,6 +341,7 @@
                             <span class="px-2 py-0.5 border border-outline-variant bg-surface-container text-[10px] font-mono uppercase">${log.category}</span>
                             <span class="px-2 py-0.5 border border-primary bg-primary-container text-[10px] font-mono uppercase font-bold text-on-primary-container">${log.points}</span>
                             <span class="text-[10px] font-mono text-forest-moss flex items-center"><span class="material-symbols-outlined text-[10px] font-bold">check</span> ${log.status}</span>
+                            ${log.issueId && log.activity.includes('Reported') ? `<button onclick="openEditModal('${log.issueId}')" class="ml-auto px-3 py-1 bg-white border border-primary text-primary hover:bg-primary hover:text-white transition-colors text-[10px] font-mono font-bold rounded-full">EDIT POST</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -244,18 +358,138 @@
             });
         }
 
-        window.filterLogs = function(category) {
+        window.filterLogs = function (category) {
             currentLogFilter = category;
             document.querySelectorAll('[id^="log-filter-"]').forEach(btn => {
-                btn.classList.remove('bg-primary-container', 'text-primary');
-                btn.classList.add('bg-white');
+                btn.classList.remove('bg-primary', 'text-white', 'hover:bg-forest-moss');
+                btn.classList.add('bg-white', 'text-primary', 'hover:bg-primary-container');
             });
-            document.getElementById(`log-filter-${category}`).classList.add('bg-primary-container', 'text-primary');
+            const activeBtn = document.getElementById(`log-filter-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-primary', 'hover:bg-primary-container');
+                activeBtn.classList.add('bg-primary', 'text-white', 'hover:bg-forest-moss');
+            }
             renderLogs();
         };
 
         // Load data on start
         loadProfileAndLogs();
+
+        // Edit Modal Logic
+        window.openEditModal = async function (issueId) {
+            const modal = document.getElementById('edit-modal');
+            const form = document.getElementById('edit-issue-form');
+            const loading = document.getElementById('edit-loading');
+
+            modal.classList.remove('hidden');
+            form.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            try {
+                const res = await apiFetch('/issues/my-reports');
+                if (res && res.ok) {
+                    const data = await res.json();
+                    const issue = data.issues.find(i => i.id === issueId);
+
+                    if (issue) {
+                        document.getElementById('edit-issue-id').value = issue.id;
+
+                        const txt = document.createElement('textarea');
+                        txt.innerHTML = issue.title;
+                        document.getElementById('edit-issue-title').value = txt.value;
+
+                        txt.innerHTML = issue.description;
+                        document.getElementById('edit-issue-desc').value = txt.value;
+
+                        document.getElementById('edit-issue-category').value = issue.category;
+                        document.getElementById('edit-issue-remove-media').value = 'false';
+                        document.getElementById('edit-issue-media').value = '';
+
+                        const mediaContainer = document.getElementById('edit-issue-media-preview-container');
+                        const img = document.getElementById('edit-issue-media-img');
+                        const vid = document.getElementById('edit-issue-media-vid');
+
+                        img.classList.add('hidden');
+                        vid.classList.add('hidden');
+
+                        if (issue.mediaUrl) {
+                            mediaContainer.classList.remove('hidden');
+                            if (issue.mediaType === 'video') {
+                                vid.src = issue.mediaUrl;
+                                vid.classList.remove('hidden');
+                            } else {
+                                img.src = issue.mediaUrl;
+                                img.classList.remove('hidden');
+                            }
+                        } else {
+                            mediaContainer.classList.add('hidden');
+                        }
+
+                        loading.classList.add('hidden');
+                        form.classList.remove('hidden');
+                    } else {
+                        alert('Could not load issue details.');
+                        closeEditModal();
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error loading issue.');
+                closeEditModal();
+            }
+        };
+
+        window.closeEditModal = function () {
+            document.getElementById('edit-modal').classList.add('hidden');
+        };
+
+        window.removeEditMedia = function () {
+            document.getElementById('edit-issue-media-preview-container').classList.add('hidden');
+            document.getElementById('edit-issue-remove-media').value = 'true';
+        };
+
+        window.submitEdit = async function (e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-issue-id').value;
+            const btn = document.getElementById('edit-submit-btn');
+            const originalText = btn.innerHTML;
+
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">refresh</span> SAVING...';
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('title', document.getElementById('edit-issue-title').value);
+            formData.append('description', document.getElementById('edit-issue-desc').value);
+            formData.append('category', document.getElementById('edit-issue-category').value);
+            formData.append('removeMedia', document.getElementById('edit-issue-remove-media').value);
+
+            const fileInput = document.getElementById('edit-issue-media');
+            if (fileInput.files.length > 0) {
+                formData.append('evidence', fileInput.files[0]);
+            }
+
+            try {
+                const res = await apiFetch(`/issues/${id}`, {
+                    method: 'PATCH',
+                    body: formData
+                });
+
+                if (res && res.ok) {
+                    loadProfileAndLogs();
+                    closeEditModal();
+                } else {
+                    const data = await res.json();
+                    alert(data.message || 'Error updating report');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Network error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        };
     </script>
 </body>
+
 </html>

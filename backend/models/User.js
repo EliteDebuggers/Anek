@@ -44,9 +44,9 @@ userSchema.index({ points: -1, username: 1 });
 
 // Virtual property to calculate user rank dynamically
 userSchema.virtual('rank').get(function() {
-  if (this.points > 300) return 'Vanguard Elder';
-  if (this.points >= 150) return 'Vanguard Rank II';
-  return 'Vanguard Rank I';
+  if (this.points > 300) return 'GOAT';
+  if (this.points >= 150) return 'Main Character';
+  return 'NPC';
 });
 
 const User = mongoose.model('User', userSchema);
