@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -31,95 +31,81 @@
 
         <anek-sidebar></anek-sidebar>
 
-        <main
-            class="flex-grow p-margin md:p-lg space-y-lg glass-card transition-all overflow-x-hidden">
-
-            <section class="flex flex-col md:flex-row md:items-end justify-between gap-md">
-                <div>
-                    <h1 class="font-cabin text-5xl md:text-6xl text-primary leading-none select-none">Local Impact
-                        Map</h1>
-                    <p
-                        class="font-sans text-sm text-on-surface-variant mt-4 border-l-4 border-primary pl-4 py-1 bg-white/90 font-medium">
-                        Your local neighborhood watch, but cooler. See what's broken and fix it.
+        <main class="flex-grow p-4 md:p-8 space-y-6 transition-all overflow-x-hidden animate-fade-in">
+            <!-- Hero Section -->
+            <section class="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-8 animate-slide-up">
+                <div class="max-w-xl">
+                    <h1 class="font-cabin text-6xl text-white font-bold leading-tight select-none flex items-center gap-4 drop-shadow-md">
+                        <span class="material-symbols-outlined text-5xl">map</span> Local Impact Map
+                    </h1>
+                    <p class="font-sans text-lg text-white/90 mt-6 border-l-4 border-primary pl-5 py-3 bg-black/30 backdrop-blur-md font-medium rounded-r-xl">
+                        Report civic issues. Track contributions. Earn citizen rewards. Improve your city.
                     </p>
-                </div>
-                <div class="flex gap-sm">
-                    <div class="brutalist-card brutalist-shadow p-sm bg-white border-2 border-primary min-w-[120px]">
-                        <p class="font-mono text-[10px] text-primary uppercase">Active Reports</p>
-                        <p class="font-cabin text-4xl text-primary mt-1" id="active-count">6</p>
+                    <div class="mt-8 flex gap-4">
+                        <button onclick="toggleMap()" id="toggle-map-btn"
+                            class="px-8 py-4 rounded-xl border border-primary/50 bg-primary text-white font-mono text-sm font-bold hover:bg-forest-moss transition-all duration-300 hover:shadow-[0_8px_20px_rgba(70,138,94,0.4)] flex items-center gap-2 btn-ripple">
+                            <span class="material-symbols-outlined text-lg">visibility_off</span> Hide Geographical Map
+                        </button>
                     </div>
-                    <div class="brutalist-card brutalist-shadow p-sm bg-white border-2 border-primary min-w-[120px]">
-                        <p class="font-mono text-[10px] text-secondary uppercase">Your GCP Balance</p>
-                        <p class="font-cabin text-4xl text-forest-moss mt-1" id="gcp-display">120</p>
+                </div>
+                <div class="flex gap-4 self-stretch md:self-auto">
+                    <div class="glass-card rounded-xl p-6 bg-red-900/40 border border-red-500/30 flex-1 min-w-[140px] text-center transition-all duration-300 flex flex-col justify-center">
+                        <p class="font-mono text-xs text-white/80 font-bold uppercase tracking-wider mb-2">Active Reports</p>
+                        <p class="font-cabin text-5xl text-white drop-shadow-md" id="active-count">0</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-6 bg-green-900/40 border border-green-500/30 flex-1 min-w-[140px] text-center transition-all duration-300 flex flex-col justify-center">
+                        <p class="font-mono text-xs text-white/80 font-bold uppercase tracking-wider mb-2">GCP Balance</p>
+                        <p class="font-cabin text-5xl text-white drop-shadow-md" id="gcp-display">0</p>
                     </div>
                 </div>
             </section>
 
-
-            <div class="flex justify-between items-center mb-md">
-                <button onclick="toggleMap()" id="toggle-map-btn"
-                    class="px-md py-sm border-2 border-primary bg-white text-primary font-mono text-xs font-bold hover:bg-primary-container transition-all brutalist-shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">map</span> Show Geographical Map
-                </button>
-            </div>
-            <section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
-
+            <!-- Map Section -->
+            <section class="w-full mb-12 animate-slide-up" style="animation-delay: 0.1s;">
                 <div id="map-container"
-                    class="hidden lg:col-span-7 brutalist-card brutalist-shadow min-h-[550px] overflow-hidden group flex-col border-2 border-primary">
-                    <div
-                        class="bg-surface-container px-md py-sm border-b-2 border-primary flex justify-between items-center">
-                        <h3 class="font-mono text-xs text-on-surface flex items-center gap-xs font-bold">
+                    class="flex w-full glass-card rounded-xl h-[450px] overflow-hidden group flex-col border border-white/10 transition-all duration-500 relative">
+                    <div class="bg-black/40 backdrop-blur-md px-6 py-4 border-b border-white/10 flex justify-between items-center absolute top-0 w-full z-10 pointer-events-none">
+                        <h3 class="font-mono text-sm text-white flex items-center gap-2 font-bold drop-shadow-md">
                             <span class="material-symbols-outlined text-primary">explore</span>
                             Geospatial Layer
                         </h3>
-                        <span
-                            class="px-2 py-0.5 border border-primary bg-white text-[10px] font-mono text-primary font-bold">ANEK_MAP_v1.0</span>
+                        <span class="px-2 py-1 rounded bg-primary/30 backdrop-blur text-[10px] font-mono text-white border border-primary/50 font-bold">ANEK_MAP_v1.0</span>
                     </div>
-                    <div id="leaflet-map" class="w-full h-full z-0 min-h-[500px] flex-grow"></div>
-
-                    <div
-                        class="absolute bottom-margin right-margin bg-white border-2 border-primary p-sm flex flex-col gap-xs brutalist-shadow z-10 select-none">
-                        <div class="flex items-center gap-xs">
-                            <div class="w-3 h-3 bg-error border border-primary"></div>
-                            <span class="text-[10px] font-mono text-on-surface font-bold">Roads/Infra</span>
+                    <div id="leaflet-map" class="w-full h-full z-0 flex-grow"></div>
+                    
+                    <div class="absolute bottom-6 right-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 p-4 flex flex-col gap-3 shadow-xl z-10 select-none">
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 bg-orange-500 rounded border border-white/20 shadow-sm flex items-center justify-center"><span class="material-symbols-outlined text-[12px] text-white">construction</span></div>
+                            <span class="text-xs font-mono text-white font-bold">Roads/Infra</span>
                         </div>
-                        <div class="flex items-center gap-xs">
-                            <div class="w-3 h-3 bg-yellow-500 border border-primary"></div>
-                            <span class="text-[10px] font-mono text-on-surface font-bold">Animals/Nature</span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 bg-red-500 rounded border border-white/20 shadow-sm flex items-center justify-center"><span class="material-symbols-outlined text-[12px] text-white">delete</span></div>
+                            <span class="text-xs font-mono text-white font-bold">Garbage</span>
                         </div>
-                        <div class="flex items-center gap-xs">
-                            <div class="w-3 h-3 bg-forest-moss border border-primary"></div>
-                            <span class="text-[10px] font-mono text-on-surface font-bold">Sanitation/Plastic</span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 bg-blue-500 rounded border border-white/20 shadow-sm flex items-center justify-center"><span class="material-symbols-outlined text-[12px] text-white">pets</span></div>
+                            <span class="text-xs font-mono text-white font-bold">Animals/Nature</span>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div id="feed-container" class="lg:col-span-12 max-w-5xl mx-auto w-full space-y-md">
-
-                    <div class="flex justify-between items-center px-xs select-none">
-                        <h2 class="font-cabin text-3xl text-primary">The Board</h2>
-                        <div class="flex gap-2">
-
-                            <button onclick="filterBoard('all')"
-                                class="px-2 py-1 border-2 border-primary text-xs font-mono bg-primary text-white font-bold hover:bg-primary-container hover:text-black transition-all shadow-[2px_2px_0px_0px_#2d4a3e]"
-                                id="filter-btn-all">All</button>
-                            <button onclick="filterBoard('Roads')"
-                                class="px-2 py-1 border-2 border-primary text-xs font-mono bg-white text-primary font-bold hover:bg-primary-container hover:text-black transition-all shadow-[2px_2px_0px_0px_#2d4a3e]"
-                                id="filter-btn-Roads">Roads</button>
-                            <button onclick="filterBoard('Garbage')"
-                                class="px-2 py-1 border-2 border-primary text-xs font-mono bg-white text-primary font-bold hover:bg-primary-container hover:text-black transition-all shadow-[2px_2px_0px_0px_#2d4a3e]"
-                                id="filter-btn-Garbage">Garbage</button>
-                            <button onclick="filterBoard('Animals')"
-                                class="px-2 py-1 border-2 border-primary text-xs font-mono bg-white text-primary font-bold hover:bg-primary-container hover:text-black transition-all shadow-[2px_2px_0px_0px_#2d4a3e]"
-                                id="filter-btn-Animals">Animals</button>
-                        </div>
-                    </div>
-
-                    <div id="board-feed" class="grid grid-cols-1 md:grid-cols-2 gap-md">
-
+            <!-- Board Section -->
+            <section id="feed-container" class="w-full space-y-8 animate-slide-up" style="animation-delay: 0.2s;">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center px-2 select-none gap-6">
+                    <h2 class="font-cabin text-4xl text-white font-bold flex items-center gap-3 drop-shadow-md">
+                        <span class="material-symbols-outlined text-4xl">list_alt</span> Recent Reports
+                    </h2>
+                    <div class="flex flex-wrap gap-2 bg-black/30 backdrop-blur-md p-1.5 rounded-xl border border-white/10">
+                        <button onclick="filterBoard('all')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-primary text-white font-bold hover:bg-forest-moss transition-all shadow-md" id="filter-btn-all">All</button>
+                        <button onclick="filterBoard('Roads')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-white/10 text-white font-bold hover:bg-white/20 transition-all flex items-center gap-1" id="filter-btn-Roads"><span class="material-symbols-outlined text-sm">construction</span> Roads</button>
+                        <button onclick="filterBoard('Garbage')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-white/10 text-white font-bold hover:bg-white/20 transition-all flex items-center gap-1" id="filter-btn-Garbage"><span class="material-symbols-outlined text-sm">delete</span> Garbage</button>
+                        <button onclick="filterBoard('Animals')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-white/10 text-white font-bold hover:bg-white/20 transition-all flex items-center gap-1" id="filter-btn-Animals"><span class="material-symbols-outlined text-sm">pets</span> Animals</button>
                     </div>
                 </div>
 
+                <div id="board-feed" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                </div>
             </section>
         </main>
     </div>
@@ -230,89 +216,115 @@
             // Update active count badge
             document.getElementById('active-count').innerText = issues.filter(i => i.status !== 'Completed').length;
 
+            // Add dynamic counts to buttons
+            document.getElementById('filter-btn-all').innerHTML = `All (${issues.length})`;
+            document.getElementById('filter-btn-Roads').innerHTML = `<span class="material-symbols-outlined text-sm align-middle mr-1">construction</span> Roads (${issues.filter(i => i.category === 'Roads').length})`;
+            document.getElementById('filter-btn-Garbage').innerHTML = `<span class="material-symbols-outlined text-sm align-middle mr-1">delete</span> Garbage (${issues.filter(i => i.category === 'Garbage').length})`;
+            document.getElementById('filter-btn-Animals').innerHTML = `<span class="material-symbols-outlined text-sm align-middle mr-1">pets</span> Animals (${issues.filter(i => i.category === 'Animals').length})`;
+
             if (filteredReports.length === 0) {
+                // Demo data fallback if empty
+                if (issues.length === 0 && currentFilter === 'all') {
+                    issues = [
+                        { id: 'demo1', title: 'Road Crack on Main St', category: 'Roads', status: 'Reported', author: 'demo_user', time: '2 mins ago', description: 'Large pothole near the central market causing traffic issues.', votes: 8, comments: [], location: { coordinates: [13.41, 52.52] } },
+                        { id: 'demo2', title: 'Garbage Overflow', category: 'Garbage', status: 'In Progress', author: 'eco_warrior', responsibleUser: 'city_cleaner', time: '10 mins ago', description: 'Trash overflow near sector 18 east entrance.', votes: 15, comments: [{id:'c1', author:'city_cleaner', text:'On my way to clear this!'}], location: { coordinates: [13.42, 52.51] } },
+                        { id: 'demo3', title: 'Broken Street Light', category: 'Roads', status: 'Completed', author: 'night_owl', time: 'Yesterday', description: 'The light is completely shattered, very dark at night.', votes: 24, comments: [], location: { coordinates: [13.40, 52.53] }, mediaUrl: 'https://images.unsplash.com/photo-1542385151-efd9000785a0?w=500&q=80' }
+                    ];
+                    renderFeed();
+                    return;
+                }
+                
                 feed.innerHTML = `
-                    <div class="bg-white border-2 border-primary border-dashed p-md text-center text-on-surface-variant font-sans text-sm h-full flex items-center justify-center min-h-[200px]">
-                        Looks like this place is clean. No reports here!
+                    <div class="col-span-full glass-card border border-white/10 p-12 rounded-xl text-center text-white/80 font-sans text-sm flex flex-col items-center justify-center min-h-[300px]">
+                        <span class="material-symbols-outlined text-7xl mb-6 drop-shadow-md text-green-400">eco</span>
+                        <p class="font-bold text-white text-2xl mb-2">Everything looks clean!</p>
+                        <p class="text-lg">No reports nearby in this category.</p>
                     </div>
                 `; return;
             }
 
-            filteredReports.forEach(issue => {
+            filteredReports.forEach((issue, index) => {
                 const article = document.createElement('article');
                 article.id = `issue-post-${issue.id}`;
-                article.className = `glass-card brutalist-shadow p-md border-2 border-primary transition-all duration-300 flex flex-col justify-between`;
+                article.className = `glass-card rounded-xl p-6 border border-white/10 transition-all duration-300 flex flex-col justify-between hover:border-primary/50 animate-slide-up group`;
+                article.style.animationDelay = `${0.1 * index}s`;
 
-                // Status styles
-                let statusClass = "bg-red-100 text-red-800 border-red-800";
-                if (issue.status === 'In Progress') statusClass = "bg-blue-100 text-blue-800 border-blue-800";
-                if (issue.status === 'Completed') statusClass = "bg-green-100 text-green-800 border-green-800";
+                // Status & Category styles
+                let statusClass = "bg-red-500/20 text-red-300 border-red-500/50";
+                let catIcon = "construction";
+                let catColor = "bg-orange-500";
+                
+                if (issue.status === 'In Progress') statusClass = "bg-blue-500/20 text-blue-300 border-blue-500/50";
+                if (issue.status === 'Completed') statusClass = "bg-green-500/20 text-green-300 border-green-500/50";
+
+                if (issue.category === 'Garbage') { catIcon = "delete"; catColor = "bg-red-500"; }
+                if (issue.category === 'Animals') { catIcon = "pets"; catColor = "bg-blue-500"; }
 
                 let takeActionBtn = '';
                 if (issue.status === 'Reported') {
-                    takeActionBtn = `<button onclick="takeResponsibility('${issue.id}')" class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold brutalist-button-hover bg-primary text-on-primary">TAKE RESPONSIBILITY</button>`;
+                    takeActionBtn = `<button onclick="takeResponsibility('${issue.id}')" class="px-3 py-1.5 rounded-lg border border-primary bg-primary/80 text-white text-[10px] font-mono font-bold hover:bg-primary transition-all">TAKE RESPONSIBILITY</button>`;
                 } else if (issue.status === 'In Progress') {
                     if (issue.responsibleUser === currentUser.username) {
                         takeActionBtn = `
                             <div class="flex gap-2">
-                                <button onclick="dropResponsibility('${issue.id}')" class="px-sm py-1 border-2 border-error text-[10px] font-mono font-bold brutalist-button-hover bg-white text-error hover:bg-error hover:text-white transition-all">DROP RESPONSIBILITY</button>
-                                <button onclick="completeIssue('${issue.id}')" class="px-sm py-1 border-2 border-forest-moss text-[10px] font-mono font-bold brutalist-button-hover bg-forest-moss text-white">MARK AS RESOLVED</button>
+                                <button onclick="dropResponsibility('${issue.id}')" class="px-3 py-1.5 rounded-lg border border-red-500/50 bg-red-500/20 text-red-300 text-[10px] font-mono font-bold hover:bg-red-500/40 transition-all">DROP</button>
+                                <button onclick="completeIssue('${issue.id}')" class="px-3 py-1.5 rounded-lg border border-green-500/50 bg-green-500/20 text-green-300 text-[10px] font-mono font-bold hover:bg-green-500/40 transition-all">MARK RESOLVED</button>
                             </div>
                         `;
                     } else {
-                        takeActionBtn = `<span class="text-[10px] font-mono text-on-surface-variant italic">Assigned to @${issue.responsibleUser}</span>`;
+                        takeActionBtn = `<span class="text-[10px] font-mono text-white/50 italic">Assigned to @${issue.responsibleUser}</span>`;
                     }
                 } else if (issue.status === 'Completed') {
-                    takeActionBtn = `<span class="text-[10px] font-mono text-forest-moss font-bold flex items-center gap-xs"><span class="material-symbols-outlined text-sm">verified</span> Resolved & Verified</span>`;
+                    takeActionBtn = `<span class="text-[10px] font-mono text-green-400 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-sm">verified</span> Verified</span>`;
                 }
 
                 article.innerHTML = `
-                    <header class="flex justify-between items-start mb-sm select-none">
-                        <div class="flex gap-2">
-                            <div class="w-8 h-8 rounded-full border-2 border-primary bg-primary-container flex items-center justify-center font-cabin text-base text-primary select-none font-bold">
-                                ${issue.author.charAt(0).toUpperCase()}
+                    <header class="flex justify-between items-start mb-4 select-none">
+                        <div class="flex gap-3">
+                            <div class="w-10 h-10 rounded-full border border-white/20 shadow-md flex items-center justify-center font-cabin text-white font-bold ${catColor}">
+                                <span class="material-symbols-outlined text-xl">${catIcon}</span>
                             </div>
                             <div>
-                                <h4 class="font-cabin text-xl text-primary leading-tight">${issue.title}</h4>
-                                <p class="font-mono text-[10px] text-on-surface-variant">@${issue.author} · ${issue.time}</p>
+                                <h4 class="font-cabin text-2xl text-white leading-tight drop-shadow-sm">${issue.title}</h4>
+                                <p class="font-mono text-xs text-white/60 mt-1">@${issue.author} · ${issue.time}</p>
                             </div>
                         </div>
-                        <span class="px-1.5 py-0.5 border text-[10px] font-mono uppercase font-bold ${statusClass}">${issue.status}</span>
+                        <span class="px-2 py-1 rounded-md border text-[10px] font-mono uppercase font-bold ${statusClass}">${issue.status}</span>
                     </header>
-                    <div class="font-sans text-xs text-on-surface mb-md">
+                    <div class="font-sans text-sm text-white/90 mb-6 leading-relaxed">
                         ${issue.description}
                     </div>
                     
                     ${(issue.status === 'Completed' || issue.mediaUrl) ? `
-                    <div class="w-full h-24 overflow-hidden border border-primary mb-md select-none">
-                        <img class="w-full h-full object-cover grayscale opacity-70" src="${issue.mediaUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAnijSZyaVNoqF7q4VH4pmtKa2eCsEHhdzISrzDNRK-nssrVCnG5QyiB5WRdmNq-Eb-fDN-4Hu1Fi-_lbmtHCTMuyugnUttkbScra7JOipo_9SZYaKtTi6C6yBfMgy2gCvgfxaYcLq-PatgYup8_l12NX6vvKRGeprEZaEvEpCJeLBomU3O5OM8nlL-2c0DtzsK3CjB4IXKzWvYh-LXFGTNqJGaSEJO5AbyRL3CtlmMVN6LtjDFSTk52WpEhjuxq5Gll6aWeHzAJdo'}"/>
+                    <div class="w-full h-32 rounded-lg overflow-hidden border border-white/10 mb-6 select-none shadow-inner">
+                        <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" src="${issue.mediaUrl || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?w=500&q=80'}"/>
                     </div>` : ''}
 
-                    <div class="border-t border-dashed border-outline-variant pt-sm flex justify-between items-center select-none">
-                        <div class="flex gap-md">
-                            <button onclick="upvoteIssue('${issue.id}')" class="flex items-center gap-xs ${issue.isVotedByMe ? 'text-primary' : 'text-on-surface-variant'} hover:text-primary transition-colors">
-                                <span class="material-symbols-outlined text-sm">thumb_up</span>
-                                <span class="font-mono text-xs font-bold">${issue.votes}</span>
+                    <div class="border-t border-white/10 pt-4 flex justify-between items-center select-none">
+                        <div class="flex gap-4">
+                            <button onclick="upvoteIssue('${issue.id}')" class="flex items-center gap-1.5 ${issue.isVotedByMe ? 'text-primary' : 'text-white/60'} hover:text-primary transition-colors hover:scale-110">
+                                <span class="material-symbols-outlined text-base">thumb_up</span>
+                                <span class="font-mono text-sm font-bold">${issue.votes}</span>
                             </button>
-                            <button onclick="toggleInlineChat('${issue.id}')" class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors">
-                                <span class="material-symbols-outlined text-sm">chat_bubble</span>
-                                <span class="font-mono text-xs font-bold">${issue.comments.length}</span>
+                            <button onclick="toggleInlineChat('${issue.id}')" class="flex items-center gap-1.5 text-white/60 hover:text-primary transition-colors hover:scale-110">
+                                <span class="material-symbols-outlined text-base">chat_bubble</span>
+                                <span class="font-mono text-sm font-bold">${issue.comments.length}</span>
                             </button>
                         </div>
                         ${takeActionBtn}
                     </div>
                     
-                    <div id="chat-inline-${issue.id}" class="hidden flex-col border-t-2 border-primary bg-surface-container-lowest">
-                        <div class="flex justify-between items-center p-2 border-b border-primary border-dashed bg-primary-container/20">
-                            <span class="font-mono text-[10px] font-bold text-primary uppercase tracking-wider">Replies</span>
-                            <button onclick="toggleInlineChat('${issue.id}')" class="text-on-surface-variant hover:text-red-600 transition-colors material-symbols-outlined text-sm">close</button>
+                    <div id="chat-inline-${issue.id}" class="hidden flex-col border-t border-white/10 mt-4 pt-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-mono text-[10px] font-bold text-white/60 uppercase tracking-wider">Replies</span>
+                            <button onclick="toggleInlineChat('${issue.id}')" class="text-white/40 hover:text-white transition-colors material-symbols-outlined text-sm">close</button>
                         </div>
-                        <div id="chat-messages-${issue.id}" class="p-sm max-h-60 overflow-y-auto space-y-sm">
+                        <div id="chat-messages-${issue.id}" class="max-h-60 overflow-y-auto space-y-3 mb-3 pr-2 custom-scrollbar">
                             <!-- Messages -->
                         </div>
-                        <div class="p-sm border-t border-primary flex gap-2">
-                            <input type="text" id="chat-input-${issue.id}" class="flex-grow border border-primary px-sm py-1 font-sans text-xs focus:outline-none focus:border-primary" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat('${issue.id}')">
-                            <button onclick="sendInlineChat('${issue.id}')" class="px-sm py-1 bg-primary text-white font-mono text-[10px] font-bold border-2 border-primary hover:bg-forest-moss transition-colors">REPLY</button>
+                        <div class="flex gap-2">
+                            <input type="text" id="chat-input-${issue.id}" class="flex-grow bg-black/30 border border-white/10 rounded-lg px-3 py-2 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat('${issue.id}')">
+                            <button onclick="sendInlineChat('${issue.id}')" class="px-4 py-2 bg-primary text-white rounded-lg font-mono text-xs font-bold hover:bg-forest-moss transition-colors">REPLY</button>
                         </div>
                     </div>
                 `;
@@ -553,11 +565,14 @@
         window.filterBoard = function (category) {
             currentFilter = category;
             document.querySelectorAll('[id^="filter-btn-"]').forEach(btn => {
-                btn.classList.remove('bg-primary', 'text-white', 'bg-primary-container');
-                btn.classList.add('bg-white', 'text-primary');
+                btn.classList.remove('bg-primary', 'shadow-md');
+                btn.classList.add('bg-white/10');
             });
-            document.getElementById(`filter-btn-${category}`).classList.remove('bg-white', 'text-primary');
-            document.getElementById(`filter-btn-${category}`).classList.add('bg-primary', 'text-white');
+            const activeBtn = document.getElementById(`filter-btn-${category}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-white/10');
+                activeBtn.classList.add('bg-primary', 'shadow-md');
+            }
             renderFeed();
         };
 
@@ -581,28 +596,23 @@
             }
         };
 
-        let mapVisible = false;
+        let mapVisible = true;
         window.toggleMap = function () {
             mapVisible = !mapVisible;
             const mapContainer = document.getElementById('map-container');
-            const feedContainer = document.getElementById('feed-container');
             const toggleBtn = document.getElementById('toggle-map-btn');
 
             if (mapVisible) {
                 mapContainer.classList.remove('hidden');
                 mapContainer.classList.add('flex');
-                feedContainer.className = 'lg:col-span-5 space-y-md w-full';
-                document.getElementById('board-feed').className = 'space-y-sm';
-                toggleBtn.innerHTML = '<span class="material-symbols-outlined text-sm">visibility_off</span> Hide Geographical Map';
+                toggleBtn.innerHTML = '<span class="material-symbols-outlined text-lg">visibility_off</span> Hide Geographical Map';
                 setTimeout(() => {
                     if (leafletMap) leafletMap.invalidateSize();
                 }, 100);
             } else {
                 mapContainer.classList.add('hidden');
                 mapContainer.classList.remove('flex');
-                feedContainer.className = 'lg:col-span-12 max-w-5xl mx-auto w-full space-y-md';
-                document.getElementById('board-feed').className = 'grid grid-cols-1 md:grid-cols-2 gap-md';
-                toggleBtn.innerHTML = '<span class="material-symbols-outlined text-sm">map</span> Show Geographical Map';
+                toggleBtn.innerHTML = '<span class="material-symbols-outlined text-lg">map</span> Show Geographical Map';
             }
         };
 
@@ -712,9 +722,28 @@
             container.scrollTop = container.scrollHeight;
         }
 
+        // Onboarding Welcome
+        function showWelcomeToast() {
+            if (!localStorage.getItem('anek_onboarded_v2')) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-6 right-6 glass-card rounded-xl p-6 z-50 animate-slide-up border border-primary/50 shadow-2xl max-w-sm';
+                toast.innerHTML = `
+                    <h4 class="font-cabin text-2xl text-white mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-3xl text-yellow-400">waving_hand</span> Welcome to Anēk!</h4>
+                    <ol class="list-decimal list-inside font-sans text-sm text-white/90 space-y-3 mb-6 pl-2">
+                        <li><strong>Report</strong> local civic issues.</li>
+                        <li><strong>Explore</strong> the interactive map.</li>
+                        <li><strong>Earn</strong> citizen rewards.</li>
+                    </ol>
+                    <button class="w-full px-4 py-3 bg-primary text-white font-mono text-sm font-bold rounded-lg hover:bg-forest-moss transition-colors btn-ripple" onclick="this.parentElement.remove(); localStorage.setItem('anek_onboarded_v2', 'true');">LET'S GO</button>
+                `;
+                document.body.appendChild(toast);
+            }
+        }
+
         // Start initialization
         loadUserProfile();
         getUserLocation();
+        showWelcomeToast();
     </script>
 
 

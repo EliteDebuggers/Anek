@@ -286,35 +286,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 import './components.js';
 
-window.toggleDarkMode = function() {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('anek_dark_mode', isDark);
-    const icon = document.getElementById('dark-mode-icon');
-    if (icon) {
-        icon.innerText = isDark ? 'light_mode' : 'dark_mode';
-    }
-};
-
 window.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('anek_dark_mode') === 'true') {
-        document.documentElement.classList.add('dark');
-    }
-
     const header = document.querySelector('header');
     if (header) {
-        let headerActionsContainer = header.children[header.children.length - 1];
-        if (!headerActionsContainer || !headerActionsContainer.classList.contains('flex')) {
-             headerActionsContainer = header;
-        }
-        
-        if (headerActionsContainer) {
-            const darkModeBtn = document.createElement('button');
-            darkModeBtn.className = "ml-4 p-2 flex items-center justify-center group";
-            darkModeBtn.onclick = window.toggleDarkMode;
-            const isDark = document.documentElement.classList.contains('dark');
-            darkModeBtn.innerHTML = `<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" id="dark-mode-icon">${isDark ? 'light_mode' : 'dark_mode'}</span>`;
-            headerActionsContainer.appendChild(darkModeBtn);
-        }
 
         header.classList.add('transition-transform', 'duration-300');
         

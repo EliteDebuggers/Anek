@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Anek | Impact Log - My Contributions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Manrope:wght@200..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Manrope:wght@200..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
     <script type="module" src="/src/main.js"></script>
 </head>
+
 <body
     class="bg-background text-on-surface selection:bg-primary selection:text-on-primary min-h-screen flex flex-col transition-colors duration-500 relative">
 
@@ -18,25 +24,30 @@
     <anek-header></anek-header>
 
     <div class="flex flex-1">
-        
+
         <anek-sidebar></anek-sidebar>
 
-        <main class="flex-grow overflow-y-auto glass-card px-margin py-lg pb-xl md:pb-lg">
+        <main class="flex-grow overflow-y-auto px-margin py-lg pb-xl md:pb-lg">
             <div class="max-w-6xl mx-auto space-y-lg">
 
                 <section class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
                     <div class="md:col-span-8">
                         <h2 class="font-cabin text-5xl md:text-6xl text-primary mb-xs">My Quests / Activity</h2>
                         <p class="font-sans text-sm text-on-surface-variant max-w-xl">
-                            Agent ID: #<span id="agent-id">0000</span>-VANGUARD. Everything you've done so far. We keep track of your good deeds.
+                            Agent ID: #<span id="agent-id">0000</span>-NPC. Everything you've done so far. We keep
+                            track of your good deeds.
                         </p>
                     </div>
                     <div class="md:col-span-4 flex justify-start md:justify-end">
-                        <div class="brutalist-card p-sm flex items-center gap-sm bg-primary-container border-2 border-primary">
-                            <div class="w-12 h-12 rounded-full bg-forest-moss border border-primary flex items-center justify-center text-white font-cabin text-lg" id="header-profile-avatar">?</div>
+                        <div
+                            class="brutalist-card p-sm flex items-center gap-sm bg-primary-container border-2 border-primary">
+                            <div class="w-12 h-12 rounded-full bg-forest-moss border border-primary flex items-center justify-center text-white font-cabin text-lg"
+                                id="header-profile-avatar">?</div>
                             <div>
-                                <p class="font-mono text-[10px] text-on-primary-container/70" id="header-user-rank">Unranked</p>
-                                <p class="font-cabin text-xl text-on-primary-container" id="header-user-fullname">Unknown Citizen</p>
+                                <p class="font-mono text-[10px] text-on-primary-container/70" id="header-user-rank">
+                                    Unranked</p>
+                                <p class="font-cabin text-xl text-on-primary-container" id="header-user-fullname">
+                                    Unknown Citizen</p>
                             </div>
                         </div>
                     </div>
@@ -44,61 +55,82 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
 
-                    <div class="lg:col-span-4 space-y-gutter">
-                        <h3 class="font-cabin text-2xl text-primary border-b-2 border-dashed border-outline-variant pb-xs">Vitals</h3>
-                        
-                        <div class="brutalist-card p-md bg-white border-2 border-primary brutalist-shadow">
-                            <p class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider mb-xs">Issues Fixed</p>
-                            <p class="font-cabin text-5xl text-primary" id="vitals-resolved-count">0</p>
-                            <div class="mt-sm flex gap-1 opacity-70">
-                                <span class="material-symbols-outlined text-sm">brush</span>
-                                <span class="material-symbols-outlined text-sm">build</span>
-                                <span class="material-symbols-outlined text-sm">cleaning_services</span>
-                            </div>
+                    <div class="lg:col-span-4 space-y-6">
+                        <h3
+                            class="font-cabin text-3xl text-primary border-b-2 border-dashed border-outline-variant pb-2">
+                            Vitals</h3>
+
+                        <div
+                            class="glass-card p-6 border-2 border-primary brutalist-shadow hover-glow relative overflow-hidden">
+                            <p
+                                class="font-mono text-xs text-on-surface-variant uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <span class="text-xl">👷</span> Issues Fixed</p>
+                            <p class="font-cabin text-6xl text-primary" id="vitals-resolved-count">12</p>
+                            <p
+                                class="font-mono text-xs text-forest-moss font-bold mt-2 bg-green-50 w-fit px-2 py-1 rounded-full border border-forest-moss/20">
+                                +3 today</p>
                         </div>
 
-                        <div class="brutalist-card p-md bg-white border-2 border-primary brutalist-shadow">
-                            <div class="flex justify-between items-center mb-md">
-                                <p class="font-mono text-[10px] text-on-surface-variant uppercase">Progress to Elder</p>
+                        <div class="glass-card p-6 border-2 border-primary brutalist-shadow hover-glow">
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="font-mono text-[10px] text-on-surface-variant uppercase">Progress to GOAT</p>
                                 <p class="font-mono text-xs text-primary font-bold" id="progress-pct">82%</p>
                             </div>
-                            <div class="w-full h-6 border-2 border-primary bg-white relative overflow-hidden">
-                                <div id="progress-bar-fill" class="h-full bg-primary-container w-[82%] border-r-2 border-primary hatch-pattern"></div>
+                            <div
+                                class="w-full h-4 rounded-full border-2 border-primary bg-white relative overflow-hidden">
+                                <div id="progress-bar-fill"
+                                    class="h-full bg-gradient-to-r from-primary to-forest-moss w-[82%] transition-all duration-1000">
+                                </div>
                             </div>
-                            <p class="font-sans text-xs text-on-surface-variant mt-sm italic">
-                                "<span id="points-to-next">150</span> more impact points to unlock the Elder's Rank."
+                            <p class="font-sans text-xs text-on-surface-variant mt-4 italic">
+                                "<span id="points-to-next">150</span> more impact points to unlock the GOAT Rank."
                             </p>
                         </div>
 
-                        <div class="brutalist-card p-md bg-tertiary-container border-2 border-primary brutalist-shadow">
-                            <p class="font-mono text-[10px] text-on-tertiary-container uppercase mb-xs opacity-75">Good Citizen Points (GCP)</p>
-                            <p class="font-cabin text-5xl text-on-tertiary-container" id="vitals-gcp">0</p>
-                            <a href="/rewards.html" class="mt-sm block w-full py-1 text-center border-2 border-primary bg-white text-on-surface font-mono text-xs hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform active:translate-y-0 shadow-[2px_2px_0px_0px_#2d4a3e] font-bold">
-                                Redeem Points
+                        <div
+                            class="glass-card p-6 bg-gradient-to-br from-green-50 to-green-100 border-2 border-primary brutalist-shadow hover-glow text-center">
+                            <p class="font-mono text-xs text-white uppercase mb-2 opacity-75 font-bold">Good Citizen
+                                Points (GCP)</p>
+                            <p class="font-cabin text-6xl text-forest-moss" id="vitals-gcp">0</p>
+                            <a href="/rewards.html"
+                                class="mt-4 block w-full py-2 rounded-xl text-center border-2 border-primary bg-white text-primary font-mono text-xs transition-all font-bold">
+                                <span class="material-symbols-outlined text-sm align-middle">redeem</span> Redeem Points
                             </a>
                         </div>
                     </div>
 
                     <div class="lg:col-span-8 space-y-sm">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-dashed border-outline-variant pb-xs select-none">
-                            <h3 class="font-cabin text-2xl text-primary flex items-center gap-xs">
+                        <div class="flex flex-col border-b-2 border-dashed border-outline-variant pb-4 select-none">
+                            <h3 class="font-cabin text-2xl text-primary flex items-center gap-xs mb-4">
                                 <span class="material-symbols-outlined">auto_graph</span> Personal Impact Log
                             </h3>
-                            <div class="flex gap-2 mt-2 sm:mt-0">
-                                <button onclick="filterLogs('all')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-primary-container text-primary" id="log-filter-all">All</button>
-                                <button onclick="filterLogs('Water')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-white text-primary" id="log-filter-Water">Water</button>
-                                <button onclick="filterLogs('Garbage')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-white text-primary" id="log-filter-Garbage">Garbage</button>
-                                <button onclick="filterLogs('Roads')" class="px-2 py-0.5 border border-primary text-[10px] font-mono font-bold bg-white text-primary" id="log-filter-Roads">Roads</button>
+                            <div class="flex gap-2 flex-wrap">
+                                <button onclick="filterLogs('all')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-primary text-white transition-colors hover:bg-forest-moss cursor-pointer"
+                                    id="log-filter-all">All</button>
+                                <button onclick="filterLogs('Water')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Water">Water</button>
+                                <button onclick="filterLogs('Garbage')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Garbage">Garbage</button>
+                                <button onclick="filterLogs('Roads')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Roads">Roads</button>
+                                <button onclick="filterLogs('Other')"
+                                    class="px-4 py-1.5 border-2 border-primary text-xs font-mono font-bold bg-white text-primary transition-colors hover:bg-primary-container cursor-pointer"
+                                    id="log-filter-Other">Other</button>
                             </div>
                         </div>
 
-                        <div id="log-list-container" class="space-y-sm">
-                            
+                        <div id="log-list-container" class="space-y-4">
+
                         </div>
 
-                        <a href="/report_problem.html" class="w-full flex items-center justify-center gap-sm brutalist-card p-md bg-primary text-on-primary font-bold shadow-[6px_6px_0px_0px_#2d4a3e] border-2 border-primary">
-                            <span class="material-symbols-outlined">add_circle</span>
-                            <span class="font-cabin text-2xl">LOG NEW ACTION</span>
+                        <a href="/report_problem.html"
+                            class="w-full mt-6 flex items-center justify-center gap-4 rounded-xl p-6 bg-gradient-to-r from-primary to-forest-moss text-white font-bold shadow-[0_15px_30px_rgba(70,138,94,0.4)] border-2 border-primary transition-all btn-ripple">
+                            <span class="material-symbols-outlined text-3xl">add</span>
+                            <span class="font-cabin text-4xl">LOG NEW ACTION</span>
                         </a>
                     </div>
 
@@ -109,12 +141,12 @@
 
     <anek-footer></anek-footer>
 
-    
+
 
     <script type="module">
         // User session checks
         let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
-        
+
         let logs = [];
         let currentLogFilter = 'all';
 
@@ -147,7 +179,7 @@
                     const userRank = profileData.user.rank;
 
                     document.getElementById('vitals-gcp').innerText = gcp;
-                    
+
                     let progressPercent = Math.min(100, Math.floor((gcp / 300) * 100));
                     let pointsToNext = Math.max(0, 300 - gcp);
 
@@ -163,7 +195,7 @@
                 if (logsRes && logsRes.ok) {
                     const logsData = await logsRes.json();
                     logs = logsData.contributions;
-                    
+
                     const resolvedCount = logs.filter(l => l.activity.includes('Resolved') || l.activity.includes('Repaired') || l.status === 'Verified').length;
                     document.getElementById('vitals-resolved-count').innerText = resolvedCount;
 
@@ -184,8 +216,11 @@
 
             if (filteredLogs.length === 0) {
                 container.innerHTML = `
-                    <div class="bg-white border-2 border-primary border-dashed p-md text-center text-on-surface-variant font-sans text-xs select-none">
-                        Wow, such empty. Go do something!
+                    <div class="bg-white border-2 border-primary border-dashed p-8 rounded-xl text-center text-on-surface-variant font-sans flex flex-col items-center justify-center select-none min-h-[200px]">
+                        <span class="material-symbols-outlined text-4xl mb-4 text-green-500">eco</span>
+                        <p class="font-bold text-lg text-primary mb-2">No activities yet.</p>
+                        <p class="text-sm mb-6">Report your first issue to start earning points.</p>
+                        <a href="/report_problem.html" class="px-6 py-2 bg-primary text-white font-mono text-xs font-bold rounded-full transition-all">Report Issue</a>
                     </div>`;
                 return;
             }
@@ -214,7 +249,7 @@
                 }
 
                 const item = document.createElement('div');
-                item.className = 'brutalist-card p-sm bg-white border-2 border-primary flex gap-md items-start brutalist-shadow transition-all duration-300';
+                item.className = 'glass-card rounded-xl p-4 border-2 border-primary flex gap-4 items-start brutalist-shadow transition-all duration-300 hover-glow';
                 item.innerHTML = `
                     <div class="shrink-0 w-10 h-10 border border-primary flex items-center justify-center ${iconBg}">
                         <span class="material-symbols-outlined ${iconColor}">${icon}</span>
@@ -244,13 +279,17 @@
             });
         }
 
-        window.filterLogs = function(category) {
+        window.filterLogs = function (category) {
             currentLogFilter = category;
             document.querySelectorAll('[id^="log-filter-"]').forEach(btn => {
-                btn.classList.remove('bg-primary-container', 'text-primary');
-                btn.classList.add('bg-white');
+                btn.classList.remove('bg-primary', 'text-white', 'hover:bg-forest-moss');
+                btn.classList.add('bg-white', 'text-primary', 'hover:bg-primary-container');
             });
-            document.getElementById(`log-filter-${category}`).classList.add('bg-primary-container', 'text-primary');
+            const activeBtn = document.getElementById(`log-filter-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-primary', 'hover:bg-primary-container');
+                activeBtn.classList.add('bg-primary', 'text-white', 'hover:bg-forest-moss');
+            }
             renderLogs();
         };
 
@@ -258,4 +297,5 @@
         loadProfileAndLogs();
     </script>
 </body>
+
 </html>

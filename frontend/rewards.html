@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -27,7 +27,7 @@
 
         <anek-sidebar></anek-sidebar>
 
-        <main class="flex-grow px-margin py-lg max-w-[1600px] mx-auto min-h-screen glass-card" id="main-content">
+        <main class="flex-grow px-margin py-lg max-w-[1600px] mx-auto min-h-screen" id="main-content">
 
             <section class="mb-xl">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
@@ -41,11 +41,11 @@
                         </p>
                     </div>
                     <div
-                        class="brutalist-card brutalist-shadow p-sm bg-yellow-400 text-black flex flex-col items-center min-w-[160px] border-2 border-black">
-                        <p class="font-mono text-[10px] uppercase font-bold tracking-wider">Current Balance
-                        </p>
-                        <p class="font-cabin text-3xl mt-1"><span id="gcp-balance-display">120</span> <span
-                                class="text-xs font-mono font-bold uppercase">GCP</span></p>
+                        class="glass-card p-6 bg-gradient-to-br from-green-50 to-green-100 text-forest-moss flex flex-col items-center min-w-[200px] border-2 border-primary brutalist-shadow hover-glow relative overflow-hidden">
+                        <p class="font-mono text-xs uppercase font-bold tracking-wider relative z-10">Current Balance</p>
+                        <p class="font-cabin text-6xl mt-2 relative z-10"><span id="gcp-balance-display">120</span> <span
+                                class="text-xl font-mono font-bold uppercase text-primary">GCP</span></p>
+                        <div class="absolute inset-0 bg-white/20 hatch-pattern opacity-50 pointer-events-none"></div>
                     </div>
                 </div>
             </section>
@@ -55,64 +55,64 @@
                 <div class="w-full lg:w-[40%] flex flex-col gap-gutter">
 
                     <div
-                        class="luminous-paper bg-white text-black p-md paper-cutout relative overflow-hidden select-none border-2 border-black brutalist-shadow">
-                        <div class="hatch-bg absolute inset-0 opacity-20 pointer-events-none"></div>
+                        class="glass-card p-6 relative overflow-hidden select-none border-2 border-primary brutalist-shadow hover-glow">
+                        <div class="hatch-pattern absolute inset-0 opacity-10 pointer-events-none"></div>
                         <div class="relative z-10">
-                            <div class="flex items-center gap-xs mb-sm">
+                            <div class="flex items-center gap-2 mb-4">
                                 <span
-                                    class="bg-primary text-on-primary px-2 py-0.5 font-mono text-[10px] uppercase border-2 border-primary font-bold">Active
-                                    Status</span>
+                                    class="bg-primary text-white px-3 py-1 font-mono text-xs uppercase border-2 border-primary font-bold rounded-full shadow-[0_4px_10px_rgba(70,138,94,0.4)] animate-pulse">
+                                    ● Active Status</span>
                             </div>
-                            <h3 class="font-cabin text-3xl leading-tight mb-xs" id="user-current-rank">
+                            <h3 class="font-cabin text-4xl leading-tight mb-2 text-primary" id="user-current-rank">
                                 Vanguard Rank II</h3>
-                            <p class="font-sans text-xs mt-2 border-l-2 border-black pl-3 italic text-gray-700">
+                            <p class="font-sans text-sm mt-4 border-l-2 border-primary pl-3 italic text-on-surface-variant">
                                 Active citizen, planting seeds of change and resolving local problems.
                             </p>
                         </div>
-                        <div class="flex items-center gap-md mt-lg relative z-10">
+                        <div class="flex items-center gap-4 mt-8 relative z-10">
                             <div class="flex flex-col w-full">
-                                <span class="font-mono text-[10px] uppercase font-bold text-gray-800">Next Rank
+                                <span class="font-mono text-xs uppercase font-bold text-on-surface-variant">Next Rank
                                     Progress</span>
-                                <div class="w-full h-5 bg-white border-2 border-black mt-1 overflow-hidden">
-                                    <div id="progress-bar-fill" class="h-full bg-black" style="width: 40%;"></div>
+                                <div class="w-full h-4 rounded-full bg-white/20 border-2 border-primary mt-2 overflow-hidden relative">
+                                    <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-primary to-forest-moss transition-all duration-1000 w-0"></div>
                                 </div>
                                 <span id="progress-text-display"
-                                    class="font-mono text-[10px] mt-2 font-bold uppercase italic text-gray-800">120/300
-                                    GCP to Vanguard Elder</span>
+                                    class="font-mono text-xs mt-3 font-bold uppercase italic text-primary text-right">0/300
+                                    GCP to GOAT</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="brutalist-card p-md paper-cutout border-2 border-black brutalist-shadow select-none bg-white text-black">
-                        <h3 class="font-cabin text-2xl mb-md border-b-2 border-black pb-1">Achievement Wall</h3>
-                        <div class="flex flex-wrap gap-md justify-center py-sm">
-                            <div class="flex flex-col items-center group">
+                    <div class="glass-card p-6 border-2 border-primary brutalist-shadow select-none hover-glow">
+                        <h3 class="font-cabin text-3xl text-primary mb-6 border-b-2 border-primary pb-2">Achievement Wall</h3>
+                        <div class="flex flex-wrap gap-6 justify-center py-4">
+                            <div class="flex flex-col items-center group relative">
                                 <div
-                                    class="w-14 h-14 bg-secondary-container border-2 border-primary paper-tag mb-xs group-hover:rotate-6 transition-transform flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-2xl text-primary"
-                                        style="font-variation-settings: 'FILL' 1;">eco</span>
+                                    class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-700 border-2 border-primary rounded-full mb-3 transition-all flex items-center justify-center relative overflow-hidden">
+                                    <span class="material-symbols-outlined text-white text-4xl relative z-10">eco</span>
+                                    <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </div>
                                 <span
-                                    class="font-mono text-[10px] uppercase font-bold text-center w-16 text-primary">Green
+                                    class="font-mono text-xs uppercase font-bold text-center w-20 text-primary">Green
                                     Thumb</span>
                             </div>
-                            <div class="flex flex-col items-center group">
+                            <div class="flex flex-col items-center group relative">
                                 <div
-                                    class="w-14 h-14 bg-primary-container border-2 border-primary paper-tag mb-xs group-hover:-rotate-6 transition-transform flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-2xl text-primary"
-                                        style="font-variation-settings: 'FILL' 1;">handshake</span>
+                                    class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 border-2 border-primary rounded-full mb-3 transition-all flex items-center justify-center relative overflow-hidden">
+                                    <span class="material-symbols-outlined text-white text-4xl relative z-10">handshake</span>
+                                    <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </div>
                                 <span
-                                    class="font-mono text-[10px] uppercase font-bold text-center w-16 text-primary">Partner</span>
+                                    class="font-mono text-xs uppercase font-bold text-center w-20 text-primary">Partner</span>
                             </div>
-                            <div class="flex flex-col items-center group">
+                            <div class="flex flex-col items-center group relative">
                                 <div
-                                    class="w-14 h-14 bg-tertiary-container border-2 border-primary paper-tag mb-xs group-hover:rotate-12 transition-transform flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-2xl text-primary"
-                                        style="font-variation-settings: 'FILL' 1;">campaign</span>
+                                    class="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-primary rounded-full mb-3 transition-all flex items-center justify-center relative overflow-hidden">
+                                    <span class="material-symbols-outlined text-white text-4xl relative z-10">campaign</span>
+                                    <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </div>
                                 <span
-                                    class="font-mono text-[10px] uppercase font-bold text-center w-16 text-primary">Vocal
+                                    class="font-mono text-xs uppercase font-bold text-center w-20 text-primary">Vocal
                                     Ally</span>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
 
             let progressPct = Math.min(100, Math.floor((gcp / 300) * 100));
             document.getElementById('progress-bar-fill').style.width = `${progressPct}%`;
-            document.getElementById('progress-text-display').innerText = `${gcp}/300 GCP to Vanguard Elder`;
+            document.getElementById('progress-text-display').innerText = `${gcp}/300 GCP to GOAT`;
 
             if (document.getElementById('user-rank-badge')) document.getElementById('user-rank-badge').innerText = userRank;
             document.getElementById('user-current-rank').innerText = userRank;
@@ -198,24 +198,27 @@
             container.innerHTML = '';
 
             rewards.forEach(reward => {
-                const isLocked = reward.isElderOnly && userRank !== 'Vanguard Elder';
+                const isLocked = reward.isElderOnly && userRank !== 'GOAT';
                 
                 if (isLocked) {
-                    const card = document.createElement('div');
-                    card.className = `brutalist-card p-3 flex flex-col h-full opacity-60 col-span-1 md:col-span-2 paper-cutout border-dashed bg-surface-container-low border-2 border-primary`;
+                    card.className = `glass-card p-4 flex flex-col h-full opacity-60 col-span-1 md:col-span-2 border-2 border-primary/50 relative overflow-hidden hover-glow`;
                     card.innerHTML = `
-                        <div class="flex flex-col md:flex-row gap-md">
-                            <div class="relative w-full md:w-1/3 aspect-video border-2 border-primary border-dashed overflow-hidden bg-white shrink-0 flex items-center justify-center select-none">
-                                <span class="material-symbols-outlined text-4xl text-primary opacity-50">lock</span>
+                        <div class="absolute inset-0 bg-black/40 z-10 flex items-center justify-center backdrop-blur-sm">
+                            <div class="bg-black/80 px-6 py-2 border-2 border-error text-error font-mono text-xs font-bold tracking-[0.2em] uppercase brutalist-shadow">
+                                🔒 Rank GOAT Required
                             </div>
-                            <div class="py-1 flex-grow flex flex-col justify-between">
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 relative z-0 filter grayscale blur-[2px]">
+                            <div class="relative w-full md:w-1/3 aspect-video border-2 border-primary overflow-hidden bg-surface-container-low shrink-0 flex items-center justify-center select-none">
+                                <span class="material-symbols-outlined text-6xl text-primary opacity-30">lock</span>
+                            </div>
+                            <div class="py-2 flex-grow flex flex-col justify-between">
                                 <div>
-                                    <h4 class="font-cabin text-xl text-primary mb-1">${reward.name}</h4>
-                                    <p class="font-sans text-xs text-on-surface-variant leading-tight">${reward.description}</p>
+                                    <h4 class="font-cabin text-3xl text-primary mb-2">${reward.name}</h4>
+                                    <p class="font-sans text-sm text-on-surface-variant leading-relaxed">${reward.description}</p>
                                 </div>
                                 <div class="flex items-center justify-between border-t border-primary border-dashed pt-4 mt-4 select-none">
-                                    <span class="font-cabin text-lg text-primary">${reward.cost} GCP</span>
-                                    <span class="font-mono text-[10px] uppercase text-error font-bold tracking-[0.2em]">LOCKED - RANK ELDER</span>
+                                    <span class="font-cabin text-2xl text-primary">${reward.cost} GCP</span>
                                 </div>
                             </div>
                         </div>
@@ -223,29 +226,32 @@
                     container.appendChild(card);
                 } else {
                     const card = document.createElement('div');
-                    card.className = `brutalist-card p-3 group flex flex-col h-full paper-cutout border-2 border-primary brutalist-shadow`;
+                    card.className = `glass-card p-0 group flex flex-col h-full border-2 border-primary brutalist-shadow hover-glow overflow-hidden cursor-pointer`;
                     
-                    const tagBg = reward.partnerName === 'LOCAL LABS' ? 'bg-primary text-on-primary' : 'bg-secondary text-on-secondary';
+                    const tagBg = reward.partnerName === 'LOCAL LABS' ? 'bg-primary text-white' : 'bg-secondary text-white';
                     const fallbackImg = reward.name.includes('Coffee') 
                         ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuCsGqvabIPK1Yud-Mn_m7oj0_44KqFI9a8VW4LvBdCmO0RFN3EHlkhkYGGba7zSrAPXVlk-cOJDFo02TTzMBGpX1uMqL9u3d7pAbjyI9hsBD-rov7pWQ52VjBi7NDbSzxr6HJ9E_A_A6Yy2SXc-F50Ckz5-QbCqrfaYE_0xEiU2Zyu3kx48jw8OsYtoExILUiRIv17cZ7F4pYf_E4tu55kVVMOxBua1vJbDEiRiNegh-45YvODJb210N6qLPPwIXGklu4BuWs6gbsw'
                         : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDHwiHFmkh1R_y8Wjmd_HzLMtT7pPk3juuVRFrJ6HLieOQD4cVKJZ-94QYmbQkrqeRifhL9mhTqWtdBzyAf6XtbDQ4jCjDrEfYHQ3SwKc_tRAhE7UrTY_l4a_uoHrNHv1nDXMA9tkP3EXLxAvCIKDTI1hMbcjhTk9mg4pEIyH63h4ZQyI8wfuZi51vOY_b0j0Jm9TEKmvD_jv9nPToe6UdOPcbiD1ompDAnlgTIpfogZYZzjjE2lICyfNyD0Nr11r5whf8raLlMm5g';
 
                     card.innerHTML = `
-                        <div class="relative w-full aspect-video border-2 border-primary overflow-hidden mb-sm select-none">
-                            <div class="absolute top-2 left-2 z-10 ${tagBg} px-2 py-0.5 font-mono text-[10px] font-bold border-2 border-primary uppercase">
+                        <div class="relative w-full aspect-video border-b-2 border-primary overflow-hidden select-none">
+                            <div class="absolute top-2 left-2 z-10 ${tagBg} px-3 py-1 font-mono text-[10px] font-bold border-2 border-white/20 uppercase rounded-full shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
                                 ${reward.partnerName}
                             </div>
                             <img alt="${reward.name}"
-                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
                                 src="${reward.imageUrl || fallbackImg}" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0b1f17] to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
                         </div>
-                        <div class="px-1 pb-sm flex-grow">
-                            <h4 class="font-cabin text-xl text-primary mb-xs border-b-2 border-primary inline-block">
-                                ${reward.name}
-                            </h4>
-                            <p class="font-sans text-xs text-on-surface-variant mb-md italic leading-tight">
-                                ${reward.description}
-                            </p>
+                        <div class="px-6 py-4 flex-grow flex flex-col justify-between bg-[#121c17]/80 group-hover:bg-[#121c17] transition-colors">
+                            <div>
+                                <h4 class="font-cabin text-2xl text-primary mb-2 group-hover:text-white transition-colors">
+                                    ${reward.name}
+                                </h4>
+                                <p class="font-sans text-xs text-on-surface-variant italic leading-relaxed">
+                                    ${reward.description}
+                                </p>
+                            </div>
                         </div>
                         <div class="mt-auto px-1 pb-2">
                             <div class="flex items-center justify-between pt-sm border-t border-primary border-dashed">

@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Anek | Citizen Leaderboard &amp; Partnerships</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Manrope:wght@200..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Manrope:wght@200..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
     <script type="module" src="/src/main.js"></script>
 </head>
+
 <body
     class="bg-background text-on-surface selection:bg-primary selection:text-on-primary min-h-screen flex flex-col transition-colors duration-500 relative">
 
@@ -18,19 +24,22 @@
     <anek-header></anek-header>
 
     <div class="flex flex-1">
-        
+
         <anek-sidebar></anek-sidebar>
 
         <main class="flex-grow p-margin md:p-lg space-y-xl max-w-7xl mx-auto overflow-x-hidden">
             <section class="space-y-md">
                 <div class="flex flex-col md:flex-row justify-between items-end gap-md">
                     <div class="max-w-xl">
-                        <h1 class="font-cabin text-5xl md:text-6xl text-primary leading-none select-none">The Hall of Fame</h1>
-                        <p class="font-sans text-sm text-on-surface-variant mt-4 border-l-4 border-primary pl-4 py-1 bg-white/90 font-medium">
+                        <h1 class="font-cabin text-5xl md:text-6xl text-primary leading-none select-none">The Hall of
+                            Fame</h1>
+                        <p
+                            class="font-sans text-sm text-on-surface-variant mt-4 border-l-4 border-primary pl-4 py-1 bg-white/90 font-medium">
                             The top peoples who actually go outside and fix things.
                         </p>
                     </div>
-                    <div class="paper-border p-sm bg-yellow-400 text-black flex flex-col items-center min-w-[140px] paper-cutout shadow-[4px_4px_0px_0px_#1a1c1b]">
+                    <div
+                        class="paper-border p-sm bg-yellow-400 text-black flex flex-col items-center min-w-[140px] paper-cutout shadow-[4px_4px_0px_0px_#1a1c1b]">
                         <span class="font-mono text-[10px] font-bold uppercase tracking-wider">Your Standings</span>
                         <span id="my-standings" class="font-cabin text-5xl leading-none mt-1">#4</span>
                     </div>
@@ -39,39 +48,51 @@
 
             <section class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
 
-                <div class="lg:col-span-8 brutalist-card bg-white text-black p-md border-2 border-primary brutalist-shadow">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-md border-b-2 border-primary pb-sm select-none gap-2">
-                        <h3 class="font-cabin text-3xl text-primary">Top Contributors</h3>
+                <div class="lg:col-span-8 glass-card p-6 border-2 border-primary brutalist-shadow">
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b-2 border-primary pb-4 select-none gap-4">
+                        <h3 class="font-cabin text-4xl text-primary flex items-center gap-2"><span
+                                class="material-symbols-outlined text-4xl">emoji_events</span> Top Contributors</h3>
 
                         <div class="relative w-full sm:w-64">
-                            <input id="user-search-input" onkeyup="searchContributors()" class="w-full bg-white border-2 border-primary text-xs font-mono px-3 py-1.5 pl-8 outline-none focus:border-forest-moss transition-all" placeholder="Search citizens..." type="text"/>
-                            <span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-primary text-sm">search</span>
+                            <input id="user-search-input" onkeyup="searchContributors()"
+                                class="w-full bg-white border-2 border-primary text-xs font-mono px-3 py-1.5 pl-8 outline-none focus:border-forest-moss transition-all"
+                                placeholder="Search citizens..." type="text" />
+                            <span
+                                class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-primary text-sm">search</span>
                         </div>
                     </div>
 
                     <div id="leaderboard-list" class="space-y-sm">
-                        
+
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 space-y-lg">
-                    <div class="luminous-paper bg-white text-black p-md paper-cutout relative overflow-hidden select-none border-2 border-primary">
-                        <div class="hatch-pattern absolute inset-0 opacity-40 pointer-events-none"></div>
-                        <h4 class="font-cabin text-2xl text-primary relative">Next Milestone</h4>
-                        <p class="font-sans text-xs text-on-surface-variant mt-2 relative border-l-2 border-primary pl-3">
-                            Accumulate <strong class="text-primary underline decoration-2 underline-offset-2">300 GCP</strong> to reach the elite rank of <strong class="text-primary">Vanguard Elder</strong>.
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="glass-card p-6 relative overflow-hidden select-none border-2 border-primary hover-glow">
+                        <div class="hatch-pattern absolute inset-0 opacity-10 pointer-events-none"></div>
+                        <h4 class="font-cabin text-3xl text-primary relative">Next Milestone</h4>
+                        <p
+                            class="font-sans text-sm text-on-surface-variant mt-2 relative border-l-2 border-primary pl-3">
+                            Accumulate <strong class="text-primary underline decoration-2 underline-offset-2">300
+                                GCP</strong> to reach the elite rank of <strong class="text-primary">GOAT</strong>.
                         </p>
-                        <div class="mt-lg w-full h-5 bg-white border-2 border-primary overflow-hidden relative">
-                            <div id="milestone-progress-bar" class="h-full bg-primary" style="width: 40%"></div>
+                        <div
+                            class="mt-6 w-full h-5 rounded-full border-2 border-primary overflow-hidden relative bg-white/20">
+                            <div id="milestone-progress-bar"
+                                class="h-full bg-gradient-to-r from-primary to-forest-moss transition-all duration-1000 w-0">
+                            </div>
                         </div>
-                        <div class="flex justify-between font-mono text-[10px] mt-2 text-primary font-bold uppercase relative">
-                            <span id="milestone-progress-text">40% complete</span>
+                        <div
+                            class="flex justify-between font-mono text-[10px] mt-2 text-primary font-bold uppercase relative">
+                            <span id="milestone-progress-text">0% complete</span>
                             <span>Level Up</span>
                         </div>
                     </div>
 
-                    <div class="bg-white border-2 border-primary p-md paper-cutout shadow-[6px_6px_0px_0px_#1a1c1b] select-none">
-                        <h4 class="font-cabin text-2xl text-primary border-b-2 border-primary pb-1 mb-md">Hall of Rewards</h4>
+                    <div class="glass-card border-2 border-primary p-6 select-none hover-glow">
+                        <h4 class="font-cabin text-3xl text-primary border-b-2 border-primary pb-2 mb-4">Hall of Rewards
+                        </h4>
                         <ul class="space-y-4">
                             <li class="flex items-center gap-xs font-mono text-xs text-primary font-bold">
                                 <span class="material-symbols-outlined text-primary">check_box</span>
@@ -90,18 +111,18 @@
                 </div>
             </section>
 
-            
+
         </main>
     </div>
 
     <anek-footer></anek-footer>
 
-    
+
 
     <script type="module">
         // User session checks
         let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
-        
+
         let leaders = [];
         let searchQuery = "";
 
@@ -127,7 +148,7 @@
                     let progressPct = Math.min(100, Math.floor((gcp / 300) * 100));
                     document.getElementById('milestone-progress-bar').style.width = `${progressPct}%`;
                     document.getElementById('milestone-progress-text').innerText = `${progressPct}% complete`;
-                    
+
                     if (document.getElementById('my-standings')) {
                         document.getElementById('my-standings').innerText = `#${profileData.user.globalRank}`;
                     }
@@ -155,6 +176,8 @@
             }
         }
 
+        let showingAllLeaders = false;
+
         function renderLeaderboard() {
             const list = document.getElementById('leaderboard-list');
             list.innerHTML = '';
@@ -167,33 +190,57 @@
                 return;
             }
 
-            leaders.forEach(leader => {
+            const displayCount = showingAllLeaders ? leaders.length : Math.min(5, leaders.length);
+            const leadersToShow = leaders.slice(0, displayCount);
+
+            leadersToShow.forEach(leader => {
                 const card = document.createElement('div');
                 const isSelf = leader.username === currentUser.username;
-                const cardBg = isSelf ? 'bg-primary-container/40' : 'bg-white';
-                
-                card.className = `flex flex-col sm:flex-row items-start sm:items-center justify-between p-sm border-2 border-primary shadow-[3px_3px_0px_0px_#1a1c1b] transition-all hover:translate-x-[1px] hover:-translate-y-[1px] cursor-pointer ${cardBg} select-none`;
+                const isFirst = leader.rank === 1;
+                const cardBg = isSelf ? 'bg-primary-container/20 border-primary' : (isFirst ? 'bg-yellow-500/10 border-yellow-500' : 'bg-white/5 border-primary/50');
+                const textHighlight = isFirst ? 'text-yellow-400' : 'text-primary';
+
+                let medal = '';
+                if (leader.rank === 1) medal = '<span class="material-symbols-outlined text-yellow-500" title="1st Place">emoji_events</span>';
+                else if (leader.rank === 2) medal = '<span class="material-symbols-outlined text-gray-400" title="2nd Place">emoji_events</span>';
+                else if (leader.rank === 3) medal = '<span class="material-symbols-outlined text-amber-700" title="3rd Place">emoji_events</span>';
+
+                card.className = `flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border-2 rounded-xl backdrop-blur-sm transition-all hover-glow cursor-pointer ${cardBg} select-none mb-3`;
                 card.innerHTML = `
-                    <div class="flex items-center gap-md">
-                        <span class="font-cabin text-2xl text-primary w-8">${leader.rank}.</span>
-                        <div class="w-10 h-10 border border-primary flex items-center justify-center rounded-full bg-surface-container font-cabin text-lg font-bold text-primary">
+                    <div class="flex items-center gap-4">
+                        <span class="font-cabin text-3xl ${textHighlight} w-10 text-center">${medal || leader.rank + '.'}</span>
+                        <div class="w-12 h-12 border-2 ${isFirst ? 'border-yellow-400 bg-yellow-400/20' : 'border-primary bg-primary/10'} flex items-center justify-center rounded-full font-cabin text-2xl font-bold ${textHighlight}">
                             ${leader.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                            <h4 class="font-cabin text-xl text-primary">${leader.name} ${isSelf ? ' (You)' : ''}</h4>
+                            <h4 class="font-cabin text-2xl ${textHighlight}">${leader.name} ${isSelf ? ' <span class="text-xs bg-primary text-white px-2 py-0.5 rounded-full font-mono ml-2 align-middle">YOU</span>' : ''}</h4>
                             <p class="font-mono text-[10px] text-on-surface-variant">@${leader.username} · ${leader.title}</p>
                         </div>
                     </div>
-                    <div class="text-right ml-10 sm:ml-0 bg-white border border-primary px-3 py-1 shadow-[2px_2px_0px_0px_#1a1c1b]">
-                        <span class="font-cabin text-lg text-primary">${leader.points}</span>
-                        <span class="font-mono text-[10px] text-on-surface-variant font-bold uppercase ml-1">GCP</span>
+                    <div class="text-right ml-14 sm:ml-0 bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 rounded-lg">
+                        <span class="font-cabin text-2xl text-white">${leader.points}</span>
+                        <span class="font-mono text-xs text-primary font-bold uppercase ml-1">GCP</span>
                     </div>
                 `;
                 list.appendChild(card);
             });
+
+            if (leaders.length > 5) {
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'flex justify-center mt-6';
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'px-6 py-2 rounded-xl border-2 border-primary bg-primary text-white font-mono text-xs font-bold hover:bg-forest-moss transition-colors uppercase shadow-[0_4px_10px_rgba(70,138,94,0.4)]';
+                toggleBtn.innerText = showingAllLeaders ? 'View Less' : 'View More';
+                toggleBtn.onclick = () => {
+                    showingAllLeaders = !showingAllLeaders;
+                    renderLeaderboard();
+                };
+                btnContainer.appendChild(toggleBtn);
+                list.appendChild(btnContainer);
+            }
         }
 
-        window.searchContributors = function() {
+        window.searchContributors = function () {
             searchQuery = document.getElementById('user-search-input').value;
             fetchLeaderboard();
         };
@@ -204,4 +251,5 @@
         loadProfileAndLeaderboard();
     </script>
 </body>
+
 </html>

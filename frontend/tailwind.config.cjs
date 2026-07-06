@@ -20,6 +20,11 @@ module.exports = {
           slate: "#1a1c1a",
         },
         // Luminous / Brutalist theme mapping
+        accent: {
+          warning: "#f59e0b",
+          critical: "#ef4444",
+          info: "#3b82f6"
+        },
         primary: "#468a5e",
         "on-primary": "#ffffff",
         "primary-container": "#FFD166", // Vibrant Yellow/Orange
@@ -75,6 +80,25 @@ module.exports = {
         sans: ["Manrope", "sans-serif"],
         mono: ["Space Mono", "monospace"],
         cabin: ["Cabin Sketch", "cursive"]
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'slide-up': {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        'progress-fill': {
+          '0%': { width: '0%' },
+          '100%': { width: 'var(--progress-target)' },
+        }
+      },
+      animation: {
+        'fade-in': 'fade-in 0.5s ease-out forwards',
+        'slide-up': 'slide-up 0.5s ease-out forwards',
+        'progress-fill': 'progress-fill 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards',
       }
     },
   },

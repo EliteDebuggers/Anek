@@ -87,6 +87,7 @@ export const serializeContribution = (transaction) => {
   
   return {
     id: transaction._id,
+    issueId: transaction.referenceModel === 'Issue' && transaction.referenceId ? transaction.referenceId._id : null,
     category: transaction.referenceModel === 'Issue' && transaction.referenceId && transaction.referenceId.category
       ? transaction.referenceId.category 
       : 'Governance',

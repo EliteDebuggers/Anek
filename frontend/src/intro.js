@@ -13,7 +13,7 @@
                 </div>
                 <span class="anek-intro-logo-text" id="anek-logo-text">Anēk</span>
             </div>
-            <div class="anek-intro-subtitle" id="anek-subtitle">Be a Part of Anēk</div>
+            <div class="anek-intro-subtitle" id="anek-subtitle">Join as Ek</div>
         </div>
     </div>
     <div id="anek-site-blur" aria-hidden="true"></div>`;
