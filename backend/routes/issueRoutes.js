@@ -6,6 +6,7 @@ import {
   getMyContributions,
   getNearbyIssues,
   getHeatmapData,
+  getIssueById,
   updateIssue,
   deleteIssue,
   upvoteIssue,
@@ -19,14 +20,15 @@ import { validateIssue, validateIssueUpdate } from '../validators/issueValidator
 
 const router = express.Router();
 
-router.post('/', protect, multerUpload.single('evidence'), validateIssue, createIssue);
+router.post('/', protect, multerUpload.array('evidence', 5), validateIssue, createIssue);
 router.get('/', optionalProtect, getIssues);
 router.get('/my-reports', protect, getMyReports);
 router.get('/my-contributions', protect, getMyContributions);
 router.get('/nearby', optionalProtect, getNearbyIssues);
 router.get('/heatmap', optionalProtect, getHeatmapData);
+router.get('/:id', optionalProtect, getIssueById);
 
-router.patch('/:id', protect, multerUpload.single('evidence'), validateIssueUpdate, updateIssue);
+router.patch('/:id', protect, multerUpload.array('evidence', 5), validateIssueUpdate, updateIssue);
 router.delete('/:id', protect, deleteIssue);
 
 router.post('/:id/upvote', protect, upvoteIssue);

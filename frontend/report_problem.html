@@ -54,7 +54,7 @@
 
                     <div class="glass-card p-6 border-2 border-primary brutalist-shadow space-y-4">
                         <h3 class="font-cabin text-3xl text-secondary">Issue Category</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="category-checkboxes">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="category-checkboxes">
                             <label
                                 class="flex flex-col items-center justify-center gap-2 group cursor-pointer p-4 border-2 border-blue-200 bg-blue-50/70 hover:bg-blue-100 transition-all hover-glow h-24 relative">
                                 <input name="issue-type" value="Water" class="absolute inset-0 opacity-0 cursor-pointer"
@@ -78,6 +78,13 @@
                                 <span class="font-mono text-xs font-bold text-black">Road Damage</span>
                             </label>
                             <label
+                                class="flex flex-col items-center justify-center gap-2 group cursor-pointer p-4 border-2 border-cyan-200 bg-cyan-50/70 hover:bg-cyan-100 transition-all hover-glow h-24 relative">
+                                <input name="issue-type" value="Animals" class="absolute inset-0 opacity-0 cursor-pointer"
+                                    type="radio" />
+                                <span class="material-symbols-outlined text-4xl mb-1 text-cyan-600">pets</span>
+                                <span class="font-mono text-xs font-bold text-black">Animals/Nature</span>
+                            </label>
+                            <label
                                 class="flex flex-col items-center justify-center gap-2 group cursor-pointer p-4 border-2 border-gray-200 bg-gray-50/70 hover:bg-gray-100 transition-all hover-glow h-24 relative">
                                 <input name="issue-type" value="Other" id="other-checkbox"
                                     class="absolute inset-0 opacity-0 cursor-pointer" type="radio" />
@@ -94,17 +101,17 @@
 
                     <div class="glass-card p-6 border-2 border-primary brutalist-shadow space-y-4">
                         <h3 class="font-cabin text-3xl text-secondary">Urgency Level</h3>
-                        <div class="flex gap-4" id="urgency-buttons">
+                        <div class="flex gap-4 overflow-x-auto pb-2 snap-x no-scrollbar" id="urgency-buttons">
                             <button type="button" onclick="selectUrgency('LOW', this)"
-                                class="urgency-btn border-2 border-primary px-6 py-2 rounded-full font-mono text-xs font-bold bg-white text-on-surface hover-glow hover:bg-green-50 transition-all flex items-center gap-2">
+                                class="urgency-btn shrink-0 snap-start border-2 border-primary px-6 py-2 rounded-full font-mono text-xs font-bold bg-white text-on-surface hover-glow hover:bg-green-50 transition-all flex items-center gap-2">
                                 <span class="material-symbols-outlined text-green-500 text-sm">circle</span> Standard
                             </button>
                             <button type="button" onclick="selectUrgency('PRIORITY', this)"
-                                class="urgency-btn border-2 border-primary px-6 py-2 rounded-full font-mono text-xs font-bold bg-white text-on-surface hover-glow hover:bg-yellow-50 transition-all flex items-center gap-2">
+                                class="urgency-btn shrink-0 snap-start border-2 border-primary px-6 py-2 rounded-full font-mono text-xs font-bold bg-white text-on-surface hover-glow hover:bg-yellow-50 transition-all flex items-center gap-2">
                                 <span class="material-symbols-outlined text-yellow-500 text-sm">circle</span> Medium
                             </button>
                             <button type="button" onclick="selectUrgency('EMERGENCY', this)"
-                                class="urgency-btn border-2 border-primary px-6 py-2 rounded-full font-mono text-xs font-bold bg-white text-on-surface hover-glow hover:bg-red-50 transition-all flex items-center gap-2">
+                                class="urgency-btn shrink-0 snap-start border-2 border-primary px-6 py-2 rounded-full font-mono text-xs font-bold bg-white text-on-surface hover-glow hover:bg-red-50 transition-all flex items-center gap-2">
                                 <span class="material-symbols-outlined text-red-500 text-sm">circle</span> Emergency
                             </button>
                         </div>
@@ -162,22 +169,19 @@
                                 here</p>
                             <p class="font-mono text-[10px] text-outline italic">Max file size 15MB. JPG, PNG accepted.
                             </p>
-                            <input type="file" id="file-input" class="hidden" accept="image/*"
+                            <input type="file" id="file-input" class="hidden" accept="image/*" multiple
                                 onchange="handleFileSelect(event)" onclick="event.stopPropagation()" />
                         </div>
                         <div id="file-preview-container"
-                            class="hidden border-t border-dashed border-outline-variant pt-xs flex items-center gap-2">
-                            <div class="w-12 h-12 border border-primary bg-cover bg-center" id="file-preview-img"></div>
-                            <span class="font-mono text-[10px] text-primary font-bold"
-                                id="file-preview-name">file.png</span>
+                            class="hidden border-t border-dashed border-outline-variant pt-xs flex flex-wrap items-center gap-2">
                         </div>
                     </div>
 
                     <button
-                        class="w-full border-2 border-primary bg-gradient-to-r from-primary to-forest-moss text-white font-cabin text-5xl py-6 rounded-xl transition-all flex items-center justify-center gap-4 btn-ripple"
+                        class="w-full border-2 border-primary bg-gradient-to-r from-primary to-forest-moss text-white font-cabin text-3xl sm:text-5xl py-4 sm:py-6 rounded-xl transition-all flex items-center justify-center gap-3 sm:gap-4 btn-ripple"
                         type="submit">
                         SUBMIT REPORT
-                        <span class="material-symbols-outlined text-5xl">send</span>
+                        <span class="material-symbols-outlined text-3xl sm:text-5xl">send</span>
                     </button>
 
                 </form>
@@ -424,29 +428,35 @@
         const previewImg = document.getElementById('file-preview-img');
         const previewName = document.getElementById('file-preview-name');
 
-        let selectedFile = null;
+        let selectedFiles = [];
 
         window.triggerFileInput = function () {
             fileInput.click();
         }
 
         window.handleFileSelect = function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                showPreview(file);
+            const files = Array.from(e.target.files);
+            if (files.length > 0) {
+                showPreview(files);
             }
         }
 
-        function showPreview(file) {
-            selectedFile = file;
-            previewName.innerText = file.name;
+        function showPreview(files) {
+            selectedFiles = [...selectedFiles, ...files].slice(0, 5); // limit to 5
+            previewContainer.innerHTML = '';
             previewContainer.classList.remove('hidden');
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                previewImg.style.backgroundImage = `url('${e.target.result}')`;
-            }
-            reader.readAsDataURL(file);
+            selectedFiles.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'w-12 h-12 border border-primary bg-cover bg-center shadow-sm rounded-sm';
+                    imgDiv.style.backgroundImage = `url('${e.target.result}')`;
+                    imgDiv.title = file.name;
+                    previewContainer.appendChild(imgDiv);
+                }
+                reader.readAsDataURL(file);
+            });
         }
 
         // Drag/Drop handling
@@ -460,9 +470,9 @@
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropzone.classList.remove('bg-primary-container/20');
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                showPreview(file);
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length > 0) {
+                showPreview(files);
             }
         });
 
@@ -509,8 +519,10 @@
             formData.append('longitude', selectedLongitude);
             formData.append('locationName', locName);
 
-            if (selectedFile) {
-                formData.append('evidence', selectedFile);
+            if (selectedFiles.length > 0) {
+                selectedFiles.forEach(file => {
+                    formData.append('evidence', file);
+                });
             }
 
             try {

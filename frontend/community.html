@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Anek | Civic Map & local Pulse</title>
+    <title>Anek | Community Feed</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Manrope:wght@200..800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap"
         rel="stylesheet" />
@@ -35,92 +35,35 @@
             <!-- Hero Section -->
             <section class="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-8 animate-slide-up">
                 <div class="max-w-xl">
-                    <h1
-                        class="font-cabin text-6xl text-white font-bold leading-tight select-none flex items-center gap-4 drop-shadow-md">
-                        <span class="material-symbols-outlined text-5xl">map</span> Local Impact Map
+                    <h1 class="font-cabin text-6xl text-white font-bold leading-tight select-none flex items-center gap-4 drop-shadow-md">
+                        <span class="material-symbols-outlined text-5xl">forum</span> Community Feed
                     </h1>
-                    <p
-                        class="font-sans text-lg text-white/90 mt-6 border-l-4 border-primary pl-5 py-3 bg-black/30 backdrop-blur-md font-medium rounded-r-xl">
-                        Report civic issues. Track contributions. Earn citizen rewards. Improve your city.
+                    <p class="font-sans text-lg text-white/90 mt-6 border-l-4 border-primary pl-5 py-3 bg-black/30 backdrop-blur-md font-medium rounded-r-xl">
+                        See what your community is reporting, discuss local issues, and take action together.
                     </p>
-                    <div class="mt-8 flex gap-4">
-                        <button onclick="toggleMap()" id="toggle-map-btn"
-                            class="px-8 py-4 rounded-xl border border-primary/50 bg-primary text-white font-mono text-sm font-bold hover:bg-forest-moss transition-all duration-300 hover:shadow-[0_8px_20px_rgba(70,138,94,0.4)] flex items-center gap-2 btn-ripple">
-                            <span class="material-symbols-outlined text-lg">visibility_off</span> Hide Geographical Map
-                        </button>
-                    </div>
                 </div>
                 <div class="flex gap-4 self-stretch md:self-auto">
-                    <div
-                        class="glass-card rounded-xl p-6 bg-red-900/40 border border-red-500/30 flex-1 min-w-[140px] text-center transition-all duration-300 flex flex-col justify-center">
-                        <p class="font-mono text-xs text-white/80 font-bold uppercase tracking-wider mb-2">Active
-                            Reports</p>
+                    <div class="glass-card rounded-xl p-6 bg-red-900/40 border border-red-500/30 flex-1 min-w-[140px] text-center transition-all duration-300 flex flex-col justify-center">
+                        <p class="font-mono text-xs text-white/80 font-bold uppercase tracking-wider mb-2">Active Reports</p>
                         <p class="font-cabin text-5xl text-white drop-shadow-md" id="active-count">0</p>
                     </div>
-                    <div
-                        class="glass-card rounded-xl p-6 bg-green-900/40 border border-green-500/30 flex-1 min-w-[140px] text-center transition-all duration-300 flex flex-col justify-center">
-                        <p class="font-mono text-xs text-white/80 font-bold uppercase tracking-wider mb-2">GCP Balance
-                        </p>
-                        <p class="font-cabin text-5xl text-white drop-shadow-md" id="gcp-display">0</p>
-                    </div>
                 </div>
             </section>
 
-            <!-- Map Section -->
-            <section class="w-full mb-12 animate-slide-up" style="animation-delay: 0.1s;">
-                <div id="map-container"
-                    class="flex w-full glass-card rounded-xl h-[450px] overflow-hidden group flex-col border border-white/10 transition-all duration-500 relative">
 
-                    <div id="leaflet-map" class="w-full h-full z-0 flex-grow"></div>
 
-                    <div
-                        class="absolute bottom-6 right-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 p-4 flex flex-col gap-3 shadow-xl z-10 select-none">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-5 h-5 bg-orange-500 rounded border border-white/20 shadow-sm flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[12px] text-white">construction</span></div>
-                            <span class="text-xs font-mono text-white font-bold">Roads/Infra</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-5 h-5 bg-red-500 rounded border border-white/20 shadow-sm flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[12px] text-white">delete</span></div>
-                            <span class="text-xs font-mono text-white font-bold">Garbage</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-5 h-5 bg-blue-500 rounded border border-white/20 shadow-sm flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[12px] text-white">pets</span></div>
-                            <span class="text-xs font-mono text-white font-bold">Animals/Nature</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-5 h-5 bg-cyan-500 rounded border border-white/20 shadow-sm flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[12px] text-white">water_drop</span></div>
-                            <span class="text-xs font-mono text-white font-bold">Water</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-5 h-5 bg-gray-500 rounded border border-white/20 shadow-sm flex items-center justify-center">
-                                <span class="material-symbols-outlined text-[12px] text-white">help_outline</span></div>
-                            <span class="text-xs font-mono text-white font-bold">Others</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            </section>
-
-            <!-- Board Section (Recent Posts) -->
+            <!-- Board Section -->
             <section id="feed-container" class="w-full space-y-8 animate-slide-up" style="animation-delay: 0.2s;">
-                <div
-                    class="flex flex-col md:flex-row justify-between items-start md:items-center px-2 select-none gap-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center px-2 select-none gap-6">
                     <h2 class="font-cabin text-4xl text-white font-bold flex items-center gap-3 drop-shadow-md">
                         <span class="material-symbols-outlined text-4xl">list_alt</span> Recent Reports
                     </h2>
-                    <a href="/community.html"
-                        class="px-5 py-2.5 rounded-lg text-xs font-mono bg-primary text-white font-bold hover:bg-forest-moss transition-all flex items-center gap-1 shadow-md">
-                        View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                    </a>
+                    <div class="flex flex-wrap gap-2 bg-black/30 backdrop-blur-md p-1.5 rounded-xl border border-white/10">
+                        <button onclick="filterBoard('all')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-primary text-white font-bold hover:bg-forest-moss transition-all shadow-md" id="filter-btn-all">All</button>
+                        <button onclick="filterBoard('Roads')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-white/10 text-white font-bold hover:bg-white/20 transition-all flex items-center gap-1" id="filter-btn-Roads"><span class="material-symbols-outlined text-sm">construction</span> Roads</button>
+                        <button onclick="filterBoard('Garbage')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-white/10 text-white font-bold hover:bg-white/20 transition-all flex items-center gap-1" id="filter-btn-Garbage"><span class="material-symbols-outlined text-sm">delete</span> Garbage</button>
+                        <button onclick="filterBoard('Animals')" class="px-5 py-2.5 rounded-lg text-xs font-mono bg-white/10 text-white font-bold hover:bg-white/20 transition-all flex items-center gap-1" id="filter-btn-Animals"><span class="material-symbols-outlined text-sm">pets</span> Animals</button>
+                    </div>
                 </div>
 
                 <div id="board-feed" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -141,43 +84,9 @@
         if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
 
         let issues = [];
-        let leafletMap = null;
-        let markersLayer = null;
-
-        function initMap(lat, lng) {
-            if (leafletMap) return;
-
-            leafletMap = L.map('leaflet-map', {
-                scrollWheelZoom: true
-            }).setView([lat, lng], 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(leafletMap);
-
-            markersLayer = L.layerGroup().addTo(leafletMap);
-        }
 
         function getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-                        initMap(lat, lng);
-                        fetchIssues();
-                    },
-                    (error) => {
-                        console.warn('Geolocation access denied. Using defaults.');
-                        initMap(52.5200, 13.4050); // Berlin fallback
-                        fetchIssues();
-                    }
-                );
-            } else {
-                initMap(52.5200, 13.4050);
-                fetchIssues();
-            }
+            fetchIssues();
         }
 
         async function loadUserProfile() {
@@ -205,8 +114,16 @@
                 if (response && response.ok) {
                     const data = await response.json();
                     issues = data.issues;
-                    renderMapMarkers();
                     renderFeed();
+
+                    // Retrieve highlight query parameter
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const highlight = urlParams.get('highlight');
+                    if (highlight) {
+                        setTimeout(() => {
+                            highlightFeedPost(highlight);
+                        }, 500);
+                    }
                 }
             } catch (err) {
                 console.error('Error fetching issues:', err);
@@ -215,35 +132,55 @@
 
         let currentFilter = 'all';
 
-        // Render feed posts dynamically (only top 3)
+        // Render feed posts dynamically
         function renderFeed() {
             const feed = document.getElementById('board-feed');
-            if (!feed) return;
             feed.innerHTML = '';
 
-            const recentReports = issues;
+            const filteredReports = currentFilter === 'all'
+                ? issues
+                : issues.filter(i => i.category === currentFilter);
 
-            if (recentReports.length === 0) {
+            // Update active count badge
+            document.getElementById('active-count').innerText = issues.filter(i => i.status !== 'Completed').length;
+
+            // Add dynamic counts to buttons
+            document.getElementById('filter-btn-all').innerHTML = `All (${issues.length})`;
+            document.getElementById('filter-btn-Roads').innerHTML = `<span class="material-symbols-outlined text-sm align-middle mr-1">construction</span> Roads (${issues.filter(i => i.category === 'Roads').length})`;
+            document.getElementById('filter-btn-Garbage').innerHTML = `<span class="material-symbols-outlined text-sm align-middle mr-1">delete</span> Garbage (${issues.filter(i => i.category === 'Garbage').length})`;
+            document.getElementById('filter-btn-Animals').innerHTML = `<span class="material-symbols-outlined text-sm align-middle mr-1">pets</span> Animals (${issues.filter(i => i.category === 'Animals').length})`;
+
+            if (filteredReports.length === 0) {
+                // Demo data fallback if empty
+                if (issues.length === 0 && currentFilter === 'all') {
+                    issues = [
+                        { id: 'demo1', title: 'Road Crack on Main St', category: 'Roads', status: 'Reported', author: 'demo_user', time: '2 mins ago', description: 'Large pothole near the central market causing traffic issues.', votes: 8, comments: [], location: { coordinates: [13.41, 52.52] } },
+                        { id: 'demo2', title: 'Garbage Overflow', category: 'Garbage', status: 'In Progress', author: 'eco_warrior', responsibleUser: 'city_cleaner', time: '10 mins ago', description: 'Trash overflow near sector 18 east entrance.', votes: 15, comments: [{id:'c1', author:'city_cleaner', text:'On my way to clear this!'}], location: { coordinates: [13.42, 52.51] } },
+                        { id: 'demo3', title: 'Broken Street Light', category: 'Roads', status: 'Completed', author: 'night_owl', time: 'Yesterday', description: 'The light is completely shattered, very dark at night.', votes: 24, comments: [], location: { coordinates: [13.40, 52.53] }, mediaUrl: 'https://images.unsplash.com/photo-1542385151-efd9000785a0?w=500&q=80' }
+                    ];
+                    renderFeed();
+                    return;
+                }
+                
                 feed.innerHTML = `
                     <div class="col-span-full glass-card border border-white/10 p-12 rounded-xl text-center text-white/80 font-sans text-sm flex flex-col items-center justify-center min-h-[300px]">
                         <span class="material-symbols-outlined text-7xl mb-6 drop-shadow-md text-green-400">eco</span>
                         <p class="font-bold text-white text-2xl mb-2">Everything looks clean!</p>
-                        <p class="text-lg">No reports available right now.</p>
+                        <p class="text-lg">No reports nearby in this category.</p>
                     </div>
-                `;
-                return;
+                `; return;
             }
 
-            recentReports.forEach((issue, index) => {
+            filteredReports.forEach((issue, index) => {
                 const article = document.createElement('article');
                 article.id = `issue-post-${issue.id}`;
-
+                
                 // Status & Category styles
                 let statusClass = "bg-red-500/20 text-red-300";
                 let catIcon = "construction";
                 let catColor = "bg-orange-500";
-                let cardBg = "bg-[#0d2116]/80";
-
+                let cardBg = "bg-[#0d2116]/80"; // static dark green
+                
                 if (issue.status === 'In Progress') {
                     statusClass = "bg-blue-500/20 text-blue-300";
                 } else if (issue.status === 'Completed') {
@@ -284,7 +221,6 @@
                             <div>
                                 <h4 class="font-cabin text-2xl text-white leading-tight drop-shadow-sm">${issue.title}</h4>
                                 <p class="font-mono text-xs text-white/60 mt-1">@${issue.author} · ${issue.time}</p>
-                            </div>
                         </div>
                         <div class="flex flex-col items-end gap-2">
                             <span class="px-2 py-1 rounded-md text-[10px] font-mono uppercase font-bold ${statusClass}">${issue.status}</span>
@@ -332,68 +268,8 @@
                 `;
                 feed.appendChild(article);
             });
-        }
 
-        // Render map markers only
-        function renderMapMarkers() {
-            // Update active count badge
-            document.getElementById('active-count').innerText = issues.filter(i => i.status !== 'Completed').length;
-
-            if (markersLayer) {
-                markersLayer.clearLayers();
-
-                issues.forEach(issue => {
-                    const coords = issue.location && issue.location.coordinates
-                        ? issue.location.coordinates
-                        : [13.4050, 52.5200];
-                    const lng = coords[0];
-                    const lat = coords[1];
-
-                    let iconName = 'help_outline';
-                    let iconColor = 'text-white';
-                    let iconBg = 'bg-gray-500';
-
-                    if (issue.category === 'Roads') {
-                        iconName = 'construction';
-                        iconColor = 'text-white';
-                        iconBg = 'bg-orange-500';
-                    } else if (issue.category === 'Garbage') {
-                        iconName = 'delete';
-                        iconColor = 'text-white';
-                        iconBg = 'bg-red-500';
-                    } else if (issue.category === 'Animals') {
-                        iconName = 'pets';
-                        iconColor = 'text-white';
-                        iconBg = 'bg-blue-500';
-                    } else if (issue.category === 'Water') {
-                        iconName = 'water_drop';
-                        iconColor = 'text-white';
-                        iconBg = 'bg-cyan-500';
-                    }
-
-                    const customIcon = L.divIcon({
-                        className: 'custom-leaflet-marker',
-                        html: `
-                            <div class="p-2 ${iconBg} border-2 border-primary brutalist-shadow rounded-sm flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform duration-300 hover:scale-110 shadow-md">
-                                <span class="material-symbols-outlined ${iconColor} text-sm font-bold">${iconName}</span>
-                            </div>
-                        `,
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 16]
-                    });
-
-                    L.marker([lat, lng], { icon: customIcon })
-                        .bindPopup(`
-                            <div class="font-sans p-1 min-w-[150px] text-black">
-                                <h5 class="font-cabin text-sm font-bold text-black mb-0.5">${issue.title}</h5>
-                                <p class="font-mono text-[10px] text-black mb-1 uppercase tracking-wider">${issue.category} · ${issue.status}</p>
-                                <p class="text-[10px] text-black mb-2">${issue.description.substring(0, 50)}...</p>
-                                <a href="/issue_detail.html?id=${issue.id}" class="w-full inline-block text-center px-sm py-1 border-2 border-primary bg-primary !text-white font-mono text-[10px] font-bold hover:bg-forest-moss transition-colors">VIEW DETAILS</a>
-                            </div>
-                        `)
-                        .addTo(markersLayer);
-                });
-            }
+            // No map plotting here in community.html
         }
 
         // Upvote post function
@@ -408,12 +284,12 @@
             let previousVotes = 0;
             let previousIsVotedByMe = false;
             const upvoteBtn = document.querySelector(`#issue-post-${id} button[onclick="upvoteIssue('${id}')"] span:last-child`);
-
+            
             // Optimistic update
             if (issueIndex > -1 && upvoteBtn) {
                 previousVotes = issues[issueIndex].votes;
                 previousIsVotedByMe = issues[issueIndex].isVotedByMe;
-
+                
                 if (previousIsVotedByMe) {
                     issues[issueIndex].votes = Math.max(0, issues[issueIndex].votes - 1);
                     issues[issueIndex].isVotedByMe = false;
@@ -448,8 +324,8 @@
                     }
                 } else {
                     // Revert
-                    if (issueIndex > -1 && upvoteBtn) {
-                        issues[issueIndex].votes = previousVotes;
+                    if (issueIndex > -1 && upvoteBtn) { 
+                        issues[issueIndex].votes = previousVotes; 
                         issues[issueIndex].isVotedByMe = previousIsVotedByMe;
                         upvoteBtn.innerText = previousVotes;
                         if (previousIsVotedByMe) {
@@ -466,8 +342,8 @@
                     }
                 }
             } catch (err) {
-                if (issueIndex > -1 && upvoteBtn) {
-                    issues[issueIndex].votes = previousVotes;
+                if (issueIndex > -1 && upvoteBtn) { 
+                    issues[issueIndex].votes = previousVotes; 
                     issues[issueIndex].isVotedByMe = previousIsVotedByMe;
                     upvoteBtn.innerText = previousVotes;
                     if (previousIsVotedByMe) {
@@ -576,7 +452,7 @@
                 btn.classList.add('bg-white/10');
             });
             const activeBtn = document.getElementById(`filter-btn-${category}`);
-            if (activeBtn) {
+            if(activeBtn) {
                 activeBtn.classList.remove('bg-white/10');
                 activeBtn.classList.add('bg-primary', 'shadow-md');
             }
@@ -603,20 +479,23 @@
             }
         };
 
+        let mapVisible = true;
         window.toggleMap = function () {
-            const container = document.getElementById('map-container');
-            const btn = document.getElementById('toggle-map-btn');
+            mapVisible = !mapVisible;
+            const mapContainer = document.getElementById('map-container');
+            const toggleBtn = document.getElementById('toggle-map-btn');
 
-            if (container.classList.contains('hidden')) {
-                container.classList.remove('hidden');
-                btn.innerHTML = '<span class="material-symbols-outlined text-lg">visibility_off</span> Hide Geographical Map';
-                // Trigger Leaflet to resize correctly since it was hidden
-                if (leafletMap) {
-                    setTimeout(() => leafletMap.invalidateSize(), 100);
-                }
+            if (mapVisible) {
+                mapContainer.classList.remove('hidden');
+                mapContainer.classList.add('flex');
+                toggleBtn.innerHTML = '<span class="material-symbols-outlined text-lg">visibility_off</span> Hide Geographical Map';
+                setTimeout(() => {
+                    if (leafletMap) leafletMap.invalidateSize();
+                }, 100);
             } else {
-                container.classList.add('hidden');
-                btn.innerHTML = '<span class="material-symbols-outlined text-lg">visibility</span> Show Geographical Map';
+                mapContainer.classList.add('hidden');
+                mapContainer.classList.remove('flex');
+                toggleBtn.innerHTML = '<span class="material-symbols-outlined text-lg">map</span> Show Geographical Map';
             }
         };
 

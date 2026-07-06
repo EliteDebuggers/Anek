@@ -83,6 +83,18 @@ class AnekSidebar extends HTMLElement {
                             </div>
                         </a>
 
+                        <a href="/community.html"
+                            class="nav-btn flex items-center gap-sm py-1 px-2 w-full group text-left rounded-none border transition-all shrink-0 relative z-10 ${isActive('community.html')}">
+                            <div
+                                class="w-12 h-12 rounded-full border-2 backdrop-blur-md flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(17,24,39,0.8)] transition-all shrink-0 ${isIconActive('community.html')}">
+                                <span class="material-symbols-outlined">forum</span>
+                            </div>
+                            <div class="ml-2">
+                                <p class="font-mono text-xs font-bold group-hover:underline ${isTextActive('community.html')}">Community</p>
+                                <p class="font-sans text-[10px] text-gray-800 font-bold">Recent reports & feeds</p>
+                            </div>
+                        </a>
+
                         <a href="/report_problem.html"
                             class="nav-btn flex items-center gap-sm py-1 px-2 w-full group text-left rounded-none border transition-all shrink-0 relative z-10 ${isActive('report_problem.html')}">
                             <div

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Anek | Issue Detail</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Manrope:wght@200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <script type="module" src="/src/main.js"></script>
+</head>
+
+<body
+    class="bg-background text-on-surface selection:bg-primary selection:text-on-primary min-h-screen flex flex-col transition-colors duration-500 relative">
+
+    <img id="global-bg-image" src="/images/tree.png" alt="Anēk Background"
+        class="fixed inset-0 w-full h-full object-cover object-center z-[-1]" />
+
+    <anek-header></anek-header>
+
+    <div class="flex flex-1">
+        <anek-sidebar></anek-sidebar>
+
+        <main class="flex-grow p-4 md:p-8 space-y-6 transition-all overflow-x-hidden animate-fade-in max-w-4xl mx-auto w-full">
+            <button onclick="window.history.back()" class="flex items-center gap-2 text-white/60 hover:text-white mb-4 transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span class="font-mono text-sm">Back</span>
+            </button>
+
+            <div id="issue-detail-container" class="glass-card bg-black/80 rounded-xl p-6 md:p-10 border border-white/10 relative">
+                <div class="animate-pulse flex flex-col gap-4">
+                    <div class="h-8 bg-white/10 rounded w-1/3"></div>
+                    <div class="h-4 bg-white/10 rounded w-1/4"></div>
+                    <div class="h-48 bg-white/10 rounded w-full mt-4"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <anek-footer></anek-footer>
+
+    <script type="module">
+        let currentUser = JSON.parse(localStorage.getItem('anek_current_user') || '{"name":"Citizen","username":"citizen"}');
+
+        if (document.getElementById('header-username')) document.getElementById('header-username').innerText = '@' + currentUser.username;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const issueId = urlParams.get('id');
+
+        async function fetchIssueDetail() {
+            if (!issueId) {
+                document.getElementById('issue-detail-container').innerHTML = `<p class="text-white text-center py-10">Invalid Issue ID</p>`;
+                return;
+            }
+
+            try {
+                const response = await apiFetch(`/issues/${issueId}`);
+                if (response && response.ok) {
+                    const data = await response.json();
+                    renderIssue(data.issue);
+                } else {
+                    document.getElementById('issue-detail-container').innerHTML = `<p class="text-white text-center py-10">Issue not found</p>`;
+                }
+            } catch (err) {
+                console.error('Error fetching issue:', err);
+                document.getElementById('issue-detail-container').innerHTML = `<p class="text-white text-center py-10">Error loading issue</p>`;
+            }
+        }
+
+        function renderIssue(issue) {
+            const container = document.getElementById('issue-detail-container');
+            
+            let statusClass = "bg-red-500/20 text-red-300 border-red-500/50";
+            let catIcon = "construction";
+            let catColor = "bg-orange-500";
+            
+            if (issue.status === 'In Progress') statusClass = "bg-blue-500/20 text-blue-300 border-blue-500/50";
+            if (issue.status === 'Completed') statusClass = "bg-green-500/20 text-green-300 border-green-500/50";
+
+            if (issue.category === 'Garbage') { catIcon = "delete"; catColor = "bg-red-500"; }
+            if (issue.category === 'Animals') { catIcon = "pets"; catColor = "bg-blue-500"; }
+            if (issue.category === 'Water') { catIcon = "water_drop"; catColor = "bg-blue-500"; }
+
+            let imagesHtml = '';
+            if (issue.mediaUrls && issue.mediaUrls.length > 1) {
+                imagesHtml = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">`;
+                issue.mediaUrls.forEach(url => {
+                    imagesHtml += `<img src="${url}" class="w-full h-64 object-cover rounded-lg shadow-md border border-white/10" alt="Issue image" />`;
+                });
+                imagesHtml += `</div>`;
+            } else if (issue.mediaUrls && issue.mediaUrls.length === 1) {
+                imagesHtml = `<img src="${issue.mediaUrls[0]}" class="w-full h-96 object-cover rounded-lg shadow-md border border-white/10 mb-8" alt="Issue image" />`;
+            } else if (issue.mediaUrl) {
+                imagesHtml = `<img src="${issue.mediaUrl}" class="w-full h-96 object-cover rounded-lg shadow-md border border-white/10 mb-8" alt="Issue image" />`;
+            }
+
+            container.innerHTML = `
+                <header class="flex flex-col md:flex-row md:justify-between items-start mb-8 gap-4 border-b border-white/10 pb-6">
+                    <div class="flex gap-4">
+                        <div class="w-16 h-16 rounded-full border border-white/20 shadow-md flex items-center justify-center font-cabin text-white font-bold ${catColor}">
+                            <span class="material-symbols-outlined text-3xl">${catIcon}</span>
+                        </div>
+                        <div>
+                            <h1 class="font-cabin text-4xl text-white leading-tight drop-shadow-sm">${issue.title}</h1>
+                            <p class="font-mono text-sm text-white/60 mt-2">Reported by @${issue.author} · ${issue.time}</p>
+                            <p class="font-mono text-xs text-white/50 mt-1">${issue.locationName || 'Unknown location'}</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1.5 rounded-md border text-xs font-mono uppercase font-bold ${statusClass}">${issue.status}</span>
+                </header>
+
+                <div class="font-sans text-lg text-white/90 mb-8 leading-relaxed whitespace-pre-wrap">
+                    ${issue.description}
+                </div>
+
+                ${imagesHtml}
+
+                <div class="border-t border-white/10 pt-6 mt-6">
+                    <h3 class="font-cabin text-2xl text-white mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">forum</span> Discussion (${issue.comments.length})
+                    </h3>
+                    <div id="comments-container" class="space-y-4 mb-6">
+                        ${issue.comments.length === 0 ? '<p class="text-white/50 font-mono text-sm italic">No comments yet. Be the first to reply!</p>' : ''}
+                        ${issue.comments.map(c => `
+                            <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                                <p class="font-mono text-xs text-primary font-bold mb-1">@${c.author}</p>
+                                <p class="font-sans text-sm text-white/90">${c.text}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <input type="text" id="detail-chat-input" class="flex-grow bg-black/30 border border-white/20 rounded-lg px-4 py-3 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Add a comment..." onkeypress="if(event.key === 'Enter') sendDetailChat()">
+                        <button onclick="sendDetailChat()" class="px-6 py-3 bg-primary text-white rounded-lg font-mono text-sm font-bold hover:bg-forest-moss transition-colors">POST</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.sendDetailChat = async function() {
+            const input = document.getElementById('detail-chat-input');
+            const text = input.value.trim();
+            if (!text || !issueId) return;
+
+            try {
+                const res = await apiFetch('/comments', {
+                    method: 'POST',
+                    body: JSON.stringify({ issueId, text })
+                });
+
+                if (res && res.ok) {
+                    input.value = '';
+                    fetchIssueDetail();
+                } else {
+                    alert('Error posting comment');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchIssueDetail();
+        });
+    </script>
+</body>
+</html>

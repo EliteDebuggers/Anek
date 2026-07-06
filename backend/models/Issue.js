@@ -58,6 +58,14 @@ const issueSchema = new mongoose.Schema({
   deletedAt: {
     type: Date,
     default: null,
+  },
+  mediaUrl: {
+    type: String,
+    default: null,
+  },
+  mediaUrls: {
+    type: [String],
+    default: [],
   }
 }, {
   timestamps: true,
