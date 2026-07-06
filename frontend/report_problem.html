@@ -48,33 +48,9 @@
                 </p>
             </section>
 
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-lg items-start">
+            <div class="max-w-4xl mx-auto space-y-lg flex flex-col items-start w-full">
 
-                <div class="space-y-md xl:sticky xl:top-24">
-                    <div
-                        class="glass-card p-6 border-2 border-primary brutalist-shadow space-y-4 relative overflow-hidden group">
-                        <div class="flex justify-between items-center select-none z-10 relative">
-                            <h3 class="font-cabin text-3xl text-secondary">Pin Location</h3>
-                            <div
-                                class="flex items-center gap-2 text-primary font-mono text-xs font-bold bg-white/80 p-1 px-2 border-2 border-primary">
-                                <span class="material-symbols-outlined text-sm animate-pulse">location_on</span>
-                                <span>Click anywhere to drop a pin</span>
-                            </div>
-                        </div>
-                        <div id="report-leaflet-map" class="w-full h-[400px] border-2 border-primary z-0 relative">
-                        </div>
-                        <div
-                            class="bg-surface-container-low p-3 border border-dashed border-outline-variant font-mono text-xs flex justify-between items-center">
-                            <span>Current Coordinates: <span id="coordinates-display"
-                                    class="text-primary font-bold">52.5200° N, 13.4050° E</span></span>
-                            <button type="button" onclick="window.centerOnUserLocation()"
-                                class="px-3 py-1 bg-white border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Use
-                                My Location</button>
-                        </div>
-                    </div>
-                </div>
-
-                <form id="report-form" class="space-y-lg" onsubmit="handleReportSubmit(event)">
+                <form id="report-form" class="space-y-lg w-full" onsubmit="handleReportSubmit(event)">
 
                     <div class="glass-card p-6 border-2 border-primary brutalist-shadow space-y-4">
                         <h3 class="font-cabin text-3xl text-secondary">Issue Category</h3>
@@ -134,6 +110,38 @@
                         </div>
                         <p id="err-urgency" class="font-mono text-[10px] text-accent-critical font-bold hidden">Is it on
                             fire or can it wait? Pick an urgency!</p>
+                    </div>
+
+                    <div class="glass-card p-6 border-2 border-primary brutalist-shadow space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-cabin text-3xl text-secondary">Location</h3>
+                            <button type="button" onclick="window.toggleMap()" id="toggle-map-btn"
+                                class="px-4 py-2 bg-white border-2 border-primary text-primary font-bold font-mono text-xs hover:bg-primary hover:text-white transition-colors brutalist-shadow flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm align-middle">map</span> Show Map
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="font-mono text-xs text-primary font-bold uppercase">Location Name</label>
+                            <input type="text" id="manual-location" required
+                                class="w-full bg-white border-2 border-primary p-3 font-sans text-sm focus:outline-none focus:border-forest-moss transition-colors placeholder:text-outline-variant"
+                                placeholder="e.g. Near City Center Park, Main Street">
+                        </div>
+
+                        <div id="map-container" class="hidden space-y-4 mt-4">
+                            <div class="flex justify-between items-center select-none z-10 relative">
+                                <h4 class="font-mono text-xs text-primary font-bold uppercase">Pin Exact Location (Optional)</h4>
+                            </div>
+                            <div id="report-leaflet-map" class="w-full h-[300px] border-2 border-primary z-0 relative">
+                            </div>
+                            <div
+                                class="bg-surface-container-low p-3 border border-dashed border-outline-variant font-mono text-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <span>Coordinates: <span id="coordinates-display"
+                                        class="text-primary font-bold">52.5200° N, 13.4050° E</span></span>
+                                <button type="button" onclick="window.centerOnUserLocation()"
+                                    class="px-4 py-2 bg-white border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors brutalist-shadow w-full sm:w-auto">Use My Location</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="glass-card p-6 border-2 border-primary brutalist-shadow space-y-4">
@@ -243,6 +251,24 @@
 
             updateCoordinates(lat, lng);
         }
+
+        window.toggleMap = function() {
+            const mapContainer = document.getElementById('map-container');
+            const btn = document.getElementById('toggle-map-btn');
+            if (mapContainer.classList.contains('hidden')) {
+                mapContainer.classList.remove('hidden');
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm align-middle">visibility_off</span> Hide Map';
+                // Fix leaflet size issue when initially hidden
+                setTimeout(() => {
+                    if (reportMap) {
+                        reportMap.invalidateSize();
+                    }
+                }, 100);
+            } else {
+                mapContainer.classList.add('hidden');
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm align-middle">map</span> Show Map';
+            }
+        };
 
         function getUserLocation() {
             if (navigator.geolocation) {
@@ -477,9 +503,11 @@
             formData.append('category', category);
             formData.append('description', notesText);
             formData.append('urgency', selectedUrgencyLevel);
+            const locName = document.getElementById('manual-location').value.trim() || 'Unknown Location';
+
             formData.append('latitude', selectedLatitude);
             formData.append('longitude', selectedLongitude);
-            formData.append('locationName', 'Community Hub');
+            formData.append('locationName', locName);
 
             if (selectedFile) {
                 formData.append('evidence', selectedFile);

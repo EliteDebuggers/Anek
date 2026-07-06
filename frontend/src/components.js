@@ -198,8 +198,6 @@ class AnekHeader extends HTMLElement {
                 <span class="w-2.5 h-2.5 rounded-full bg-forest-moss animate-pulse"></span>
                 <span>Active Session: <strong id="header-username">Citizen</strong></span>
             </div>
-            <button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all hover:-translate-y-0.5" title="Notifications">notifications</button>
-            <button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all hover:-translate-y-0.5" title="Help">help</button>
             <a href="#" id="global-logout-btn" class="material-symbols-outlined text-on-surface-variant hover:text-red-600 transition-all hover:-translate-y-0.5" title="Logout">logout</a>
         </div>
     </header>

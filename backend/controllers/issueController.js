@@ -294,6 +294,21 @@ export const updateIssue = async (req, res, next) => {
     if (description) issue.description = description.trim();
     if (urgency) issue.urgency = urgency;
 
+    if (req.body.removeMedia === 'true' || req.file) {
+      await Media.deleteMany({ issue: issue._id });
+    }
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer, 'anek_issues');
+      await Media.create({
+        issue: issue._id,
+        url: result.secure_url,
+        publicId: result.public_id,
+        type: req.file.mimetype.startsWith('video/') ? 'video' : 'image',
+        sizeBytes: req.file.size,
+      });
+    }
+
     await issue.save();
     await issue.populate('author', 'username');
     await issue.populate('responsibleUser', 'username');

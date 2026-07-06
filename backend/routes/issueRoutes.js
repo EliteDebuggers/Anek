@@ -26,7 +26,7 @@ router.get('/my-contributions', protect, getMyContributions);
 router.get('/nearby', optionalProtect, getNearbyIssues);
 router.get('/heatmap', optionalProtect, getHeatmapData);
 
-router.patch('/:id', protect, validateIssueUpdate, updateIssue);
+router.patch('/:id', protect, multerUpload.single('evidence'), validateIssueUpdate, updateIssue);
 router.delete('/:id', protect, deleteIssue);
 
 router.post('/:id/upvote', protect, upvoteIssue);
