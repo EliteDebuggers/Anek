@@ -14,7 +14,7 @@ const defaultRewards = [
     minRank: 'NPC',
   },
   {
-    name: '$25 Coffee Credit',
+    name: '₹25 Coffee Credit',
     description: 'Valid at all participating \'Anek Network\' cafes. Supports fair-trade sourcing.',
     cost: 50,
     category: 'Cafes',

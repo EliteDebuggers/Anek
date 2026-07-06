@@ -86,8 +86,8 @@
 
 .hover-glow {
   transition: all 0.3s ease;
-  border-color: rgba(70, 138, 94, 0.4);
 }
+
 .hover-glow:hover {
   border-color: rgba(70, 138, 94, 1);
 }
@@ -96,6 +96,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .btn-ripple::after {
   content: "";
   display: block;
@@ -112,6 +113,7 @@
   opacity: 0;
   transition: transform .5s, opacity 1s;
 }
+
 .btn-ripple:active::after {
   transform: scale(0, 0);
   opacity: .3;
@@ -156,15 +158,28 @@
 }
 
 .nav-item-active {
-  background-color: rgba(45, 74, 62, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
   border-color: #2d4a3e;
   box-shadow: 4px 4px 0px 0px #2d4a3e;
+}
+
+html.dark .nav-item-active {
+  background-color: #0d2116 !important;
+  border-color: #0d2116 !important;
+  box-shadow: 4px 4px 0px 0px #1d462f !important;
 }
 
 .nav-icon-active {
   background-color: #ffffff;
   border-color: #2d4a3e;
   color: #2d4a3e;
+}
+
+html.dark .nav-icon-active {
+  background-color: #90a955 !important;
+  color: #0b1f17 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 15px rgba(144, 169, 85, 0.4) !important;
 }
 
 .sidebar-minimized .nav-item-active {
@@ -207,21 +222,24 @@
 }
 
 /* Urgency Button Active States */
-.active-priority, html.dark .active-priority {
+.active-priority,
+html.dark .active-priority {
   background-color: #facc15 !important;
   /* bg-yellow-400 */
   color: #000000 !important;
   border-color: #facc15 !important;
 }
 
-.active-emergency, html.dark .active-emergency {
+.active-emergency,
+html.dark .active-emergency {
   background-color: #ba1a1a !important;
   /* bg-error */
   color: #ffffff !important;
   border-color: #ba1a1a !important;
 }
 
-.active-standard, html.dark .active-standard {
+.active-standard,
+html.dark .active-standard {
   background-color: #4f772d !important;
   /* bg-forest-moss */
   color: #ffffff !important;
@@ -276,9 +294,27 @@ html.dark .bg-white\/80,
 html.dark .bg-white\/90,
 html.dark .bg-surface-container,
 html.dark .bg-surface-container-low\/80 {
-  background-color: rgba(58, 92, 77, 0.5) !important;
+  background-color: rgba(35, 58, 48, 0.65) !important;
   color: #ffffff !important;
   border-color: #6fa356 !important;
+}
+
+@media (max-width: 767px) {
+  html.dark aside#sidebar.sidebar-solid-bg {
+    background-color: rgba(26, 46, 36, 0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  aside#sidebar.sidebar-solid-bg,
+  html.dark aside#sidebar.sidebar-solid-bg {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
 }
 
 html.dark aside#left-sidebar {
@@ -301,7 +337,7 @@ html.dark .text-primary\/40 {
   color: rgba(240, 240, 240, 0.829) !important;
 }
 
-html.dark input::placeholder, 
+html.dark input::placeholder,
 html.dark textarea::placeholder {
   color: rgba(255, 255, 255, 0.5) !important;
 }
@@ -309,20 +345,20 @@ html.dark textarea::placeholder {
 html.dark .hover\:bg-white\/40:hover,
 html.dark .group:hover .group-hover\:bg-white,
 html.dark .group:hover .group-hover\:bg-white\/40 {
-    background-color: rgba(255, 255, 255, 0.15) !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 html.dark .hover\:border-gray-900:hover,
 html.dark .group:hover .group-hover\:border-gray-900,
 html.dark .hover\:border-primary:hover {
-    border-color: #6fa356 !important;
+  border-color: #6fa356 !important;
 }
 
 html.dark .hover\:text-gray-900:hover,
 html.dark .group:hover .group-hover\:text-primary,
 html.dark .group:hover .group-hover\:text-gray-900,
 html.dark .hover\:text-primary:hover {
-    color: #ffffff !important;
+  color: #ffffff !important;
 }
 
 html.dark #global-bg-image {
@@ -332,16 +368,19 @@ html.dark #global-bg-image {
 html.dark .border-outline-variant {
   border-color: #516359 !important;
 }
+
 anek-sidebar {
-    display: none;
+  display: none;
 }
+
 @media (min-width: 768px) {
-    anek-sidebar {
-        display: flex;
-        flex-direction: column;
-        align-self: stretch;
-    }
+  anek-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+  }
 }
-anek-sidebar > aside {
-    flex-grow: 1;
+
+anek-sidebar>aside {
+  flex-grow: 1;
 }

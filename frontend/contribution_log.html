@@ -32,8 +32,8 @@
 
                 <section class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
                     <div class="md:col-span-8">
-                        <h2 class="font-cabin text-5xl md:text-6xl text-primary mb-xs">My Quests / Activity</h2>
-                        <p class="font-sans text-sm text-on-surface-variant max-w-xl">
+                        <h2 class="font-cabin text-4xl md:text-6xl text-primary mb-xs">My Quests / Activity</h2>
+                        <p class="font-sans text-xs md:text-sm text-on-surface-variant max-w-xl">
                             Agent ID: #<span id="agent-id">0000</span>-NPC. Everything you've done so far. We keep
                             track of your good deeds.
                         </p>
@@ -134,9 +134,9 @@
                         </div>
 
                         <a href="/report_problem.html"
-                            class="w-full mt-6 flex items-center justify-center gap-4 rounded-xl p-6 bg-gradient-to-r from-primary to-forest-moss text-white font-bold shadow-[0_15px_30px_rgba(70,138,94,0.4)] border-2 border-primary transition-all btn-ripple">
-                            <span class="material-symbols-outlined text-3xl">add</span>
-                            <span class="font-cabin text-4xl">LOG NEW ACTION</span>
+                            class="w-full mt-6 flex items-center justify-center gap-3 rounded-xl p-4 bg-gradient-to-r from-primary to-forest-moss text-white font-bold shadow-md border-2 border-primary transition-all btn-ripple">
+                            <span class="material-symbols-outlined text-2xl">add</span>
+                            <span class="font-cabin text-2xl tracking-wide">LOG NEW ACTION</span>
                         </a>
                     </div>
 
@@ -341,7 +341,7 @@
                             <span class="px-2 py-0.5 border border-outline-variant bg-surface-container text-[10px] font-mono uppercase">${log.category}</span>
                             <span class="px-2 py-0.5 border border-primary bg-primary-container text-[10px] font-mono uppercase font-bold text-on-primary-container">${log.points}</span>
                             <span class="text-[10px] font-mono text-forest-moss flex items-center"><span class="material-symbols-outlined text-[10px] font-bold">check</span> ${log.status}</span>
-                            ${log.issueId && log.activity.includes('Reported') ? `<button onclick="openEditModal('${log.issueId}')" class="ml-auto px-3 py-1 bg-white border border-primary text-primary hover:bg-primary hover:text-white transition-colors text-[10px] font-mono font-bold rounded-full">EDIT POST</button>` : ''}
+                            ${log.issueId && log.activity.includes('Reported') ? `<button onclick="openEditModal('${log.issueId}')" class="ml-auto text-primary hover:text-forest-moss transition-colors" title="Edit Post"><span class="material-symbols-outlined text-xl">edit</span></button>` : ''}
                         </div>
                     </div>
                 `;

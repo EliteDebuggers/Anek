@@ -1,9 +1,12 @@
 class AnekSidebar extends HTMLElement {
     connectedCallback() {
         const path = window.location.pathname;
-        const isActive = (href) => path.includes(href) ? 'nav-item-active shadow-[inset_4px_0_0_0_#4f772d] bg-primary/20' : 'border-transparent hover:border-primary/50 hover:bg-white/20 transition-all duration-300 hover-glow';
-        const isTextActive = (href) => path.includes(href) ? 'text-primary' : 'text-gray-900 group-hover:text-primary transition-colors';
-        const isIconActive = (href) => path.includes(href) ? 'nav-icon-active shadow-[0_0_20px_rgba(70,138,94,0.8)]' : 'bg-white/40 border-gray-900 text-gray-900 group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-sm group-hover:shadow-[0_0_15px_rgba(70,138,94,0.5)] transition-all duration-300';
+        const isActive = (href) => path.includes(href) ? 'nav-item-active' : 'border-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300';
+        const isTextActive = (href) => path.includes(href) ? 'text-primary dark:text-white' : 'text-gray-900 dark:text-gray-300 group-hover:text-primary transition-colors';
+        const isIconActive = (href) => path.includes(href) ? 'nav-icon-active' : 'bg-white/40 border-gray-900 text-gray-900 dark:text-white group-hover:bg-primary group-hover:text-white group-hover:border-primary shadow-sm group-hover:shadow-[0_0_15px_rgba(70,138,94,0.5)] transition-all duration-300';
+
+        const isHomePage = path === '/' || path.includes('index.html');
+        const sidebarBgClass = isHomePage ? '' : 'bg-white sidebar-solid-bg shadow-xl';
 
         this.innerHTML = `
             <!-- Mobile Sidebar Overlay -->
@@ -12,7 +15,7 @@ class AnekSidebar extends HTMLElement {
             </div>
 
             <aside id="sidebar"
-                class="-translate-x-full md:translate-x-0 fixed md:relative left-0 w-[75vw] md:w-[320px] top-0 h-full min-h-screen md:min-h-full px-4 pb-4 pt-2 flex flex-col justify-between z-[60] transition-all duration-300 overflow-x-hidden glass-card border-none shrink-0">
+                class="-translate-x-full md:translate-x-0 fixed md:relative left-0 w-[75vw] md:w-[320px] top-0 h-full min-h-screen md:min-h-full px-4 pb-4 pt-2 flex flex-col justify-between z-[60] transition-all duration-300 overflow-x-hidden ${isHomePage ? 'glass-card' : ''} border-none md:border-solid md:border-r-2 md:border-outline-variant shrink-0 ${sidebarBgClass}">
                 <div id="sidebar-content" class="space-y-sm transition-opacity duration-300 w-full pt-4">
 
                     <!-- Toggle Button inside sidebar -->
@@ -199,7 +202,7 @@ customElements.define('anek-sidebar', AnekSidebar);
 class AnekHeader extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
-    <header class="bg-white h-16 sticky top-0 z-40 border-b-2 border-outline-variant flex justify-between items-center px-margin w-full max-w-full">
+    <header class="bg-transparent h-16 sticky top-0 z-40 flex justify-between items-center px-margin w-full max-w-full">
         <div class="flex items-center gap-sm">
             <a href="/" class="font-cabin text-3xl font-bold text-primary tracking-tighter ml-2 hover:opacity-80 transition-opacity flex items-start">
                 Anē<span class="relative inline-block">k<img src="/images/leaf.svg" class="absolute top-[-8px] right-[-7px] w-[15px] h-[15px] rotate-[15deg] origin-bottom-left" alt="leaf" /></span>
@@ -256,6 +259,10 @@ class AnekFooter extends HTMLElement {
         <a href="/report_problem.html" class="${getNavClass('report_problem')}">
             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('report_problem')};">add_a_photo</span>
             <span class="font-mono text-[9px] font-bold mt-0.5">Report</span>
+        </a>
+        <a href="/community.html" class="${getNavClass('community')}">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('community')};">forum</span>
+            <span class="font-mono text-[9px] font-bold mt-0.5">Feed</span>
         </a>
         <a href="/contribution_log.html" class="${getNavClass('contribution_log')}">
             <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' ${getIconFill('contribution_log')};">history</span>
