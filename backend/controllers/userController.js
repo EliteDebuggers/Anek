@@ -1,6 +1,8 @@
+import fs from 'fs';
+import path from 'path';
 import User from '../models/User.js';
 import GCPTransaction from '../models/GCPTransaction.js';
-import { uploadToCloudinary } from '../middleware/uploadMiddleware.js';
+import { uploadToCloudinary, isCloudinaryConfigured } from '../middleware/uploadMiddleware.js';
 import { serializeUser, serializeLeaderboardUser } from '../utils/responseSerializer.js';
 
 /**
@@ -70,16 +72,31 @@ export const updateAvatar = async (req, res, next) => {
       return next(new Error('No file uploaded'));
     }
 
-    const result = await uploadToCloudinary(req.file.buffer, 'anek_avatars');
+    let avatarUrl = '';
+    if (isCloudinaryConfigured()) {
+      const result = await uploadToCloudinary(req.file.buffer, 'anek_avatars');
+      avatarUrl = result.secure_url;
+    } else {
+      // Fallback: save locally
+      const uploadDir = path.join(process.cwd(), '../frontend/public/uploads');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const ext = path.extname(req.file.originalname) || '.png';
+      const fileName = `avatar-${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
+      const filePath = path.join(uploadDir, fileName);
+      fs.writeFileSync(filePath, req.file.buffer);
+      avatarUrl = `/uploads/${fileName}`;
+    }
 
     const user = await User.findById(req.user._id);
-    user.profilePicture = result.secure_url;
+    user.profilePicture = avatarUrl;
     await user.save();
 
     res.status(200).json({
       success: true,
       message: 'Avatar uploaded successfully',
-      avatarUrl: result.secure_url,
+      avatarUrl: avatarUrl,
       user: serializeUser(user),
     });
   } catch (error) {

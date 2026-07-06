@@ -49,3 +49,18 @@ export const uploadToCloudinary = (fileBuffer, folder = 'anek') => {
     uploadStream.end(fileBuffer);
   });
 };
+
+/**
+ * Checks if Cloudinary is fully configured with real environment variables.
+ * @returns {Boolean}
+ */
+export const isCloudinaryConfigured = () => {
+  return !!(
+    process.env.CLOUDINARY_CLOUD_NAME &&
+    process.env.CLOUDINARY_CLOUD_NAME !== 'your_cloud_name' &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_KEY !== 'your_api_key' &&
+    process.env.CLOUDINARY_API_SECRET &&
+    process.env.CLOUDINARY_API_SECRET !== 'your_api_secret'
+  );
+};

@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import Issue from '../models/Issue.js';
 import Vote from '../models/Vote.js';
 import Comment from '../models/Comment.js';
@@ -5,7 +7,7 @@ import Media from '../models/Media.js';
 import User from '../models/User.js';
 import GCPTransaction from '../models/GCPTransaction.js';
 import Notification from '../models/Notification.js';
-import { uploadToCloudinary } from '../middleware/uploadMiddleware.js';
+import { uploadToCloudinary, isCloudinaryConfigured } from '../middleware/uploadMiddleware.js';
 import { serializeIssue } from '../utils/responseSerializer.js';
 
 /**
@@ -63,15 +65,36 @@ export const createIssue = async (req, res, next) => {
     let media = [];
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
-        const result = await uploadToCloudinary(file.buffer, 'anek_issues');
-        const mediaDoc = await Media.create({
-          issue: issue._id,
-          url: result.secure_url,
-          publicId: result.public_id,
-          type: file.mimetype.startsWith('video/') ? 'video' : 'image',
-          sizeBytes: file.size,
-        });
-        media.push(mediaDoc);
+        if (isCloudinaryConfigured()) {
+          const result = await uploadToCloudinary(file.buffer, 'anek_issues');
+          const mediaDoc = await Media.create({
+            issue: issue._id,
+            url: result.secure_url,
+            publicId: result.public_id,
+            type: file.mimetype.startsWith('video/') ? 'video' : 'image',
+            sizeBytes: file.size,
+          });
+          media.push(mediaDoc);
+        } else {
+          // Fallback: save locally
+          const uploadDir = path.join(process.cwd(), '../frontend/public/uploads');
+          if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+          }
+          const ext = path.extname(file.originalname) || (file.mimetype.startsWith('video/') ? '.mp4' : '.png');
+          const fileName = `evidence-${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
+          const filePath = path.join(uploadDir, fileName);
+          fs.writeFileSync(filePath, file.buffer);
+
+          const mediaDoc = await Media.create({
+            issue: issue._id,
+            url: `/uploads/${fileName}`,
+            publicId: fileName,
+            type: file.mimetype.startsWith('video/') ? 'video' : 'image',
+            sizeBytes: file.size,
+          });
+          media.push(mediaDoc);
+        }
       }
     }
 
