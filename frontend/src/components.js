@@ -299,10 +299,6 @@ class AnekFooter extends HTMLElement {
                 </svg>
                 Instagram
             </a>
-            <a href="mailto:contact@anek.eco"
-                class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                Contact
-            </a>
             <a href="/privacy_policy.html"
                 class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
                 Privacy
@@ -311,9 +307,6 @@ class AnekFooter extends HTMLElement {
                 class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
                 Terms
             </a>
-            <span class="flex items-center font-mono text-xs uppercase text-gray-400">
-                v1.0.0
-            </span>
         </div>
         <p class="font-mono text-xs text-on-surface-variant opacity-60">
             © 2026 Anēk • Building the forest, leaf by leaf.
@@ -349,10 +342,6 @@ class AnekLandingFooter extends HTMLElement {
                     </svg>
                     Instagram
                 </a>
-                <a href="mailto:contact@anek.eco"
-                    class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
-                    Contact
-                </a>
                 <a href="/privacy_policy.html"
                     class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
                     Privacy
@@ -361,9 +350,6 @@ class AnekLandingFooter extends HTMLElement {
                     class="flex items-center font-mono text-xs uppercase text-gray-600 border-b border-transparent hover:border-primary hover:text-primary transition-colors">
                     Terms
                 </a>
-                <span class="flex items-center font-mono text-xs uppercase text-gray-400">
-                    v1.0.0
-                </span>
             </div>
             <p class="font-mono text-xs text-on-surface-variant opacity-60">© 2026 Anēk • Building the forest, leaf by leaf.</p>
         </footer>

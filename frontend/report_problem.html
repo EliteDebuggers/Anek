@@ -223,11 +223,25 @@
         let reportMap = null;
         let pickerMarker = null;
 
-        function updateCoordinates(lat, lng) {
+        async function updateCoordinates(lat, lng, fetchName = false) {
             selectedLatitude = lat.toFixed(4);
             selectedLongitude = lng.toFixed(4);
             if (document.getElementById('coordinates-display')) {
                 document.getElementById('coordinates-display').innerText = `${selectedLatitude}° N, ${selectedLongitude}° E`;
+            }
+            if (fetchName) {
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data && data.display_name) {
+                            const locInput = document.getElementById('manual-location');
+                            if (locInput) locInput.value = data.display_name;
+                        }
+                    }
+                } catch (err) {
+                    console.error("Geocoding error:", err);
+                }
             }
         }
 
@@ -246,12 +260,12 @@
 
             pickerMarker.on('dragend', function (e) {
                 const position = pickerMarker.getLatLng();
-                updateCoordinates(position.lat, position.lng);
+                updateCoordinates(position.lat, position.lng, true);
             });
 
             reportMap.on('click', function (e) {
                 pickerMarker.setLatLng(e.latlng);
-                updateCoordinates(e.latlng.lat, e.latlng.lng);
+                updateCoordinates(e.latlng.lat, e.latlng.lng, true);
             });
 
             updateCoordinates(lat, lng);
