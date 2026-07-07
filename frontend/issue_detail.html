@@ -27,7 +27,7 @@
     <div class="flex flex-1">
         <anek-sidebar></anek-sidebar>
 
-        <main class="flex-grow p-4 md:p-8 space-y-6 transition-all overflow-x-hidden animate-fade-in max-w-4xl mx-auto w-full">
+        <main class="flex-grow p-4 md:p-8 space-y-6 transition-all overflow-x-hidden animate-fade-in max-w-6xl mx-auto w-full">
             <button onclick="window.history.back()" class="flex items-center gap-2 text-white/60 hover:text-white mb-4 transition-colors">
                 <span class="material-symbols-outlined">arrow_back</span>
                 <span class="font-mono text-sm">Back</span>
@@ -98,46 +98,86 @@
                 imagesHtml = `<img src="${issue.mediaUrls[0]}" class="w-full h-96 object-cover rounded-lg shadow-md border border-white/10 mb-8" alt="Issue image" />`;
             } else if (issue.mediaUrl) {
                 imagesHtml = `<img src="${issue.mediaUrl}" class="w-full h-96 object-cover rounded-lg shadow-md border border-white/10 mb-8" alt="Issue image" />`;
+            } else if (issue.status === 'Completed') {
+                // Fallback image matching community.html behavior
+                imagesHtml = `<img src="https://images.unsplash.com/photo-1542385151-efd9000785a0?w=500&q=80" class="w-full h-96 object-cover rounded-lg shadow-md border border-white/10 mb-8" alt="Issue image" />`;
+            }
+
+            let takeActionBtn = '';
+            if (issue.status === 'Reported') {
+                takeActionBtn = `<button onclick="takeResponsibility('${issue.id}')" class="px-3 py-1.5 rounded-lg border border-primary bg-primary/80 text-white text-[10px] font-mono font-bold hover:bg-primary transition-all">TAKE RESPONSIBILITY</button>`;
+            } else if (issue.status === 'In Progress') {
+                if (issue.responsibleUser === currentUser.username) {
+                    takeActionBtn = `
+                        <div class="flex gap-2">
+                            <button onclick="dropResponsibility('${issue.id}')" class="px-3 py-1.5 rounded-lg border border-red-500/50 bg-red-500/20 text-red-300 text-[10px] font-mono font-bold hover:bg-red-500/40 transition-all">DROP</button>
+                            <button onclick="completeIssue('${issue.id}')" class="px-3 py-1.5 rounded-lg border border-green-500/50 bg-green-500/20 text-green-300 text-[10px] font-mono font-bold hover:bg-green-500/40 transition-all">MARK RESOLVED</button>
+                        </div>
+                    `;
+                } else {
+                    takeActionBtn = `<span class="text-[10px] font-mono text-white/50 italic">Assigned to @${issue.responsibleUser}</span>`;
+                }
+            } else if (issue.status === 'Completed') {
+                takeActionBtn = `<span class="text-[10px] font-mono text-green-400 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-sm">verified</span> Verified</span>`;
             }
 
             container.innerHTML = `
-                <header class="flex flex-col md:flex-row md:justify-between items-start mb-8 gap-4 border-b border-white/10 pb-6">
-                    <div class="flex gap-4">
-                        <div class="w-16 h-16 rounded-full border border-white/20 shadow-md flex items-center justify-center font-cabin text-white font-bold ${catColor}">
-                            <span class="material-symbols-outlined text-3xl">${catIcon}</span>
-                        </div>
-                        <div>
-                            <h1 class="font-cabin text-4xl text-white leading-tight drop-shadow-sm">${issue.title}</h1>
-                            <p class="font-mono text-sm text-white/60 mt-2">Reported by @${issue.author} · ${issue.time}</p>
-                            <p class="font-mono text-xs text-white/50 mt-1">${issue.locationName || 'Unknown location'}</p>
-                        </div>
-                    </div>
-                    <span class="px-3 py-1.5 rounded-md border text-xs font-mono uppercase font-bold ${statusClass}">${issue.status}</span>
-                </header>
-
-                <div class="font-sans text-lg text-white/90 mb-8 leading-relaxed whitespace-pre-wrap">
-                    ${issue.description}
-                </div>
-
-                ${imagesHtml}
-
-                <div class="border-t border-white/10 pt-6 mt-6">
-                    <h3 class="font-cabin text-2xl text-white mb-4 flex items-center gap-2">
-                        <span class="material-symbols-outlined">forum</span> Discussion (${issue.comments.length})
-                    </h3>
-                    <div id="comments-container" class="space-y-4 mb-6">
-                        ${issue.comments.length === 0 ? '<p class="text-white/50 font-mono text-sm italic">No comments yet. Be the first to reply!</p>' : ''}
-                        ${issue.comments.map(c => `
-                            <div class="bg-white/5 rounded-lg p-4 border border-white/10">
-                                <p class="font-mono text-xs text-primary font-bold mb-1">@${c.author}</p>
-                                <p class="font-sans text-sm text-white/90">${c.text}</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column: Details & Media -->
+                    <div class="lg:col-span-2">
+                        <header class="flex flex-col md:flex-row md:justify-between items-start mb-8 gap-4 border-b border-white/10 pb-6">
+                            <div class="flex gap-4">
+                                <div class="w-16 h-16 rounded-full border border-white/20 shadow-md flex items-center justify-center font-cabin text-white font-bold ${catColor}">
+                                    <span class="material-symbols-outlined text-3xl">${catIcon}</span>
+                                </div>
+                                <div>
+                                    <h1 class="font-cabin text-4xl text-white leading-tight drop-shadow-sm">${issue.title}</h1>
+                                    <p class="font-mono text-sm text-white/60 mt-2">Reported by @${issue.author} · ${issue.time}</p>
+                                    <p class="font-mono text-xs text-white/50 mt-1">${issue.locationName || 'Unknown location'} | Urgency: ${issue.urgency || 'Normal'}</p>
+                                </div>
                             </div>
-                        `).join('')}
+                            <span class="px-3 py-1.5 rounded-md border text-xs font-mono uppercase font-bold ${statusClass}">${issue.status}</span>
+                        </header>
+
+                        <div class="font-sans text-lg text-white/90 mb-8 leading-relaxed whitespace-pre-wrap">
+                            ${issue.description}
+                        </div>
+
+                        ${imagesHtml}
                     </div>
-                    
-                    <div class="flex gap-3">
-                        <input type="text" id="detail-chat-input" class="flex-grow bg-black/30 border border-white/20 rounded-lg px-4 py-3 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Add a comment..." onkeypress="if(event.key === 'Enter') sendDetailChat()">
-                        <button onclick="sendDetailChat()" class="px-6 py-3 bg-primary text-white rounded-lg font-mono text-sm font-bold hover:bg-forest-moss transition-colors">POST</button>
+
+                    <!-- Right Column: Actions & Discussion -->
+                    <div class="lg:col-span-1 flex flex-col border-t lg:border-t-0 lg:border-l border-white/10 pt-8 lg:pt-0 lg:pl-8">
+                        <div class="flex justify-between items-center select-none mb-8">
+                            <div class="flex gap-4">
+                                <button onclick="upvoteIssue('${issue.id}')" id="upvote-btn" class="flex items-center gap-1.5 ${issue.isVotedByMe ? 'text-primary' : 'text-white/60'} hover:text-primary transition-colors hover:scale-110">
+                                    <span class="material-symbols-outlined text-xl">thumb_up</span>
+                                    <span id="vote-count" class="font-mono text-lg font-bold">${issue.votes}</span>
+                                </button>
+                            </div>
+                            ${takeActionBtn}
+                        </div>
+
+                        <div class="flex flex-col flex-grow">
+                            <h3 class="font-cabin text-2xl text-white mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined">forum</span> Discussion (${issue.comments.length})
+                            </h3>
+                            
+                            <div id="comments-container" class="space-y-4 mb-4 flex-grow overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
+                                ${issue.comments.length === 0 ? '<p class="text-white/50 font-mono text-sm italic">No comments yet. Be the first to reply!</p>' : ''}
+                                ${issue.comments.map(c => `
+                                    <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+                                        <p class="font-mono text-xs text-primary font-bold mb-1">@${c.author}</p>
+                                        <p class="font-sans text-sm text-white/90">${c.text}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="flex gap-2 mt-auto pt-4 border-t border-white/10">
+                                <input type="text" id="detail-chat-input" class="flex-grow bg-black/30 border border-white/20 rounded-lg px-3 py-2 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Add a comment..." onkeypress="if(event.key === 'Enter') sendDetailChat()">
+                                <button onclick="sendDetailChat()" class="px-4 py-2 bg-primary text-white rounded-lg font-mono text-sm font-bold hover:bg-forest-moss transition-colors">POST</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -163,7 +203,66 @@
             } catch (err) {
                 console.error(err);
             }
-        }
+        };
+
+        window.upvoteIssue = async function (id) {
+            const token = localStorage.getItem('anek_access_token');
+            if (!token) {
+                alert('You must be logged in to upvote issues.');
+                return;
+            }
+
+            try {
+                const response = await apiFetch(`/issues/${id}/upvote`, {
+                    method: 'POST'
+                });
+                if (response && response.ok) {
+                    fetchIssueDetail();
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Error upvoting issue');
+                }
+            } catch (err) {
+                console.error('Error upvoting:', err);
+                alert('An error occurred while upvoting.');
+            }
+        };
+
+        window.takeResponsibility = async function (id) {
+            if (confirm("You sure you want to handle this? Don't back out later!")) {
+                try {
+                    const response = await apiFetch(`/issues/${id}/take-responsibility`, { method: 'POST' });
+                    if (response && response.ok) fetchIssueDetail();
+                } catch (err) {
+                    console.error('Error claiming:', err);
+                }
+            }
+        };
+
+        window.dropResponsibility = async function (id) {
+            if (confirm("Giving up already? You sure you wanna drop this?")) {
+                try {
+                    const response = await apiFetch(`/issues/${id}/drop-responsibility`, { method: 'POST' });
+                    if (response && response.ok) fetchIssueDetail();
+                } catch (err) {
+                    console.error('Error dropping:', err);
+                }
+            }
+        };
+
+        window.completeIssue = async function (id) {
+            if (confirm("Job done? Mark it complete to earn GCP!")) {
+                try {
+                    const response = await apiFetch(`/issues/${id}/resolve`, { method: 'POST' });
+                    if (response && response.ok) {
+                        alert("Boom! Issue fixed. You just bagged +50 GCP. You rock!");
+                        fetchIssueDetail();
+                    }
+                } catch (err) {
+                    console.error('Error resolving:', err);
+                }
+            }
+        };
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
