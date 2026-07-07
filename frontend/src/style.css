@@ -70,13 +70,13 @@
 
 .glass-card {
   background: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none !important;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
 .dark-glass-card {
-  background: #0a0f0c;
-  border: 1px solid rgba(197, 160, 89, 0.15);
+  background: rgba(12, 26, 20, 0.9);
+  border: none !important;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
 }
 
@@ -278,7 +278,11 @@ html.dark body {
   color: #ffffff !important;
 }
 
-html.dark .glass-card,
+html.dark .glass-card {
+  background-color: rgba(12, 26, 20, 0.9) !important;
+  border: none !important;
+}
+
 html.dark .bg-white\/95,
 html.dark .bg-surface-container-lowest,
 html.dark .bg-white,

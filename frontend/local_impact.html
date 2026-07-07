@@ -70,12 +70,12 @@
             <!-- Map Section -->
             <section class="w-full mb-12 animate-slide-up" style="animation-delay: 0.1s;">
                 <div id="map-container"
-                    class="flex w-full glass-card rounded-xl h-[450px] overflow-hidden group flex-col border border-white/10 transition-all duration-500 relative">
+                    class="flex w-full glass-card rounded-xl h-[450px] overflow-hidden group flex-col border-none transition-all duration-500 relative">
 
                     <div id="leaflet-map" class="w-full h-full z-0 flex-grow"></div>
 
                     <div
-                        class="absolute bottom-6 right-6 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 p-4 flex flex-col gap-3 shadow-xl z-10 select-none">
+                        class="absolute bottom-6 right-6 rounded-xl bg-black/60 backdrop-blur-md border-none p-4 flex flex-col gap-3 shadow-xl z-10 select-none">
                         <div class="flex items-center gap-3">
                             <div
                                 class="w-5 h-5 bg-orange-500 rounded border border-white/20 shadow-sm flex items-center justify-center">
@@ -226,7 +226,7 @@
 
             if (recentReports.length === 0) {
                 feed.innerHTML = `
-                    <div class="col-span-full glass-card border border-white/10 p-12 rounded-xl text-center text-white/80 font-sans text-sm flex flex-col items-center justify-center min-h-[300px]">
+                    <div class="col-span-full glass-card border-none p-12 rounded-xl text-center text-white/80 font-sans text-sm flex flex-col items-center justify-center min-h-[300px]">
                         <span class="material-symbols-outlined text-7xl mb-6 drop-shadow-md text-green-400">eco</span>
                         <p class="font-bold text-white text-2xl mb-2">Everything looks clean!</p>
                         <p class="text-lg">No reports available right now.</p>
@@ -243,7 +243,7 @@
                 let statusClass = "bg-red-500/20 text-red-300";
                 let catIcon = "construction";
                 let catColor = "bg-orange-500";
-                let cardBg = "bg-[#0d2116]/80";
+                let cardBg = "bg-[#0c1a14]/90";
 
                 if (issue.status === 'In Progress') {
                     statusClass = "bg-blue-500/20 text-blue-300";
@@ -299,7 +299,7 @@
                     </div>
                     
                     ${(issue.status === 'Completed' || issue.mediaUrl) ? `
-                    <div class="w-full h-32 rounded-lg overflow-hidden border border-white/10 mb-6 select-none shadow-inner">
+                    <div class="w-full h-32 rounded-lg overflow-hidden border-none mb-6 select-none shadow-inner">
                         <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" src="${issue.mediaUrl || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?w=500&q=80'}"/>
                     </div>` : ''}
 
@@ -326,7 +326,7 @@
                             <!-- Messages -->
                         </div>
                         <div class="flex gap-2">
-                            <input type="text" id="chat-input-${issue.id}" class="flex-grow bg-black/30 border border-white/10 rounded-lg px-3 py-2 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat('${issue.id}')">
+                            <input type="text" id="chat-input-${issue.id}" class="flex-grow bg-black/30 border-none rounded-lg px-3 py-2 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat('${issue.id}')">
                             <button onclick="sendInlineChat('${issue.id}')" class="px-4 py-2 bg-primary text-white rounded-lg font-mono text-xs font-bold hover:bg-forest-moss transition-colors">REPLY</button>
                         </div>
                     </div>
@@ -375,7 +375,7 @@
                     const customIcon = L.divIcon({
                         className: 'custom-leaflet-marker',
                         html: `
-                            <div class="p-2 ${iconBg} border-2 border-primary brutalist-shadow rounded-sm flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform duration-300 hover:scale-110 shadow-md">
+                            <div class="p-2 ${iconBg}  brutalist-shadow rounded-sm flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform duration-300 hover:scale-110 shadow-md">
                                 <span class="material-symbols-outlined ${iconColor} text-sm font-bold">${iconName}</span>
                             </div>
                         `,
@@ -389,7 +389,7 @@
                                 <h5 class="font-cabin text-sm font-bold text-black mb-0.5">${issue.title}</h5>
                                 <p class="font-mono text-[10px] text-black mb-1 uppercase tracking-wider">${issue.category} · ${issue.status}</p>
                                 <p class="text-[10px] text-black mb-2">${issue.description.substring(0, 50)}...</p>
-                                <a href="/issue_detail.html?id=${issue.id}" class="w-full inline-block text-center px-sm py-1 border-2 border-primary bg-primary !text-white font-mono text-[10px] font-bold hover:bg-forest-moss transition-colors">VIEW DETAILS</a>
+                                <a href="/issue_detail.html?id=${issue.id}" class="w-full inline-block text-center px-sm py-1  bg-primary !text-white font-mono text-[10px] font-bold hover:bg-forest-moss transition-colors">VIEW DETAILS</a>
                             </div>
                         `)
                         .addTo(markersLayer);
@@ -489,7 +489,7 @@
                 const btn = document.querySelector(`#issue-post-${id} button[onclick="takeResponsibility('${id}')"]`);
                 const oldHtml = btn ? btn.outerHTML : '';
                 if (btn) {
-                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-blue-100 text-blue-800 opacity-50">CLAIMING...</button>`;
+                    btn.outerHTML = `<button disabled class="px-sm py-1  text-[10px] font-mono font-bold bg-blue-100 text-blue-800 opacity-50">CLAIMING...</button>`;
                 }
                 try {
                     const response = await apiFetch(`/issues/${id}/take-responsibility`, {
@@ -517,7 +517,7 @@
                 const btn = document.querySelector(`#issue-post-${id} button[onclick="dropResponsibility('${id}')"]`);
                 const oldHtml = btn ? btn.outerHTML : '';
                 if (btn) {
-                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-red-100 text-red-800 opacity-50">DROPPING...</button>`;
+                    btn.outerHTML = `<button disabled class="px-sm py-1  text-[10px] font-mono font-bold bg-red-100 text-red-800 opacity-50">DROPPING...</button>`;
                 }
                 try {
                     const response = await apiFetch(`/issues/${id}/drop-responsibility`, {
@@ -545,7 +545,7 @@
                 const btn = document.querySelector(`#issue-post-${id} button[onclick="completeIssue('${id}')"]`);
                 const oldHtml = btn ? btn.outerHTML : '';
                 if (btn) {
-                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-green-100 text-green-800 opacity-50">COMPLETING...</button>`;
+                    btn.outerHTML = `<button disabled class="px-sm py-1  text-[10px] font-mono font-bold bg-green-100 text-green-800 opacity-50">COMPLETING...</button>`;
                 }
                 try {
                     const response = await apiFetch(`/issues/${id}/resolve`, {

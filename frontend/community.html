@@ -68,7 +68,7 @@
                         <span class="material-symbols-outlined text-2xl md:text-4xl">list_alt</span> Recent Reports
                     </h2>
                     <div
-                        class="flex flex-wrap gap-1.5 md:gap-2 bg-black/30 backdrop-blur-md p-1 md:p-1.5 rounded-xl border border-white/10">
+                        class="flex flex-wrap gap-1.5 md:gap-2 bg-black/30 backdrop-blur-md p-1 md:p-1.5 rounded-xl border-none">
                         <button onclick="filterBoard('all')"
                             class="px-3 py-1.5 md:px-5 md:py-2.5 rounded-lg text-[10px] md:text-xs font-mono bg-primary text-white font-bold hover:bg-forest-moss transition-all shadow-md"
                             id="filter-btn-all">All</button>
@@ -185,7 +185,7 @@
                 }
 
                 feed.innerHTML = `
-                    <div class="col-span-full glass-card border border-white/10 p-12 rounded-xl text-center text-white/80 font-sans text-sm flex flex-col items-center justify-center min-h-[300px]">
+                    <div class="col-span-full glass-card border-none p-12 rounded-xl text-center text-white/80 font-sans text-sm flex flex-col items-center justify-center min-h-[300px]">
                         <span class="material-symbols-outlined text-7xl mb-6 drop-shadow-md text-green-400">eco</span>
                         <p class="font-bold text-white text-2xl mb-2">Everything looks clean!</p>
                         <p class="text-lg">No reports nearby in this category.</p>
@@ -201,7 +201,7 @@
                 let statusClass = "bg-red-500/20 text-red-300";
                 let catIcon = "construction";
                 let catColor = "bg-orange-500";
-                let cardBg = "bg-[#0d2116]/80"; // static dark green
+                let cardBg = "bg-[#0c1a14]/90"; // static dark green
 
                 if (issue.status === 'In Progress') {
                     statusClass = "bg-blue-500/20 text-blue-300";
@@ -257,7 +257,7 @@
                     </div>
                     
                     ${(issue.status === 'Completed' || issue.mediaUrl) ? `
-                    <div class="w-full h-32 rounded-lg overflow-hidden border border-white/10 mb-6 select-none shadow-inner">
+                    <div class="w-full h-32 rounded-lg overflow-hidden border-none mb-6 select-none shadow-inner">
                         <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" src="${issue.mediaUrl || 'https://images.unsplash.com/photo-1542385151-efd9000785a0?w=500&q=80'}"/>
                     </div>` : ''}
 
@@ -284,7 +284,7 @@
                             <!-- Messages -->
                         </div>
                         <div class="flex gap-2">
-                            <input type="text" id="chat-input-${issue.id}" class="flex-grow bg-black/30 border border-white/10 rounded-lg px-3 py-2 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat('${issue.id}')">
+                            <input type="text" id="chat-input-${issue.id}" class="flex-grow bg-black/30 border-none rounded-lg px-3 py-2 font-sans text-sm text-white focus:outline-none focus:border-primary/50 transition-colors" placeholder="Post a reply..." onkeypress="if(event.key === 'Enter') sendInlineChat('${issue.id}')">
                             <button onclick="sendInlineChat('${issue.id}')" class="px-4 py-2 bg-primary text-white rounded-lg font-mono text-xs font-bold hover:bg-forest-moss transition-colors">REPLY</button>
                         </div>
                     </div>
@@ -387,7 +387,7 @@
                 const btn = document.querySelector(`#issue-post-${id} button[onclick="takeResponsibility('${id}')"]`);
                 const oldHtml = btn ? btn.outerHTML : '';
                 if (btn) {
-                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-blue-100 text-blue-800 opacity-50">CLAIMING...</button>`;
+                    btn.outerHTML = `<button disabled class="px-sm py-1  text-[10px] font-mono font-bold bg-blue-100 text-blue-800 opacity-50">CLAIMING...</button>`;
                 }
                 try {
                     const response = await apiFetch(`/issues/${id}/take-responsibility`, {
@@ -415,7 +415,7 @@
                 const btn = document.querySelector(`#issue-post-${id} button[onclick="dropResponsibility('${id}')"]`);
                 const oldHtml = btn ? btn.outerHTML : '';
                 if (btn) {
-                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-red-100 text-red-800 opacity-50">DROPPING...</button>`;
+                    btn.outerHTML = `<button disabled class="px-sm py-1  text-[10px] font-mono font-bold bg-red-100 text-red-800 opacity-50">DROPPING...</button>`;
                 }
                 try {
                     const response = await apiFetch(`/issues/${id}/drop-responsibility`, {
@@ -443,7 +443,7 @@
                 const btn = document.querySelector(`#issue-post-${id} button[onclick="completeIssue('${id}')"]`);
                 const oldHtml = btn ? btn.outerHTML : '';
                 if (btn) {
-                    btn.outerHTML = `<button disabled class="px-sm py-1 border-2 border-primary text-[10px] font-mono font-bold bg-green-100 text-green-800 opacity-50">COMPLETING...</button>`;
+                    btn.outerHTML = `<button disabled class="px-sm py-1  text-[10px] font-mono font-bold bg-green-100 text-green-800 opacity-50">COMPLETING...</button>`;
                 }
                 try {
                     const response = await apiFetch(`/issues/${id}/resolve`, {

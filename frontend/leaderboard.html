@@ -49,7 +49,7 @@
 
             <section class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
 
-                <div class="lg:col-span-8 glass-card p-6 border-2 border-primary brutalist-shadow">
+                <div class="lg:col-span-8 glass-card p-6  brutalist-shadow rounded-xl">
                     <div
                         class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b-2 border-primary pb-4 select-none gap-4">
                         <h3 class="font-cabin text-4xl text-primary flex items-center gap-2"><span
@@ -57,7 +57,7 @@
 
                         <div class="relative w-full sm:w-64">
                             <input id="user-search-input" onkeyup="searchContributors()"
-                                class="w-full bg-white border-2 border-primary text-xs font-mono px-3 py-1.5 pl-8 outline-none focus:border-forest-moss transition-all"
+                                class="w-full bg-white  text-xs font-mono px-3 py-1.5 pl-8 outline-none focus:border-forest-moss transition-all"
                                 placeholder="Search citizens..." type="text" />
                             <span
                                 class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-primary text-sm">search</span>
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="lg:col-span-4 space-y-6">
-                    <div class="glass-card p-6 relative overflow-hidden select-none border-2 border-primary hover-glow">
+                    <div class="glass-card p-6 relative overflow-hidden select-none  hover-glow rounded-xl">
                         <div class="hatch-pattern absolute inset-0 opacity-10 pointer-events-none"></div>
                         <h4 class="font-cabin text-3xl text-primary relative">Next Milestone</h4>
                         <p
@@ -79,7 +79,7 @@
                                 GCP</strong> to reach the elite rank of <strong class="text-primary">GOAT</strong>.
                         </p>
                         <div
-                            class="mt-6 w-full h-5 rounded-full border-2 border-primary overflow-hidden relative bg-white/20">
+                            class="mt-6 w-full h-5 rounded-full  overflow-hidden relative bg-white/20">
                             <div id="milestone-progress-bar"
                                 class="h-full bg-gradient-to-r from-primary to-forest-moss transition-all duration-1000 w-0">
                             </div>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
 
-                    <div class="glass-card border-2 border-primary p-6 select-none hover-glow">
+                    <div class="glass-card  p-6 select-none hover-glow rounded-xl">
                         <h4 class="font-cabin text-3xl text-primary border-b-2 border-primary pb-2 mb-4">Hall of Rewards
                         </h4>
                         <ul class="space-y-4">
@@ -185,7 +185,7 @@
 
             if (leaders.length === 0) {
                 list.innerHTML = `
-                    <div class="bg-white border-2 border-primary border-dashed p-md text-center text-on-surface-variant font-sans text-xs select-none">
+                    <div class="bg-white  border-dashed p-md text-center text-on-surface-variant font-sans text-xs select-none">
                         No citizens found.
                     </div>`;
                 return;
@@ -233,7 +233,7 @@
                 const btnContainer = document.createElement('div');
                 btnContainer.className = 'flex justify-center mt-6';
                 const toggleBtn = document.createElement('button');
-                toggleBtn.className = 'px-6 py-2 rounded-xl border-2 border-primary bg-primary text-white font-mono text-xs font-bold hover:bg-forest-moss transition-colors uppercase shadow-[0_4px_10px_rgba(70,138,94,0.4)]';
+                toggleBtn.className = 'px-6 py-2 rounded-xl  bg-primary text-white font-mono text-xs font-bold hover:bg-forest-moss transition-colors uppercase shadow-[0_4px_10px_rgba(70,138,94,0.4)]';
                 toggleBtn.innerText = showingAllLeaders ? 'View Less' : 'View More';
                 toggleBtn.onclick = () => {
                     showingAllLeaders = !showingAllLeaders;
